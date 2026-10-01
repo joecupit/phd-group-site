@@ -69,11 +69,11 @@ const sections = [
 ];
 ---
 
-<Layout>
+<Layout title={title}>
   <main class="research-page" id="research-content">
     <div class="page-inner">
       <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href={researchHref}>Research</a>
+        <a href={researchHref}>Research Areas</a>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{title}</span>
       </nav>
@@ -137,8 +137,8 @@ const sections = [
       {
         hasBody && (
           <section class="section" id="overview" aria-label="Research overview">
-            {/* <p class="summary">{summary}</p> */}
             <div class="prose markdown-copy">
+              <p class="summary">{summary}</p>
               <slot />
             </div>
           </section>
@@ -412,9 +412,9 @@ const sections = [
   }
   h1 {
     max-width: 20ch;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(2.5rem, 5.3vw, 4.4rem);
-    font-weight: 400;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    /* font-weight: 400; */
     letter-spacing: -0.035em;
   }
   .subtitle {
@@ -423,11 +423,11 @@ const sections = [
     font-size: clamp(1.12rem, 2vw, 1.4rem);
     line-height: 1.45;
   }
-  .summary {
+  /* .summary {
     max-width: 62ch;
     margin-top: 1.2rem;
     color: var(--research-muted);
-  }
+  } */
 
   .focus-panel {
     position: relative;
@@ -558,8 +558,13 @@ const sections = [
   .markdown-copy {
     display: grid;
     grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
+    align-items: start;
     gap: 1rem 3.5rem;
     max-width: none;
+  }
+  .markdown-copy .summary {
+    grid-column-start: 1;
+    grid-column-end: 3;
   }
   .markdown-copy :global(> *) {
     grid-column: 2;
@@ -578,9 +583,6 @@ const sections = [
     text-wrap: balance;
     scroll-margin-top: var(--research-anchor-offset, 6rem);
   }
-  .markdown-copy :global(> h2 + *) {
-    margin-top: 2rem;
-  }
   .markdown-copy :global(> h2:first-child),
   .markdown-copy :global(> h2:first-child + *) {
     margin-top: 0;
@@ -590,6 +592,9 @@ const sections = [
   }
   .markdown-copy :global(> h3) {
     margin: 1rem 0 0;
+  }
+  .markdown-copy :global(> h2 + *) {
+    margin-top: 2rem;
   }
   .markdown-copy :global(> ul),
   .markdown-copy :global(> ol) {

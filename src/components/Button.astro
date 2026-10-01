@@ -1,12 +1,18 @@
 ---
 import ArrowIcon from "../assets/icons/ArrowIcon.astro";
 
-const { href, size } = Astro.props;
+interface Props {
+  href: string;
+  size?: "big" | "small";
+  color?: "white";
+  icon?: "arrow";
+}
+const { href, size, color, icon } = Astro.props as Props;
 ---
 
-<a href={href} class={"button" + (size ? ` ${size}` : "")}>
+<a href={href} class={"button" + (size ? ` ${size}` : "") + (color ? ` ${color}` : "")}>
     <slot />
-    <ArrowIcon />
+    {icon === "arrow" ? <ArrowIcon /> : <></>}
 </a>
 
 <style is:global>
@@ -15,12 +21,13 @@ const { href, size } = Astro.props;
         gap: 1ch;
         align-items: center;
 
-        padding-inline: 1.5ch 1.25ch;
+        padding-inline: 2ch 1.5ch;
         padding-block: 0.5ch;
+        height: fit-content;
 
         font-family: var(--ff-body);
         font-size: 1rem;
-        font-weight: 500;
+        font-weight: 600;
         text-decoration: none;
 
         background: none;
@@ -38,7 +45,20 @@ const { href, size } = Astro.props;
             background: var(--clr-primary);
         }
     }
+
+    /* sizes */
     .button.big {
         font-size: 1.125rem;
+    }
+
+    /* colours */
+    .button.white {
+        color: var(--clr-bg);
+        border-color: var(--clr-bg);
+
+        &:hover {
+            color: var(--clr-primary);
+            background-color: var(--clr-bg);
+        }
     }
 </style>
