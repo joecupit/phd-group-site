@@ -121,9 +121,9 @@ const activeFor = (href: string) => {
     position: sticky;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid #e2e8e4;
-    background: #fff;
-    color: #183b36;
+    border-bottom: 1px solid var(--clr-border);
+    background: var(--clr-bg);
+    color: var(--clr-text);
   }
   .navigation {
     display: flex;
@@ -138,7 +138,7 @@ const activeFor = (href: string) => {
   .brand {
     min-width: 0;
     max-width: 26ch;
-    color: #183b36;
+    color: var(--clr-primary-dark);
     font-size: 1.1rem;
     font-weight: 650;
     letter-spacing: -0.02em;
@@ -155,7 +155,7 @@ const activeFor = (href: string) => {
   }
   .nav-links a {
     padding: 0.4rem 0;
-    color: #536760;
+    color: var(--clr-text-light);
     font-size: 0.95rem;
     text-decoration: none;
     text-underline-offset: 6px;
@@ -163,7 +163,7 @@ const activeFor = (href: string) => {
   }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] {
-    color: #183b36;
+    color: var(--clr-text);
     text-decoration: underline;
   }
   .nav-links a[aria-current="page"] {
@@ -175,9 +175,9 @@ const activeFor = (href: string) => {
     gap: 0.7rem;
     padding: 0.55rem 0.7rem;
     background: transparent;
-    border: 1px solid #cbd9d1;
+    border: 1px solid var(--clr-border);
     border-radius: 5px;
-    color: #183b36;
+    color: var(--clr-text);
     font: inherit;
     font-size: 0.9rem;
     cursor: pointer;
@@ -194,7 +194,7 @@ const activeFor = (href: string) => {
   }
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid #247568;
+    outline: 2px solid var(--clr-primary);
     outline-offset: 4px;
   }
   .skip-link {
@@ -204,10 +204,10 @@ const activeFor = (href: string) => {
     z-index: 10;
     transform: translateY(-200%);
     padding: 0.65rem 1rem;
-    background: #183b36;
-    color: #fff;
+    background: var(--clr-primary);
+    color: var(--clr-bg);
     border-radius: 4px;
-  }
+  } 
   .skip-link:focus {
     transform: translateY(0);
   }

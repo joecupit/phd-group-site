@@ -315,12 +315,12 @@ const sections = [
 <style>
   .research-page {
     /* Change these values to match your site's visual identity. */
-    --research-ink: #163330;
-    --research-muted: #52645f;
-    --research-accent: #1f7062;
-    --research-line: #d8e1dc;
-    --research-paper: #fbfcf9;
-    --research-tint: #edf3ee;
+    --research-ink: var(--clr-text);
+    --research-muted: var(----clr-text-light);
+    --research-accent: var(--clr-primary);
+    --research-line: var(--clr-border);
+    --research-paper: var(--clr-bg);
+    --research-tint: var(--clr-bg-dark);
     background: var(--research-paper);
     color: var(--research-ink);
     font-family: inherit;
@@ -435,7 +435,7 @@ const sections = [
     overflow: hidden;
     padding: 2rem 1.6rem;
     background: var(--research-ink);
-    color: #f4f8f4;
+    color: var(--clr-bg-dark);
     border-radius: 0.35rem;
   }
   .focus-pattern {
@@ -444,7 +444,7 @@ const sections = [
     top: -1rem;
     right: -2.5rem;
     width: 16rem;
-    color: #9bd0b9;
+    color: var(--research-accent);
     opacity: 0.18;
   }
   .focus-panel h2 {
@@ -470,7 +470,7 @@ const sections = [
     padding-bottom: 0;
   }
   .focus-panel li span {
-    color: #acd8c4;
+    color: var(--clr-primary-light);
     font-size: 0.72rem;
     padding-top: 0.15rem;
     font-variant-numeric: tabular-nums;

@@ -117,9 +117,9 @@ const year = new Date().getFullYear();
 </footer>
 <style>
   .site-footer {
-    border-top: 1px solid #dce5e2;
-    background: #f4f7f4;
-    color: #183b36;
+    border-top: 1px solid var(--clr-border);
+    background: var(--clr-bg-dark);
+    color: var(--clr-text);
   }
   .footer-inner {
     width: min(1180px, 100%);
@@ -147,11 +147,11 @@ const year = new Date().getFullYear();
     margin: 0;
     font-size: 0.95rem;
     line-height: 1.7;
-    color: #536760;
+    color: var(--clr-text-light);
   }
   .institution {
     margin: 0.9rem 0 0;
-    color: #536760;
+    color: var(--clr-text-light);
     font-size: 0.9rem;
     line-height: 1.6;
   }
@@ -189,16 +189,17 @@ const year = new Date().getFullYear();
     overflow-wrap: anywhere;
   }
   a {
-    color: #41685d;
+    color: inherit;
     font-size: 0.9rem;
     text-decoration: none;
     text-underline-offset: 4px;
   }
   a:hover {
     text-decoration: underline;
+    color: var(--clr-primary);
   }
   a:focus-visible {
-    outline: 2px solid #247568;
+    outline: 2px solid var(--clr-primary);
     outline-offset: 4px;
   }
   .footer-bottom {
@@ -207,11 +208,11 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 0.75rem;
     padding-top: 1rem;
-    border-top: 1px solid #dce5e2;
+    border-top: 1px solid var(--clr-border);
   }
   .footer-bottom p {
     margin: 0;
-    color: #60756c;
+    color: var(--clr-text-light);
     font-size: 0.8rem;
     line-height: 1.6;
   }

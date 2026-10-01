@@ -98,17 +98,29 @@
 }
 
 :root {
-  --clr-bg: #f7f8fa;
+  /* --clr-bg: #f7f8fa;
   --clr-bg-dark: #eceff3;
 
   --clr-text: #1f2933;
   --clr-text-light: #4b5563;
 
-  /* --clr-primary: #1e3a5f;
-  --clr-primary-dark: #0b1e36; */
+  --clr-primary: #1e3a5f;
+  --clr-primary-dark: #0b1e36;
 
   --clr-primary: hsl(235, 48%, 41%);
-  --clr-primary-dark: hsl(234, 61%, 21%);
+  --clr-primary-dark: hsl(234, 61%, 21%); */
+
+  --clr-text: #163330;
+  --clr-text-light: #52645f;
+
+  --clr-primary-light: #9bd0b9;
+  --clr-primary: #1f7062;
+  --clr-primary-dark: #193e36;
+
+  --clr-border: #d8e1dc;
+  --clr-bg-light: #fefffe;
+  --clr-bg: #fbfcf9;
+  --clr-bg-dark: #edf3ee;
 
   --ff-body: "Manrope", sans-serif;
   --ff-heading: "Sora", sans-serif;
@@ -116,7 +128,7 @@
   /* --ff-body: "Source Sans 3", sans-serif;
   --ff-heading: "Outfit", sans-serif; */
 
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
 }
 

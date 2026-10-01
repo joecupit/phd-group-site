@@ -478,12 +478,12 @@ const publicationNotes: Record<string, string> = {
 
 <style>
   .home-page {
-    --ink: #163330;
-    --muted: #52645f;
-    --accent: #1f7062;
-    --line: #d8e1dc;
-    --paper: #fbfcf9;
-    --tint: #edf3ee;
+    --ink: var(--clr-text);
+    --muted: var(--clr-text-light);
+    --accent: var(--clr-primary);
+    --line: var(--clr-border);
+    --paper: var(--clr-bg);
+    --tint: var(--clr-bg-dark);
     color: var(--ink);
     background: var(--paper);
     font-family: inherit;
@@ -747,7 +747,7 @@ const publicationNotes: Record<string, string> = {
     overflow: hidden;
     border: 1px solid var(--line);
     border-radius: 0.35rem;
-    background: #fff;
+    background: var(--clr-bg-light);
     text-decoration: none;
     transition:
       border-color 0.2s,
@@ -859,16 +859,16 @@ const publicationNotes: Record<string, string> = {
   }
   .feature-card--dark {
     background: var(--ink);
-    color: #f4f8f4;
+    color: var(--clr-bg);
   }
   .feature-card--dark .feature-category {
-    color: #acd8c4;
+    color: var(--clr-primary-light);
   }
   .feature-card--dark .feature-description {
-    color: #d0ded7;
+    color: var(--clr-bg-light);
   }
   .feature-card--dark a:focus-visible {
-    outline-color: #acd8c4;
+    outline-color: var(--clr-primary-light);
   }
 
   .publications-section {
@@ -936,7 +936,7 @@ const publicationNotes: Record<string, string> = {
     padding: 1.4rem;
     border: 1px solid var(--line);
     border-radius: 0.3rem;
-    background: #fff;
+    background: var(--clr-bg-light);
   }
   .partner img {
     width: 100%;

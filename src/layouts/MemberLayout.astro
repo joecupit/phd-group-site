@@ -148,15 +148,14 @@ const labelFor = (key: string) =>
     width: min(1040px, 100%);
     margin-inline: auto;
     padding: 2.5rem clamp(1rem, 4vw, 2.5rem) 5rem;
-    color: #183b36;
     box-sizing: border-box;
   }
   a {
-    color: #245f51;
+    color: var(--clr-primary-dark);
     text-underline-offset: 4px;
   }
   a:focus-visible {
-    outline: 3px solid #247568;
+    outline: 3px solid var(--clr-primary);
     outline-offset: 4px;
   }
   .back-link {
@@ -171,7 +170,7 @@ const labelFor = (key: string) =>
     gap: 2.5rem;
     align-items: center;
     padding-bottom: 2.5rem;
-    border-bottom: 1px solid #dce5e2;
+    border-bottom: 1px solid var(--clr-border);
   }
   .identity {
     grid-column: 1;
@@ -180,7 +179,7 @@ const labelFor = (key: string) =>
   }
   .eyebrow {
     margin: 0 0 0.8rem;
-    color: #567168;
+    color: var(--clr-text-light);
     font-size: 0.9rem;
   }
   h1 {
@@ -207,7 +206,7 @@ const labelFor = (key: string) =>
     aspect-ratio: 1;
     display: grid;
     place-items: center;
-    background: #e7efeb;
+    background: var(--clr-bg-light);
     border-radius: 20px;
     overflow: hidden;
   }
@@ -218,7 +217,7 @@ const labelFor = (key: string) =>
   }
   .initials {
     font-size: 4rem;
-    color: #486e61;
+    color: var(--clr-primary-dark);
   }
   .biography {
     margin-top: 2.5rem;
@@ -232,17 +231,17 @@ const labelFor = (key: string) =>
     max-width: 75ch;
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #435e55;
+    /* color: #435e55; */
     overflow-wrap: anywhere;
   }
   .bio-content :global(h2),
   .bio-content :global(h3) {
     margin-top: 1.8rem;
-    color: #183b36;
+    /* color: #183b36; */
     line-height: 1.3;
   }
   .bio-content :global(a) {
-    color: #245f51;
+    color: var(--clr-primary-dark);
     text-underline-offset: 4px;
   }
   .bio-content :global(img) {
@@ -252,7 +251,7 @@ const labelFor = (key: string) =>
   .publications-section {
     margin-top: 3rem;
     padding-top: 2.5rem;
-    border-top: 1px solid #dce5e2;
+    border-top: 1px solid var(--clr-border);
   }
   .section-heading {
     display: flex;
@@ -272,13 +271,13 @@ const labelFor = (key: string) =>
   }
   .paper-list li {
     padding: 1.4rem 0;
-    border-bottom: 1px solid #e4ebe7;
+    border-bottom: 1px solid var(--clr-border);
   }
   .paper-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-    color: #60756c;
+    color: var(--clr-text-light);
     font-size: 0.85rem;
   }
   h3 {
@@ -294,12 +293,12 @@ const labelFor = (key: string) =>
   }
   .authors {
     margin: 0;
-    color: #536760;
+    color: var(--clr-text-light);
     font-size: 0.9rem;
     line-height: 1.6;
   }
   .empty-state {
-    color: #536760;
+    color: var(--clr-text-light);
   }
   @media (max-width: 650px) {
     .member-header {

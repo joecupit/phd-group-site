@@ -469,11 +469,11 @@ const description =
 
 <style>
   .publications-page {
-    --pub-accent: #256358;
-    --pub-ink: #182c2a;
-    --pub-muted: #566562;
-    --pub-border: #dce4e1;
-    --pub-tint: #f3f7f5;
+    --pub-accent: var(--clr-primary);
+    --pub-ink: var(--clr-text);
+    --pub-muted: var(--clr-text-light);
+    --pub-border: var(--clr-border);
+    --pub-tint: var(--clr-bg-dark);
     max-width: 1120px;
     margin: 0 auto;
     padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 2.5rem);
@@ -538,28 +538,28 @@ const description =
     width: 100%;
     min-height: 44px;
     padding: 0.6rem 0.7rem;
-    border: 1px solid #becdc7;
+    border: 1px solid var(--clr-border);
     border-radius: 6px;
-    background: white;
+    background: var(--clr-bg-light);
     color: var(--pub-ink);
     font-size: 0.9rem;
   }
   input::placeholder {
-    color: #65746e;
+    color: var(--clr-text-light);
   }
   button {
     min-height: 44px;
     padding: 0.6rem 0.8rem;
-    border: 1px solid #becdc7;
+    border: 1px solid var(--clr-border);
     border-radius: 6px;
-    background: white;
+    background: var(--clr-bg-light);
     color: var(--pub-accent);
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 600;
   }
   button:hover {
-    background: #e7f0eb;
+    background: var(--clr-bg-dark);
   }
   a {
     color: inherit;
@@ -694,7 +694,7 @@ const description =
   }
   .topic-tags a:hover {
     text-decoration: underline;
-    background: #e7f0eb;
+    background: var(--pub-tint);
   }
   .publication-link {
     font-size: 0.8rem;

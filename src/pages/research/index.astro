@@ -408,11 +408,11 @@ const description =
 
 <style>
   .research-page {
-    --research-ink: #182c2a;
-    --research-muted: #566562;
-    --research-accent: #256358;
-    --research-border: #dce4e1;
-    --research-tint: #f3f7f5;
+    --research-ink: var(--clr-text);
+    --research-muted: var(--clr-text-light);
+    --research-accent: var(--clr-primary);
+    --research-border: var(--clr-border);
+    --research-tint: var(--clr-bg-light);
     max-width: 1180px;
     margin: 0 auto;
     padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 2.5rem);
@@ -504,11 +504,11 @@ const description =
     border-radius: 6px;
   }
   .primary {
-    background: var(--research-accent);
+    background: var(--clr-primary);
     color: white;
   }
   .primary:hover {
-    background: #1b4f45;
+    background: var(--clr-primary-dark);
   }
   .text-link {
     display: inline-flex;
@@ -545,14 +545,14 @@ const description =
     top: 34px;
     left: 16px;
     bottom: 5px;
-    border-left: 1px solid #b4c9bf;
+    border-left: 1px solid var(--clr-border);
   }
   .scale-marker {
     display: grid;
     place-items: center;
     width: 34px;
     height: 34px;
-    border: 1px solid #b4c9bf;
+    border: 1px solid var(--clr-border);
     border-radius: 50%;
     color: var(--research-accent);
     font-size: 0.72rem;
@@ -740,15 +740,15 @@ const description =
   .approach-section {
     padding: clamp(1.5rem, 4vw, 2.5rem);
     border-radius: 12px;
-    background: #193e36;
-    color: #f5f8f6;
+    background: var(--clr-primary-dark);
+    color: var(--clr-bg);
     margin-bottom: clamp(3rem, 6vw, 5rem);
   }
   .approach-section .eyebrow {
-    color: #abd5c4;
+    color: var(--clr-primary-light);
   }
   .approach-section .section-intro > p:last-child {
-    color: #d0e1d8;
+    color: var(--clr-primary-light);
   }
   .approach-grid {
     display: grid;
@@ -756,12 +756,12 @@ const description =
     gap: 1.5rem;
   }
   .approach-grid article {
-    border-top: 1px solid #52766b;
+    border-top: 1px solid var(--clr-primary-light);
     padding-top: 1rem;
   }
   .approach-number {
     font-size: 0.78rem;
-    color: #abd5c4;
+    color: var(--clr-primary-light);
   }
   .approach-grid h3 {
     margin: 0.7rem 0;
@@ -769,7 +769,7 @@ const description =
   }
   .approach-grid p {
     font-size: 0.85rem;
-    color: #d0e1d8;
+    color: var(--clr-primary-light);
     line-height: 1.65;
     margin-bottom: 0;
   }
