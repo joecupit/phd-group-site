@@ -437,7 +437,7 @@ const description =
     margin-top: 0;
   }
   h1 {
-    font-size: clamp(2.5rem, 5.6vw, 4.4rem);
+    font-size: var(--fs-title);
     font-weight: 650;
     line-height: 1.07;
     letter-spacing: -0.045em;
@@ -447,14 +447,14 @@ const description =
     color: var(--research-accent);
   }
   h2 {
-    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-size: var(--fs-heading);
     font-weight: 650;
     line-height: 1.18;
     letter-spacing: -0.035em;
     margin-bottom: 1rem;
   }
   h3 {
-    font-size: 1.12rem;
+    font-size: var(--fs-subheading);
     line-height: 1.4;
     font-weight: 650;
   }
@@ -463,7 +463,7 @@ const description =
   }
   .eyebrow {
     color: var(--research-accent);
-    font-size: 0.75rem;
+    font-size: var(--fs-small);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -476,13 +476,12 @@ const description =
     gap: clamp(2rem, 5vw, 4rem);
   }
   .hero-lead {
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-size: var(--fs-subheading);
     line-height: 1.6;
   }
   .hero-detail {
     max-width: 62ch;
     color: var(--research-muted);
-    font-size: 0.98rem;
   }
   .hero-actions {
     display: flex;
@@ -498,7 +497,6 @@ const description =
     justify-content: center;
     min-height: 44px;
     padding: 0.8rem 1.05rem;
-    font-size: 0.88rem;
     font-weight: 650;
     text-decoration: none;
     border-radius: 6px;
@@ -515,7 +513,6 @@ const description =
     gap: 0.6rem;
     align-items: center;
     color: var(--research-accent);
-    font-size: 0.88rem;
     font-weight: 600;
   }
   .scale-panel {
@@ -555,24 +552,24 @@ const description =
     border: 1px solid var(--clr-border);
     border-radius: 50%;
     color: var(--research-accent);
-    font-size: 0.72rem;
+    font-size: var(--fs-small);
     font-weight: 700;
   }
   .scale-list h2 {
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
     letter-spacing: 0;
     margin: 0.15rem 0 0.3rem;
   }
   .scale-list p {
     margin-bottom: 0;
     color: var(--research-muted);
-    font-size: 0.83rem;
+    font-size: var(--fs-small);
     line-height: 1.55;
   }
   .scale-note {
     border-top: 1px solid var(--research-border);
     padding-top: 1rem;
-    font-size: 0.75rem;
+    font-size: var(--fs-small);
     color: var(--research-accent);
     margin-bottom: 0;
   }
@@ -586,7 +583,6 @@ const description =
     border-bottom: 1px solid var(--research-border);
   }
   .page-navigation a {
-    font-size: 0.88rem;
     color: var(--research-muted);
     text-decoration: none;
     padding: 0.3rem 0;
@@ -621,7 +617,6 @@ const description =
     margin-bottom: 0.65rem;
   }
   .question p {
-    font-size: 0.91rem;
     color: var(--research-muted);
     margin-bottom: 0;
   }
@@ -638,7 +633,6 @@ const description =
   .section-heading > p {
     max-width: 45ch;
     color: var(--research-muted);
-    font-size: 0.9rem;
     margin-bottom: 0;
   }
   .area-grid,
@@ -655,13 +649,13 @@ const description =
     padding: clamp(1.3rem, 2.5vw, 1.8rem);
   }
   .area-number {
-    font-size: 0.8rem;
+    font-size: var(--fs-small);
     font-weight: 650;
     color: var(--research-accent);
     margin-bottom: 0.8rem;
   }
   .area-card h3 {
-    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-size: var(--fs-subheading);
     letter-spacing: -0.02em;
     margin-bottom: 0.85rem;
   }
@@ -673,7 +667,6 @@ const description =
     text-decoration: underline;
   }
   .area-summary {
-    font-size: 0.93rem;
     color: var(--research-muted);
   }
   .focus-list {
@@ -686,7 +679,7 @@ const description =
   .focus-list li {
     position: relative;
     padding-left: 0.85rem;
-    font-size: 0.84rem;
+    font-size: var(--fs-small);
     line-height: 1.5;
   }
   .focus-list li::before {
@@ -701,7 +694,7 @@ const description =
   }
   .area-applications {
     color: var(--research-muted);
-    font-size: 0.78rem;
+    font-size: var(--fs-small);
     margin-top: auto;
     padding-top: 0.5rem;
   }
@@ -723,7 +716,6 @@ const description =
   }
   .area-link {
     color: var(--research-accent);
-    font-size: 0.86rem;
     font-weight: 650;
     text-decoration: none;
   }
@@ -734,7 +726,7 @@ const description =
     margin-left: 0.5rem;
   }
   .paper-count {
-    font-size: 0.77rem;
+    font-size: var(--fs-small);
     color: var(--research-muted);
   }
   .approach-section {
@@ -760,15 +752,15 @@ const description =
     padding-top: 1rem;
   }
   .approach-number {
-    font-size: 0.78rem;
+    font-size: var(--fs-small);
     color: var(--clr-primary-light);
   }
   .approach-grid h3 {
     margin: 0.7rem 0;
-    font-size: 1.02rem;
+    font-size: var(--fs-body);
   }
   .approach-grid p {
-    font-size: 0.85rem;
+    font-size: var(--fs-small);
     color: var(--clr-primary-light);
     line-height: 1.65;
     margin-bottom: 0;
@@ -780,18 +772,18 @@ const description =
   }
   .example-label {
     color: var(--research-accent);
-    font-size: 0.75rem;
+    font-size: var(--fs-small);
     font-weight: 650;
     margin-bottom: 0.65rem;
   }
   .example-card h3 {
     margin-bottom: 0.7rem;
-    font-size: 1.2rem;
+    font-size: var(--fs-subheading);
     letter-spacing: -0.02em;
   }
   .example-description {
     color: var(--research-muted);
-    font-size: 0.9rem;
+    font-size: var(--fs-body);
   }
   .example-paper {
     padding-top: 1rem;
@@ -799,18 +791,18 @@ const description =
     border-top: 1px solid var(--research-border);
   }
   .paper-caption {
-    font-size: 0.71rem;
+    font-size: var(--fs-small);
     font-weight: 650;
     color: var(--research-muted);
     margin-bottom: 0.3rem;
   }
   .example-paper > a {
-    font-size: 0.83rem;
+    font-size: var(--fs-small);
     line-height: 1.5;
   }
   .paper-meta {
     color: var(--research-muted);
-    font-size: 0.75rem;
+    font-size: var(--fs-small);
     margin: 0.4rem 0 0;
   }
   .application-grid {
@@ -823,7 +815,7 @@ const description =
     padding-top: 1rem;
   }
   .application-grid h3 {
-    font-size: 1rem;
+    font-size: var(--fs-body);
     margin-bottom: 0.5rem;
   }
   .application-grid h3 a {
@@ -834,7 +826,7 @@ const description =
     text-decoration: underline;
   }
   .application-grid p {
-    font-size: 0.86rem;
+    font-size: var(--fs-small);
     color: var(--research-muted);
     margin-bottom: 0;
   }
@@ -850,11 +842,11 @@ const description =
     max-width: 650px;
   }
   .contact-section h2 {
-    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-size: var(--fs-subheading);
   }
   .contact-section p:last-child {
     color: var(--research-muted);
-    font-size: 0.95rem;
+    font-size: var(--fs-body);
     margin-bottom: 0;
   }
   .contact-section .button {

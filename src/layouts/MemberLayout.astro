@@ -161,7 +161,6 @@ const labelFor = (key: string) =>
   .back-link {
     display: inline-block;
     margin-bottom: 2rem;
-    font-size: 0.9rem;
     text-decoration: none;
   }
   .member-header {
@@ -180,11 +179,10 @@ const labelFor = (key: string) =>
   .eyebrow {
     margin: 0 0 0.8rem;
     color: var(--clr-text-light);
-    font-size: 0.9rem;
   }
   h1 {
     margin: 0 0 1.1rem;
-    font-size: clamp(2.3rem, 5vw, 3.8rem);
+    font-size: var(--fs-title);
     letter-spacing: -0.04em;
     line-height: 1.12;
     overflow-wrap: anywhere;
@@ -199,7 +197,6 @@ const labelFor = (key: string) =>
     list-style: none;
     padding: 0;
     margin: 1.2rem 0 0;
-    font-size: 0.9rem;
   }
   .portrait {
     grid-column: 2;
@@ -216,7 +213,7 @@ const labelFor = (key: string) =>
     object-fit: cover;
   }
   .initials {
-    font-size: 4rem;
+    font-size: var(--fs-title);
     color: var(--clr-primary-dark);
   }
   .biography {
@@ -224,12 +221,11 @@ const labelFor = (key: string) =>
   }
   h2 {
     margin: 0 0 1.2rem;
-    font-size: 1.6rem;
+    font-size: var(--fs-heading);
     letter-spacing: -0.02em;
   }
   .bio-content {
     max-width: 75ch;
-    font-size: 1.05rem;
     line-height: 1.8;
     /* color: #435e55; */
     overflow-wrap: anywhere;
@@ -261,9 +257,6 @@ const labelFor = (key: string) =>
     flex-wrap: wrap;
     margin-bottom: 0.5rem;
   }
-  .section-heading a {
-    font-size: 0.9rem;
-  }
   .paper-list {
     padding: 0;
     margin: 0;
@@ -278,15 +271,14 @@ const labelFor = (key: string) =>
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
     color: var(--clr-text-light);
-    font-size: 0.85rem;
   }
   h3 {
     margin: 0.65rem 0;
-    font-size: 1.08rem;
     line-height: 1.5;
   }
   h3 a {
     text-decoration: none;
+    font-size: var(--fs-subheading);
   }
   h3 a:hover {
     text-decoration: underline;
@@ -294,7 +286,6 @@ const labelFor = (key: string) =>
   .authors {
     margin: 0;
     color: var(--clr-text-light);
-    font-size: 0.9rem;
     line-height: 1.6;
   }
   .empty-state {

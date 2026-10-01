@@ -122,17 +122,23 @@
   --clr-bg: #fbfcf9;
   --clr-bg-dark: #edf3ee;
 
+  --fs-small: clamp(0.8rem, 1.5vw, 0.875rem);
+  --fs-body: clamp(0.9rem, 2vw, 1.05rem);
+  --fs-subheading: clamp(1.1rem, 2.25vw, 1.3rem);
+  --fs-heading: clamp(1.5rem, 2.5vw, 2rem);
+  --fs-title: clamp(2.5rem, 4.5vw, 4rem);
+
   --ff-body: "Manrope", sans-serif;
   --ff-heading: "Sora", sans-serif;
   --ff-title: Georgia, "Times New Roman", serif;
   /* --ff-body: "Source Sans 3", sans-serif;
   --ff-heading: "Outfit", sans-serif; */
 
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.5;
 }
 
-@media (max-width: 810px) {
+/* @media (max-width: 810px) {
   :root {
     font-size: 17px;
   }
@@ -141,7 +147,7 @@
   :root {
     font-size: 16px;
   }
-}
+} */
 
 * {
   margin: 0;

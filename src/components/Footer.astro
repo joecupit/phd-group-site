@@ -86,7 +86,7 @@ const year = new Date().getFullYear();
       {
         (email || profileLinks.length > 0) && (
           <div class="contact-links">
-            <p class="contact-heading">Connect</p>
+            <p class="contact-heading">Contact</p>
             {email && (
               <a class="email" href={`mailto:${email}`}>
                 {email}
@@ -119,7 +119,6 @@ const year = new Date().getFullYear();
   .site-footer {
     border-top: 1px solid var(--clr-border);
     background: var(--clr-bg-dark);
-    color: var(--clr-text);
   }
   .footer-inner {
     width: min(1180px, 100%);
@@ -139,20 +138,18 @@ const year = new Date().getFullYear();
   }
   .group-name {
     margin: 0 0 0.75rem;
-    font-size: 1.1rem;
+    font-size: var(--fs-subheading);
     font-weight: 650;
   }
   .description {
     max-width: 48ch;
     margin: 0;
-    font-size: 0.95rem;
     line-height: 1.7;
     color: var(--clr-text-light);
   }
   .institution {
     margin: 0.9rem 0 0;
     color: var(--clr-text-light);
-    font-size: 0.9rem;
     line-height: 1.6;
   }
   .footer-navigation {
@@ -180,8 +177,8 @@ const year = new Date().getFullYear();
   .link-heading,
   .contact-heading {
     margin: 0 0 0.75rem;
-    font-size: 0.95rem;
     font-weight: 600;
+    color: var(--clr-text-light);
   }
   .email {
     display: inline-block;
@@ -190,7 +187,6 @@ const year = new Date().getFullYear();
   }
   a {
     color: inherit;
-    font-size: 0.9rem;
     text-decoration: none;
     text-underline-offset: 4px;
   }
@@ -213,11 +209,11 @@ const year = new Date().getFullYear();
   .footer-bottom p {
     margin: 0;
     color: var(--clr-text-light);
-    font-size: 0.8rem;
+    font-size: var(--fs-small);
     line-height: 1.6;
   }
   .footer-bottom a {
-    font-size: 0.8rem;
+    font-size: var(--fs-small);
   }
   @media (max-width: 520px) {
     .footer-main {

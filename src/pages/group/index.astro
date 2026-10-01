@@ -102,7 +102,7 @@ const sections = [
   }
   h1 {
     margin: 0 0 1rem;
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: var(--fs-title);
     line-height: 1.1;
     letter-spacing: -0.04em;
   }
@@ -110,7 +110,7 @@ const sections = [
     max-width: 65ch;
     margin: 0;
     color: var(--clr-text-light);
-    font-size: 1.1rem;
+    font-size: var(--fs-subheading);
     line-height: 1.7;
   }
   .people-section + .people-section {
@@ -118,7 +118,7 @@ const sections = [
   }
   h2 {
     margin: 0 0 0.75rem;
-    font-size: 1.35rem;
+    font-size: var(--fs-heading);
     font-weight: 600;
   }
   .people-list {
@@ -146,10 +146,11 @@ const sections = [
   .portrait {
     display: grid;
     place-items: center;
-    flex: 0 0 72px;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
+    --_size: 6rem;
+    flex: 0 0 var(--_size);
+    width: var(--_size);
+    height: var(--_size);
+    border-radius: 0.5rem;
     overflow: hidden;
     background: var(--clr-bg-light);
   }
@@ -160,12 +161,12 @@ const sections = [
   }
   .initials {
     color: var(--clr-primary-dark);
-    font-size: 1.35rem;
+    font-size: var(--fs-heading);
   }
   .person-name {
     color: var(--clr-text);
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-size: var(--fs-subheading);
+    font-weight: 700;
     text-decoration: none;
     overflow-wrap: anywhere;
   }
@@ -174,12 +175,10 @@ const sections = [
   }
   .person-role {
     color: var(--clr-text-light);
-    font-size: 0.95rem;
     overflow-wrap: anywhere;
   }
   .person-email {
     color: var(--clr-primary-dark);
-    font-size: 0.9rem;
   }
   a {
     text-underline-offset: 4px;
@@ -228,7 +227,7 @@ const sections = [
     }
     .initials {
       color: var(--clr-primary-dark);
-      font-size: 1.35rem;
+      font-size: var(--fs-heading);
     }
     .person-name {
       grid-column: 1;
