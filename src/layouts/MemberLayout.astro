@@ -1,42 +1,43 @@
 ---
 import { Image } from "astro:assets";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import Layout from "./Layout.astro";
 import PublicationList from "../components/PublicationList.astro";
+
+import ArrowUpIcon from "../assets/icons/ArrowUpIcon.astro";
+import GoogleScholarIcon from "../assets/icons/GoogleScholarIcon.astro";
+import ORCIDIcon from "../assets/icons/OrcidIcon.astro";
+import LinkedInIcon from "../assets/icons/LinkedInIcon.astro";
+import GitHubIcon from "../assets/icons/GitHubIcon.astro";
+
 import { publicationFilterHref } from "../lib/publications";
+import ArrowLeftIcon from "../assets/icons/ArrowLeftIcon.astro";
 interface Props {
   member: CollectionEntry<"members">;
 }
 const { member } = Astro.props;
-const { name, role, email, profileImage, links = {} } = member.data;
-// Optional author-ID => member-ID aliases, if publication and member filenames differ.
-const authorMemberAliases: Record<string, string> = {};
-const publications = (
-  await getCollection(
-    "publications",
-    ({ data }) => !data.draft && !data.duplicateOf,
-  )
-)
-  .filter((paper) =>
-    paper.data.authors.some(
-      (id) => (authorMemberAliases[id] ?? id) === member.id,
-    ),
-  )
-  .sort(
-    (a, b) =>
-      (b.data.publicationDate ?? "").localeCompare(
-        a.data.publicationDate ?? "",
-      ) || a.data.title.localeCompare(b.data.title),
-  );
-const recent = publications.slice(0, 4);
-// The updated publications page supports this exact author-ID filter.
-const publicationsHref = `/publications/?${new URLSearchParams({ author: member.id })}`;
+const { name, role, type, email, profileImage, links = {} } = member.data;
+
 const initials = name
   .split(/\s+/)
   .filter(Boolean)
   .map((part) => part[0])
   .slice(0, 2)
   .join("");
+
+const linkOrder = ["linkedin", "googlescholar", "orcid"];
+const normaliseLink = (key: string) => {
+  const value = key.toLowerCase().replace(/[\s_-]/g, "");
+  return value === "scholar" ? "googlescholar" : value;
+};
+const priority = (key: string) => {
+  const index = linkOrder.indexOf(normaliseLink(key));
+  return index === -1 ? linkOrder.length : index;
+};
+const orderedLinks = Object.entries(links ?? {}).sort(
+  ([a], [b]) => priority(a) - priority(b),
+);
+
 const labelFor = (key: string) =>
   ({
     scholar: "Google Scholar",
@@ -46,54 +47,95 @@ const labelFor = (key: string) =>
     github: "GitHub",
     website: "Website",
   })[key.toLowerCase().replace(/[\s_-]/g, "")] ?? key;
+
+const icons = {
+  scholar: GoogleScholarIcon,
+  googlescholar: GoogleScholarIcon,
+  orcid: ORCIDIcon,
+  github: GitHubIcon,
+  linkedin: LinkedInIcon,
+};
+const iconFor = (key: string) => {
+  const normalised = key.toLowerCase().replace(/[\s_-]/g, "");
+  return icons[normalised as keyof typeof icons];
+};
+
+const hasBio = Boolean(member.body?.trim());
 ---
 
 <Layout
-  s
   title={name}
   description={`${name} — ${role}. Profile and publications from our research group.`}
 >
-  <main class="member-page">
-    <a class="back-link" href="/members">← All people</a>
-    <header class="member-header">
-      <div class="identity">
-        <p class="eyebrow">{role}</p>
-        <h1>{name}</h1>
-        <a class="email" href={`mailto:${email}`}>{email}</a>
-        {
-          Object.keys(links).length > 0 && (
-            <ul class="profile-links" aria-label="Profile links">
-              {Object.entries(links).map(([label, href]) => (
-                <li>
-                  <a href={href}>
-                    {labelFor(label)} <span aria-hidden="true">↗</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
+  <div class="page-grid member-page">
+    <section class="back-link">
+      <a href="/members"><ArrowLeftIcon /> All members</a>
+    </section>
+    <section class="member-header-section">
+      <div class="member-header">
+        <div class="identity">
+          <div>
+            <p class="eyebrow">
+              {role + (type === "alumni" ? ` Alumni` : "")}
+            </p>
+            <h1>{name}</h1>
+          </div>
+          {
+            type !== "alumni" && (
+              <a class="email" href={`mailto:${email}`}>
+                {email}
+              </a>
+            )
+          }
+          {
+            orderedLinks.length > 0 && (
+              <ul class="profile-links" aria-label="Profile links">
+                {orderedLinks.map(([label, href]) => {
+                  const Icon = iconFor(label);
+                  return (
+                    <li>
+                      <a href={href} target="_blank" rel="noopener">
+                        {Icon && <Icon />}
+                        {labelFor(label)}
+                        <ArrowUpIcon />
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            )
+          }
+        </div>
+        <div class="portrait">
+          {
+            profileImage ? (
+              <Image
+                src={profileImage}
+                alt={`Portrait of ${name}`}
+                width={560}
+                height={560}
+                loading="eager"
+              />
+            ) : (
+              <span class="initials" aria-hidden="true">
+                {initials}
+              </span>
+            )
+          }
+        </div>
       </div>
-      <div class="portrait">
-        {
-          profileImage ? (
-            <Image
-              src={profileImage}
-              alt={`Portrait of ${name}`}
-              width={560}
-              height={560}
-              loading="eager"
-            />
-          ) : (
-            <span class="initials" aria-hidden="true">
-              {initials}
-            </span>
-          )
-        }
-      </div>
-    </header>
+    </section>
     <section class="biography" aria-labelledby="about-heading">
-      <h2 id="about-heading">About</h2><div class="bio-content"><slot /></div>
+      <h2 id="about-heading">About</h2>
+      <div class="bio-content">
+        {
+          hasBio ? (
+            <slot />
+          ) : (
+            <p class="empty-state">No information available.</p>
+          )
+        }
+      </div>
     </section>
     <section>
       <PublicationList
@@ -108,94 +150,116 @@ const labelFor = (key: string) =>
       />
     </section>
     <!-- <section
-      class="publications-section"
-      aria-labelledby="publications-heading"
-    >
-      <header class="section-heading">
-        <h2 id="publications-heading">Recent publications</h2>{
-          publications.length > 0 && (
-            <a href={publicationsHref}>
-              View all {publications.length} <span aria-hidden="true">→</span>
-            </a>
+        class="publications-section"
+        aria-labelledby="publications-heading"
+      >
+        <header class="section-heading">
+          <h2 id="publications-heading">Recent publications</h2>{
+            publications.length > 0 && (
+              <a href={publicationsHref}>
+                View all {publications.length} <span aria-hidden="true">→</span>
+              </a>
+            )
+          }
+        </header>
+        {
+          recent.length > 0 ? (
+            <ol class="paper-list">
+              {recent.map((paper) => (
+                <li>
+                  <div class="paper-meta">
+                    {paper.data.publicationDate && (
+                      <time datetime={paper.data.publicationDate}>
+                        {paper.data.publicationDate}
+                      </time>
+                    )}
+                    {(paper.data.journal || paper.data.venue) && (
+                      <span>{paper.data.journal ?? paper.data.venue}</span>
+                    )}
+                  </div>
+                  <h3>
+                    <a href={paper.data.doi ?? paper.data.scholarUrl}>
+                      {paper.data.title}
+                    </a>
+                  </h3>
+                  <p class="authors">
+                    {paper.data.authorRole === "editors" ? "Edited by " : ""}
+                    {paper.data.authors
+                      .map((id) => paper.data.authorNames[id] ?? id)
+                      .join(", ")}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="empty-state">
+              Publications will appear here as they are added.
+            </p>
           )
         }
-      </header>
-      {
-        recent.length > 0 ? (
-          <ol class="paper-list">
-            {recent.map((paper) => (
-              <li>
-                <div class="paper-meta">
-                  {paper.data.publicationDate && (
-                    <time datetime={paper.data.publicationDate}>
-                      {paper.data.publicationDate}
-                    </time>
-                  )}
-                  {(paper.data.journal || paper.data.venue) && (
-                    <span>{paper.data.journal ?? paper.data.venue}</span>
-                  )}
-                </div>
-                <h3>
-                  <a href={paper.data.doi ?? paper.data.scholarUrl}>
-                    {paper.data.title}
-                  </a>
-                </h3>
-                <p class="authors">
-                  {paper.data.authorRole === "editors" ? "Edited by " : ""}
-                  {paper.data.authors
-                    .map((id) => paper.data.authorNames[id] ?? id)
-                    .join(", ")}
-                </p>
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <p class="empty-state">
-            Publications will appear here as they are added.
-          </p>
-        )
-      }
-    </section> -->
-  </main>
+      </section> -->
+  </div>
 </Layout>
 <style>
   .member-page {
-    width: min(1040px, 100%);
-    margin-inline: auto;
-    padding: 2.5rem clamp(1rem, 4vw, 2.5rem) 5rem;
+    --content-max-width: 930px;
   }
+  section {
+    padding-block: 3.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
+  }
+
   a {
     color: var(--clr-primary-dark);
     text-underline-offset: 4px;
+  }
+  a:has(svg) {
+    display: flex;
+    align-items: center;
+    gap: 0.5ch;
+
+    & :global(svg) {
+      max-width: 2ch;
+      max-height: 2ch;
+    }
+  }
+  a:hover {
+    text-decoration: underline !important;
+    color: var(--clr-primary);
   }
   a:focus-visible {
     outline: 3px solid var(--clr-primary);
     outline-offset: 4px;
   }
   .back-link {
-    display: inline-block;
-    margin-bottom: 2rem;
-    text-decoration: none;
+    border: none;
+    padding-block-end: 1rem;
+    & a {
+      text-wrap: nowrap;
+      text-decoration: none;
+    }
+  }
+  .member-header-section {
+    padding-block-start: 0;
   }
   .member-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 240px;
     gap: 2.5rem;
     align-items: center;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid var(--clr-border);
   }
   .identity {
     grid-column: 1;
-    min-width: 0;
-    text-align: left;
-  }
-  .eyebrow {
-    margin: 0 0 0.8rem;
-    color: var(--clr-text-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
   h1 {
-    margin: 0 0 1.1rem;
     font-size: var(--fs-title);
     letter-spacing: -0.04em;
     line-height: 1.12;
@@ -207,10 +271,15 @@ const labelFor = (key: string) =>
   .profile-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem 1.2rem;
+    gap: 0.75rem 1.25rem;
     list-style: none;
     padding: 0;
-    margin: 1.2rem 0 0;
+    font-weight: 500;
+
+    & a {
+      text-wrap: nowrap;
+      text-decoration: none;
+    }
   }
   .portrait {
     grid-column: 2;
@@ -232,11 +301,8 @@ const labelFor = (key: string) =>
     font-size: var(--fs-title);
     color: var(--clr-primary-dark);
   }
-  .biography {
-    margin-top: 2.5rem;
-  }
   h2 {
-    margin: 0 0 1.2rem;
+    margin-block-end: 1rem;
     font-size: var(--fs-heading);
     letter-spacing: -0.02em;
   }
@@ -246,11 +312,17 @@ const labelFor = (key: string) =>
     /* color: #435e55; */
     overflow-wrap: anywhere;
   }
+  .bio-content .empty-state {
+    font-style: italic;
+  }
   .bio-content :global(h2),
   .bio-content :global(h3) {
     margin-top: 1.8rem;
     /* color: #183b36; */
     line-height: 1.3;
+  }
+  .bio-content :global(p + p) {
+    margin-top: 0.5rem;
   }
   .bio-content :global(a) {
     color: var(--clr-primary-dark);

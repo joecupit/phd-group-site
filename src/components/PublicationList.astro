@@ -115,7 +115,7 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
               </p>
             )}
           </div>
-          {viewAllHref && (
+          {viewAllHref && visible.length > 0 && (
             <a class="view-all" href={viewAllHref}>
               {viewAllLabel}
               <span aria-hidden="true"> →</span>

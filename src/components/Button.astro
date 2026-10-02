@@ -1,5 +1,5 @@
 ---
-import ArrowIcon from "../assets/icons/ArrowIcon.astro";
+import ArrowRightIcon from "../assets/icons/ArrowRightIcon.astro";
 
 interface Props {
   href: string;
@@ -12,7 +12,7 @@ const { href, size, color, icon } = Astro.props as Props;
 
 <a href={href} class={"button" + (size ? ` ${size}` : "") + (color ? ` ${color}` : "")}>
     <slot />
-    {icon === "arrow" ? <ArrowIcon /> : <></>}
+    {icon === "arrow" ? <ArrowRightIcon /> : <></>}
 </a>
 
 <style is:global>
@@ -20,12 +20,14 @@ const { href, size, color, icon } = Astro.props as Props;
         display: flex;
         gap: 1ch;
         align-items: center;
+        text-align: center;
 
         padding-inline: 2ch 1.5ch;
         padding-block: 0.5ch;
         height: fit-content;
 
         font-family: var(--ff-body);
+        font-size: var(--fs-body);
         font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
