@@ -44,15 +44,15 @@ const sections = [
   title="Group Members"
   description="Meet the people behind our research in intelligent systems and chemical engineering."
 >
-  <main class="people-page">
-    <header class="people-header">
+  <div class="page-grid people-page">
+    <section class="people-header">
       <h1>Group Members</h1>
       <p>
         We are an interdisciplinary research group based at {UNIVERSITY_NAME} working
         at the interface of chemical engineering, sustainable manufacturing, and machine
         learning.
       </p>
-    </header>
+    </section>
 
     {
       sections.map((section) => (
@@ -100,22 +100,34 @@ const sections = [
 
     {
       members.length === 0 && (
-        <p>Member profiles will appear here as they are added.</p>
+        <section>Member profiles will appear here as they are added.</section>
       )
     }
-  </main>
+
+    <section>
+      <h2>Interested in joining?</h2>
+      <p>Email <a href="mailto:dongda.zhang@manchester.ac.uk">dongda.zhang@manchester.ac.uk</a>.</p>
+    </section>
+  </div>
 </Layout>
 
 <style>
   .people-page {
-    width: min(960px, 100%);
-    margin-inline: auto;
-    padding: 3rem clamp(1rem, 4vw, 2.5rem) 5rem;
+    --content-max-width: 930px;
   }
+  section {
+    padding-block: 3.5rem;
+    /* border-block-end: 1px solid var(--clr-border); */
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
+  }
+
   .people-header {
-    display: block;
-    margin: 0 0 3rem;
-    text-align: left;
+    border: none;
+    padding-block-end: 2rem;
   }
   h1 {
     margin: 0 0 1rem;
@@ -130,8 +142,12 @@ const sections = [
     font-size: var(--fs-subheading);
     line-height: 1.7;
   }
-  .people-section + .people-section {
-    margin-top: 3rem;
+  .people-section {
+    padding-block: 1.5rem;
+
+    &:last-child {
+      padding-block-end: 3.5rem;
+    }
   }
   h2 {
     margin: 0 0 0.75rem;
@@ -150,6 +166,10 @@ const sections = [
     align-items: center;
     padding: 1.15rem 0;
     border-bottom: 1px solid var(--clr-border);
+
+    &:last-child {
+      border: none;
+    }
   }
   .person-profile {
     display: flex;
