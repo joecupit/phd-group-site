@@ -1,6 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Button from "../../components/Button.astro";
+import ArrowDownBoldIcon from "../../assets/icons/ArrowDownBoldIcon.astro";
+import ArrowUpRightIcon from "../../assets/icons/ArrowUpRightIcon.astro";
+import ArrowRightIcon from "../../assets/icons/ArrowRightIcon.astro";
 
 const [researchAreas, publications] = await Promise.all([
   getCollection("research"),
@@ -126,89 +130,28 @@ const description =
 ---
 
 <Layout title="Research Areas" description={description}>
-  <main class="research-page">
-    <header class="research-hero">
+  <div class="page-grid research-page">
+    <section>
       <div class="hero-copy">
-        <p class="eyebrow">Our research</p>
         <h1>Intelligent methods.<br /><span>Engineering insight.</span></h1>
         <p class="hero-lead">
           We combine machine learning, physical modelling and process systems
           engineering to understand, predict and improve chemical and biological
           systems.
         </p>
-        <p class="hero-detail">
+        <!-- <p class="hero-detail">
           Our work connects the discovery of molecules and reaction mechanisms
           with the design and operation of processes. Across these scales, we
           ask how data and engineering knowledge can support reliable decisions.
-        </p>
+        </p> -->
         <div class="hero-actions">
-          <a class="button primary" href="#research-areas"
-            >Explore our research <span aria-hidden="true">↓</span></a
-          >
+          <Button href="#research-areas">
+            Explore our research <ArrowDownBoldIcon />
+          </Button>
           <a class="text-link" href="/publications/"
-            >Browse publications <span aria-hidden="true">↗</span></a
-          >
+            >Browse publications <ArrowUpRightIcon />
+          </a>
         </div>
-      </div>
-      <aside class="scale-panel" aria-labelledby="scale-heading">
-        <p class="eyebrow" id="scale-heading">Connected across scales</p>
-        <ol class="scale-list">
-          <li>
-            <span class="scale-marker" aria-hidden="true">01</span><div>
-              <h2>Molecules</h2><p>
-                Structures, properties and synthesis choices
-              </p>
-            </div>
-          </li>
-          <li>
-            <span class="scale-marker" aria-hidden="true">02</span><div>
-              <h2>Mechanisms</h2><p>Reaction kinetics and cellular behaviour</p>
-            </div>
-          </li>
-          <li>
-            <span class="scale-marker" aria-hidden="true">03</span><div>
-              <h2>Processes</h2><p>
-                Reactors, manufacturing and operating decisions
-              </p>
-            </div>
-          </li>
-        </ol>
-        <p class="scale-note">Physical understanding + data + computation</p>
-      </aside>
-    </header>
-
-    <nav class="page-navigation" aria-label="On this research page">
-      <a href="#research-areas">Research areas</a>
-      <a href="#our-approach">Our approach</a>
-      {
-        examples.length > 0 && (
-          <a href="#research-examples">Research examples</a>
-        )
-      }
-      <a href="#applications">Applications</a>
-    </nav>
-
-    <section class="questions-section" aria-labelledby="questions-heading">
-      <div class="section-intro">
-        <p class="eyebrow">The questions that connect our work</p>
-        <h2 id="questions-heading">From observations to useful decisions</h2>
-        <p>
-          Complex systems rarely offer complete mechanisms or perfect datasets.
-          Our research develops methods that work with these limitations while
-          retaining a connection to the underlying engineering.
-        </p>
-      </div>
-      <div class="question-grid">
-        {
-          questions.map((question) => (
-            <article class="question">
-              <>
-                <h3>{question.title}</h3>
-                <p>{question.text}</p>
-              </>
-            </article>
-          ))
-        }
       </div>
     </section>
 
@@ -218,11 +161,8 @@ const description =
       aria-labelledby="areas-heading"
     >
       <div class="section-heading">
-        <div>
-          <p class="eyebrow">Explore the group’s work</p><h2 id="areas-heading">
-            Research areas
-          </h2>
-        </div>
+        <!-- <p class="eyebrow">Explore the group's work</p> -->
+        <h2 id="areas-heading">Our areas of research</h2>
         <p>
           These areas share methods and applications. A single study may combine
           interpretable model discovery, process prediction and optimisation.
@@ -250,7 +190,7 @@ const description =
                     ))}
                   </ul>
                 )}
-                {applications.length > 0 && (
+                {/* {applications.length > 0 && (
                   <p class="area-applications">
                     <span>Applications include</span>{" "}
                     {applications
@@ -258,14 +198,12 @@ const description =
                       .map((application) => application.title)
                       .join(" · ")}
                   </p>
-                )}
+                )} */}
                 <div class="area-links">
                   <a class="area-link" href={areaHref(area.id)}>
-                    Explore area{" "}
-                    <>
-                      <span aria-hidden="true">→</span>
-                      <span class="sr-only">: {area.data.title}</span>
-                    </>
+                    Explore area
+                    <ArrowRightIcon />
+                    <span class="sr-only">: {area.data.title}</span>
                   </a>
                   {count > 0 && (
                     <a class="paper-count" href={papersHref(area.id)}>
@@ -281,14 +219,49 @@ const description =
       </div>
     </section>
 
+    <!-- <section class="page-navigation" aria-label="On this research page">
+      <a href="#research-areas">Research areas</a>
+      <a href="#our-approach">Our approach</a>
+      {
+        examples.length > 0 && (
+          <a href="#research-examples">Research examples</a>
+        )
+      }
+      <a href="#applications">Applications</a>
+    </section> -->
+
+    <section class="questions-section" aria-labelledby="questions-heading">
+      <div class="section-intro">
+        <p class="eyebrow">The questions that connect our work</p>
+        <h2 id="questions-heading">From observations to useful decisions</h2>
+        <p>
+          Complex systems rarely offer complete mechanisms or perfect datasets.
+          Our research develops methods that work with these limitations while
+          retaining a connection to the underlying engineering.
+        </p>
+      </div>
+      <div class="question-grid">
+        {
+          questions.map((question) => (
+            <article class="question">
+              <>
+                <h3>{question.title}</h3>
+                <p>{question.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
     <section
       id="our-approach"
       class="approach-section"
       aria-labelledby="approach-heading"
     >
       <div class="section-intro">
-        <p class="eyebrow">A shared approach</p>
-        <h2 id="approach-heading">Bring knowledge and data together</h2>
+        <!-- <p class="eyebrow">A shared approach</p> -->
+        <h2 id="approach-heading">Bringing knowledge and data together</h2>
         <p>
           The balance between physical models, machine learning and optimisation
           depends on the system, the available evidence and the intended use.
@@ -312,7 +285,7 @@ const description =
       </div>
     </section>
 
-    {
+    <!-- {
       examples.length > 0 && (
         <section
           id="research-examples"
@@ -356,7 +329,7 @@ const description =
           </div>
         </section>
       )
-    }
+    } -->
 
     <section
       id="applications"
@@ -364,7 +337,7 @@ const description =
       aria-labelledby="applications-heading"
     >
       <div class="section-intro">
-        <p class="eyebrow">Where the methods are used</p>
+        <!-- <p class="eyebrow">Where the methods are used</p> -->
         <h2 id="applications-heading">A broad range of engineering systems</h2>
         <p>
           Common modelling and decision-making challenges connect applications
@@ -390,41 +363,47 @@ const description =
       </div>
     </section>
 
-    <section class="contact-section" aria-labelledby="contact-heading">
-      <div>
-        <p class="eyebrow">Connect with the group</p><h2 id="contact-heading">
-          Have a research question in mind?
-        </h2><p>
-          We welcome conversations about research collaborations, industrial
-          challenges and opportunities to work with the group.
-        </p>
+    <section aria-labelledby="contact-heading">
+      <div class="contact-section">
+        <div>
+          <!-- <p class="eyebrow">Connect with the group</p> -->
+           <h2 id="contact-heading">
+            Have a research question in mind?
+          </h2>
+          <p>
+            We welcome conversations about research collaborations, industrial
+            challenges and opportunities to work with the group.
+          </p>
+        </div>
+        <Button href="/contact" icon="arrow">
+          Get in touch
+        </Button>
       </div>
-      <a class="button primary" href="/contact/"
-        >Get in touch <span aria-hidden="true">→</span></a
-      >
     </section>
-  </main>
+  </div>
 </Layout>
 
 <style>
   .research-page {
-    --research-ink: var(--clr-text);
-    --research-muted: var(--clr-text-light);
-    --research-accent: var(--clr-primary);
-    --research-border: var(--clr-border);
-    --research-tint: var(--clr-bg-light);
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 2.5rem);
-    color: var(--research-ink);
+    scroll-behavior: smooth;
   }
+  section {
+    padding-block: 3.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
+  }
+
   a {
     color: inherit;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
   }
   a:focus-visible {
-    outline: 3px solid var(--research-accent);
+    outline: 3px solid var(--clr-primary);
     outline-offset: 4px;
   }
   :is(section, h2)[id] {
@@ -444,7 +423,7 @@ const description =
     margin-bottom: 1.4rem;
   }
   h1 span {
-    color: var(--research-accent);
+    color: var(--clr-primary);
   }
   h2 {
     font-size: var(--fs-heading);
@@ -462,18 +441,22 @@ const description =
     line-height: 1.7;
   }
   .eyebrow {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-size: var(--fs-small);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 0.7rem;
   }
-  .research-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.65fr) minmax(250px, 1fr);
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+
+    & p {
+      max-width: 48ch;
+    }
   }
   .hero-lead {
     font-size: var(--fs-subheading);
@@ -481,7 +464,7 @@ const description =
   }
   .hero-detail {
     max-width: 62ch;
-    color: var(--research-muted);
+    color: var(--clr-text-light);
   }
   .hero-actions {
     display: flex;
@@ -508,17 +491,23 @@ const description =
   .primary:hover {
     background: var(--clr-primary-dark);
   }
-  .text-link {
+  .text-link,
+  .area-link {
     display: inline-flex;
-    gap: 0.6rem;
+    gap: 1ch;
     align-items: center;
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-weight: 600;
+
+    & :global(svg) {
+      width: 2ch;
+      height: 2ch;
+    }
   }
   .scale-panel {
     padding: 1.65rem;
-    background: var(--research-tint);
-    border: 1px solid var(--research-border);
+    background: var(--clr-bg-light);
+    border: 1px solid var(--clr-border);
     border-radius: 14px;
   }
   .scale-list {
@@ -551,7 +540,7 @@ const description =
     height: 34px;
     border: 1px solid var(--clr-border);
     border-radius: 50%;
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-size: var(--fs-small);
     font-weight: 700;
   }
@@ -562,15 +551,15 @@ const description =
   }
   .scale-list p {
     margin-bottom: 0;
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
     line-height: 1.55;
   }
   .scale-note {
-    border-top: 1px solid var(--research-border);
+    border-top: 1px solid var(--clr-border);
     padding-top: 1rem;
     font-size: var(--fs-small);
-    color: var(--research-accent);
+    color: var(--clr-primary);
     margin-bottom: 0;
   }
   .page-navigation {
@@ -579,30 +568,24 @@ const description =
     gap: 0.65rem 1.6rem;
     padding: 1.1rem 0;
     margin: 2.5rem 0 3.5rem;
-    border-top: 1px solid var(--research-border);
-    border-bottom: 1px solid var(--research-border);
+    border-top: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border);
   }
   .page-navigation a {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     text-decoration: none;
     padding: 0.3rem 0;
   }
   .page-navigation a:hover {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     text-decoration: underline;
-  }
-  .questions-section,
-  .areas-section,
-  .examples-section,
-  .applications-section {
-    margin-bottom: clamp(3rem, 6vw, 5rem);
   }
   .section-intro {
     max-width: 730px;
     margin-bottom: 1.75rem;
   }
   .section-intro > p:last-child {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
   }
   .question-grid {
     display: grid;
@@ -610,30 +593,24 @@ const description =
     gap: 1.5rem;
   }
   .question {
-    border-left: 2px solid var(--research-border);
+    border-left: 2px solid var(--clr-border);
     padding-left: 1rem;
   }
   .question h3 {
     margin-bottom: 0.65rem;
   }
   .question p {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     margin-bottom: 0;
   }
   .section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 2rem;
     margin-bottom: 1.8rem;
   }
   .section-heading h2 {
     margin-bottom: 0;
   }
   .section-heading > p {
-    max-width: 45ch;
-    color: var(--research-muted);
-    margin-bottom: 0;
+    color: var(--clr-text-light);
   }
   .area-grid,
   .example-grid {
@@ -644,18 +621,20 @@ const description =
   .area-card {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--research-border);
+    border: 1px solid var(--clr-border);
     border-radius: 10px;
     padding: clamp(1.3rem, 2.5vw, 1.8rem);
+    background: var(--clr-bg-light);
   }
   .area-number {
     font-size: var(--fs-small);
     font-weight: 600;
-    color: var(--research-accent);
+    color: var(--clr-primary);
     margin-bottom: 0.8rem;
   }
   .area-card h3 {
-    font-size: var(--fs-subheading);
+    font-size: var(--fs-heading);
+    text-wrap: balance;
     letter-spacing: -0.02em;
     margin-bottom: 0.85rem;
   }
@@ -663,15 +642,15 @@ const description =
     text-decoration: none;
   }
   .area-card h3 a:hover {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     text-decoration: underline;
   }
   .area-summary {
-    color: var(--research-muted);
+    /* color: var(--clr-text-light); */
   }
   .focus-list {
     padding: 0;
-    margin: 0 0 1rem;
+    margin-block: 1rem;
     list-style: none;
     display: grid;
     gap: 0.45rem;
@@ -689,11 +668,11 @@ const description =
     left: 0;
     width: 4px;
     height: 4px;
-    background: var(--research-accent);
+    background: var(--clr-primary);
     border-radius: 50%;
   }
   .area-applications {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
     margin-top: auto;
     padding-top: 0.5rem;
@@ -701,7 +680,7 @@ const description =
   .area-applications span {
     display: block;
     font-weight: 600;
-    color: var(--research-ink);
+    color: var(--clr-text);
     margin-bottom: 0.2rem;
   }
   .area-links {
@@ -712,12 +691,17 @@ const description =
     gap: 0.8rem;
     margin-top: auto;
     padding-top: 1rem;
-    border-top: 1px solid var(--research-border);
+    border-top: 1px solid var(--clr-border);
   }
   .area-link {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-weight: 600;
     text-decoration: none;
+
+    & :global(svg) {
+      width: 1.5ch;
+      height: 1.5ch;
+    }
   }
   .area-link:hover {
     text-decoration: underline;
@@ -727,20 +711,20 @@ const description =
   }
   .paper-count {
     font-size: var(--fs-small);
-    color: var(--research-muted);
+    color: var(--clr-text-light);
   }
   .approach-section {
     padding: clamp(1.5rem, 4vw, 2.5rem);
     border-radius: 12px;
     background: var(--clr-primary-dark);
     color: var(--clr-bg);
-    margin-bottom: clamp(3rem, 6vw, 5rem);
+    margin-block: 3.5rem;
   }
   .approach-section .eyebrow {
     color: var(--clr-primary-light);
   }
   .approach-section .section-intro > p:last-child {
-    color: var(--clr-primary-light);
+    color: var(--clr-border);
   }
   .approach-grid {
     display: grid;
@@ -748,12 +732,12 @@ const description =
     gap: 1.5rem;
   }
   .approach-grid article {
-    border-top: 1px solid var(--clr-primary-light);
+    border-top: 1px solid var(--clr-border);
     padding-top: 1rem;
   }
   .approach-number {
     font-size: var(--fs-small);
-    color: var(--clr-primary-light);
+    color: var(--clr-border);
   }
   .approach-grid h3 {
     margin: 0.7rem 0;
@@ -761,17 +745,17 @@ const description =
   }
   .approach-grid p {
     font-size: var(--fs-small);
-    color: var(--clr-primary-light);
+    color: var(--clr-border);
     line-height: 1.65;
     margin-bottom: 0;
   }
   .example-card {
     padding: 1.4rem;
-    border-left: 3px solid var(--research-border);
-    background: var(--research-tint);
+    border-left: 3px solid var(--clr-border);
+    background: var(--clr-bg-light);
   }
   .example-label {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-size: var(--fs-small);
     font-weight: 600;
     margin-bottom: 0.65rem;
@@ -782,18 +766,18 @@ const description =
     letter-spacing: -0.02em;
   }
   .example-description {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-body);
   }
   .example-paper {
     padding-top: 1rem;
     margin-bottom: 1.1rem;
-    border-top: 1px solid var(--research-border);
+    border-top: 1px solid var(--clr-border);
   }
   .paper-caption {
     font-size: var(--fs-small);
     font-weight: 600;
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     margin-bottom: 0.3rem;
   }
   .example-paper > a {
@@ -801,9 +785,12 @@ const description =
     line-height: 1.5;
   }
   .paper-meta {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
     margin: 0.4rem 0 0;
+  }
+  .applications-section {
+    border-top: 1px solid var(--clr-border);
   }
   .application-grid {
     display: grid;
@@ -811,7 +798,7 @@ const description =
     gap: 1.5rem;
   }
   .application-grid article {
-    border-top: 1px solid var(--research-border);
+    border-top: 1px solid var(--clr-border);
     padding-top: 1rem;
   }
   .application-grid h3 {
@@ -822,12 +809,12 @@ const description =
     text-decoration: none;
   }
   .application-grid h3 a:hover {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     text-decoration: underline;
   }
   .application-grid p {
     font-size: var(--fs-small);
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     margin-bottom: 0;
   }
   .contact-section {
@@ -835,8 +822,6 @@ const description =
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    padding: 2rem 0 0;
-    border-top: 1px solid var(--research-border);
   }
   .contact-section > div {
     max-width: 650px;
@@ -845,7 +830,7 @@ const description =
     font-size: var(--fs-subheading);
   }
   .contact-section p:last-child {
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-body);
     margin-bottom: 0;
   }

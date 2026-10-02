@@ -408,67 +408,7 @@ const sections = [
   .project-card > p {
     color: var(--clr-text-light);
   }
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr));
-    gap: 1.5rem 2rem;
-    margin-top: 2rem;
-  }
-  .project-card {
-    border-top: 2px solid var(--clr-text);
-    padding-top: 1.2rem;
-  }
-  .project-card a {
-    text-decoration: none;
-  }
-  .project-card a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-  .project-card > .project-people {
-    margin-top: 1.2rem;
-    font-size: var(--fs-small);
-    color: var(--clr-text);
-  }
 
-  .publication-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 2rem;
-  }
-  .publication {
-    display: grid;
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    gap: 1.5rem;
-    padding: 1.3rem 0;
-    border-top: 1px solid var(--clr-border);
-  }
-  .publication-year {
-    padding-top: 0.2rem;
-    color: var(--clr-primary);
-    font-size: var(--fs-small);
-    font-variant-numeric: tabular-nums;
-  }
-  .publication h3 {
-    font-weight: 500;
-    line-height: 1.45;
-  }
-  .publication a {
-    text-decoration: none;
-  }
-  .publication a:hover {
-    color: var(--clr-primary);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-  .publication-copy {
-    min-width: 0;
-  }
-  .publication-copy p {
-    margin-top: 0.5rem;
-    color: var(--clr-text-light);
-    font-size: var(--fs-small);
-  }
   .research-page :global(p),
   .research-page :global(h3),
   .research-page :global(li) {
@@ -511,5 +451,14 @@ const sections = [
   .contact-link:hover {
     background: var(--clr-text);
     color: var(--clr-bg);
+  }
+
+  @media (max-width: 680px) {
+    section {
+      padding-block: 2.5rem;
+    }
+    .markdown-copy {
+      display: block;
+    }
   }
 </style>

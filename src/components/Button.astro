@@ -36,7 +36,9 @@ const { href, size, color, icon } = Astro.props as Props;
         color: var(--clr-primary);
         border: 2px solid var(--clr-primary);
 
-        transition: all 100ms ease-in-out;
+        transition-property: color, background-color;
+        transition-duration: 100ms;
+        transition-timing-function: ease-in-out;
 
         & svg {
             width: 1.5ch;

@@ -4,7 +4,7 @@ import { type CollectionEntry } from "astro:content";
 import Layout from "./Layout.astro";
 import PublicationList from "../components/PublicationList.astro";
 
-import ArrowUpIcon from "../assets/icons/ArrowUpIcon.astro";
+import ArrowUpRightIcon from "../assets/icons/ArrowUpRightIcon.astro";
 import GoogleScholarIcon from "../assets/icons/GoogleScholarIcon.astro";
 import ORCIDIcon from "../assets/icons/OrcidIcon.astro";
 import LinkedInIcon from "../assets/icons/LinkedInIcon.astro";
@@ -97,7 +97,7 @@ const hasBio = Boolean(member.body?.trim());
                       <a href={href} target="_blank" rel="noopener">
                         {Icon && <Icon />}
                         {labelFor(label)}
-                        <ArrowUpIcon />
+                        <ArrowUpRightIcon />
                       </a>
                     </li>
                   );
