@@ -1,60 +1,32 @@
 ---
-title: Process Optimisation & Intelligent Control
-shortTitle: Optimisation & Control
+title: Process Optimisation and Intelligent Control
+shortTitle: Optimisation and Control
 subtitle: Using models and data to make better engineering decisions
-summary: We connect predictive models with decisions about process operation. Our research
+summary:
+  We connect predictive models with decisions about process operation. Our research
   investigates flexible operating regions, optimisation under uncertainty and intelligent
   control strategies for batch processes and biological production systems.
 pos: 4
 focus:
-- Flexible operating regions under uncertainty
-- Constraint-aware batch process control
-- Dynamic metabolic control
+  - Flexible operating regions under uncertainty
+  - Constraint-aware batch process control
+  - Dynamic metabolic control
 applications:
-- title: Quality-constrained batch operation
-  description: Operating conditions are selected while accounting for process requirements,
-    uncertainty and differences between models and the systems they represent.
-- title: Flexible operating-region identification
-  description: Surrogate models and dynamic optimisation help identify ranges of conditions
-    that can meet process requirements and locate favourable subregions.
-- title: Dynamic bioprocess control
-  description: Control policies are investigated for simulated fatty-acid and lactate production
-    systems, balancing productive metabolic activity against cellular burden.
-projects: []
-# Add active optimisation and control projects. Specify the decision variables,
-# engineering objectives and main constraints, together with the application,
-# researchers, project status and approved partners. State whether each demonstration
-# is simulated, experimental or deployed.
-# Project entry format:
-# - title: "[Project title]"
-#   description: "[Research question, application and project status]"
-#   people: "[Researcher names]"
-#   href: "[Project page URL]"
-
-publications:
-- title: A Surrogate-Enhanced Framework for flexible and optimal operational space identification
-    under uncertainty
-  authors: Kay et al.
-  year: 2026
-  venue: Chemical Engineering Science
-  href: https://doi.org/10.1016/j.ces.2025.122973
-- title: Reinforcement Learning for Robust Dynamic Metabolic Control
-  authors: Espinel-Rios et al.
-  year: 2026
-  venue: Biotechnology and Bioengineering
-  href: https://doi.org/10.1002/bit.70077
-- title: 'Safe chance constrained reinforcement learning for batch process control: A data-driven
-    framework for learning control of uncertain batch process systems'
-  authors: Mowbray et al.
-  year: 2022
-  venue: Computers and Chemical Engineering
-  href: https://doi.org/10.1016/j.compchemeng.2021.107630
+  - title: Quality-constrained batch operation
+    description:
+      Operating conditions are selected while accounting for process requirements,
+      uncertainty and differences between models and the systems they represent.
+  - title: Flexible operating-region identification
+    description:
+      Surrogate models and dynamic optimisation help identify ranges of conditions
+      that can meet process requirements and locate favourable subregions.
+  - title: Dynamic bioprocess control
+    description:
+      Control policies are investigated for simulated fatty-acid and lactate production
+      systems, balancing productive metabolic activity against cellular burden.
 related:
-- title: Hybrid Modelling & Digital Twins
-  href: /research/hybrid-modelling/
-- title: Bioprocess Engineering & Scale-Up
-  href: /research/bioprocess-engineering/
-researchHref: /research/
+  - hybrid-modelling
+  - bioprocess-engineering
 
 # Optional cover image: add the relative path to your image file.
 # coverImage: "[Relative image path]"

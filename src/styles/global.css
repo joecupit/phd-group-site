@@ -134,8 +134,8 @@
   /* --ff-body: "Source Sans 3", sans-serif;
   --ff-heading: "Outfit", sans-serif; */
 
-  font-size: 17px;
-  line-height: 1.5;
+  /* font-size: 16px; */
+  line-height: 1.6;
 }
 
 /* @media (max-width: 810px) {
@@ -160,6 +160,7 @@ body {
   flex-direction: column;
   min-height: 100lvh;
 
+  font-size: var(--fs-body);
   font-family: var(--ff-body);
 
   color: var(--clr-text);
@@ -173,7 +174,6 @@ body {
 
 main {
   flex: 1;
-
   display: grid;
 }
 section,
@@ -182,7 +182,7 @@ footer,
 .page-grid {
   --page-padding: 3rem;
   --section-inline-padding: 1.5rem;
-  --content-max-width: 1200px;
+  --content-max-width: 1050px;
 
   @media (max-width: 41rem) {
     --section-inline-padding: 1rem;

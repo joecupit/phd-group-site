@@ -1,69 +1,35 @@
 ---
-title: Interpretable AI & Scientific Discovery
+title: Interpretable AI and Scientific Discovery
 shortTitle: Interpretable AI
 subtitle: Discovering equations, mechanisms and physical knowledge from data
-summary: We develop methods that discover mathematical relationships and candidate physical
+summary:
+  We develop methods that discover mathematical relationships and candidate physical
   explanations from data. By combining symbolic regression, engineering knowledge and experimental
   design, we investigate how interpretable models can support scientific understanding and
   process development.
 pos: 2
 focus:
-- Symbolic regression and equation discovery
-- Interpretable model structural transfer
-- Experimental design and kinetic insight
+  - Symbolic regression and equation discovery
+  - Interpretable model structural transfer
+  - Experimental design and kinetic insight
 applications:
-- title: Biochemical model development
-  description: Symbolic regression identifies and refines kinetic relationships, while structural
-    transfer adapts existing equations to different biochemical systems.
-- title: Formulation process development
-  description: Knowledge-guided equation discovery and experimental design are combined to
-    investigate processing mechanisms and distinguish competing models in simulated formulation
-    studies.
-- title: Catalytic reaction analysis
-  description: Relationships between reaction orders, activation energies and surface coverages
-    connect measurable kinetics with catalyst behaviour.
-projects: []
-# Add active projects on equation discovery, reaction mechanisms, interpretable models
-# or experimental design. Include the system studied, the specific knowledge gap, the
-# researchers involved, project status and approved links.
-# Project entry format:
-# - title: "[Project title]"
-#   description: "[Research question, application and project status]"
-#   people: "[Researcher names]"
-#   href: "[Project page URL]"
-
-publications:
-- title: Automated Data-Efficient Symbolic Regression for Interpretable Bioprocess Model Development
-  authors: Riezzo et al.
-  year: 2026
-  venue: Biotechnology and Bioengineering
-  href: https://doi.org/10.1002/bit.70328
-- title: Interpretable-AI-Based Model Structural Transfer Learning to Accelerate Bioprocess
-    Model Construction
-  authors: Rogers et al.
-  year: 2025
-  venue: Biotechnology and Bioengineering
-  href: https://doi.org/10.1002/bit.70026
-- title: 'Cracking the physical insight of power law models: Bridging the gap between macroscopic
-    kinetics and surface coverages'
-  authors: Vega-Ramon et al.
-  year: 2025
-  venue: AIChE Journal
-  href: https://doi.org/10.1002/aic.18616
-- title: Integrating knowledge-guided symbolic regression and model-based design of experiments
-    to automate process flow diagram development
-  authors: Rogers et al.
-  year: 2024
-  venue: Chemical Engineering Science
-  href: https://doi.org/10.1016/j.ces.2024.120580
+  - title: Biochemical model development
+    description:
+      Symbolic regression identifies and refines kinetic relationships, while structural
+      transfer adapts existing equations to different biochemical systems.
+  - title: Formulation process development
+    description:
+      Knowledge-guided equation discovery and experimental design are combined to
+      investigate processing mechanisms and distinguish competing models in simulated formulation
+      studies.
+  - title: Catalytic reaction analysis
+    description:
+      Relationships between reaction orders, activation energies and surface coverages
+      connect measurable kinetics with catalyst behaviour.
 related:
-- title: Hybrid Modelling & Digital Twins
-  href: /research/hybrid-modelling/
-- title: Industrial Analytics & Process Monitoring
-  href: /research/industrial-analytics/
-- title: Molecular Design & Discovery
-  href: /research/molecular-design/
-researchHref: /research/
+  - hybrid-modelling
+  - industrial-analytics
+  - molecular-design
 
 # Optional cover image: add the relative path to your image file.
 # coverImage: "[Relative image path]"

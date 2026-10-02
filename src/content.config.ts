@@ -79,37 +79,7 @@ const research = defineCollection({
         )
         .default([]),
 
-      projects: z
-        .array(
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            people: z.string().optional(),
-            href: z.string().optional(),
-          }),
-        )
-        .default([]),
-
-      publications: z
-        .array(
-          z.object({
-            title: z.string(),
-            authors: z.string(),
-            year: z.number().int(),
-            venue: z.string().optional(),
-            href: z.string(),
-          }),
-        )
-        .default([]),
-
-      related: z
-        .array(
-          z.object({
-            title: z.string(),
-            href: z.string(),
-          }),
-        )
-        .default([]),
+      related: z.array(z.string()).default([]),
 
       contact: z
         .object({
@@ -117,8 +87,6 @@ const research = defineCollection({
           href: z.string(),
         })
         .optional(),
-
-      researchHref: z.string().default("/research/"),
     }),
 });
 

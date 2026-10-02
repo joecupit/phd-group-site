@@ -1,4 +1,7 @@
 ---
+import { getEntry } from "astro:content";
+import PublicationList from "../components/PublicationList.astro";
+import { publicationFilterHref } from "../lib/publications";
 import Layout from "./Layout.astro";
 
 interface Application {
@@ -22,6 +25,8 @@ interface Publication {
 }
 
 interface ResearchData {
+  id: string;
+  shortTitle?: string;
   title: string;
   subtitle: string;
   summary: string;
@@ -29,9 +34,8 @@ interface ResearchData {
   applications?: Application[];
   projects?: Project[];
   publications?: Publication[];
-  related?: { title: string; href: string }[];
+  related?: string[];
   contact?: { label: string; href: string };
-  researchHref?: string;
 }
 
 type Props = ResearchData | { frontmatter: ResearchData };
@@ -39,6 +43,8 @@ const page =
   "frontmatter" in Astro.props ? Astro.props.frontmatter : Astro.props;
 
 const {
+  id,
+  shortTitle,
   title,
   subtitle,
   summary,
@@ -48,8 +54,11 @@ const {
   publications = [],
   related = [],
   contact,
-  researchHref = "/research/",
 } = page;
+
+const relatedAreas = await Promise.all(
+  related.map((id) => getEntry("research", id)),
+);
 
 const hasBody = Astro.slots.has("default");
 const hasChallenge = Astro.slots.has("challenge");
@@ -70,232 +79,92 @@ const sections = [
 ---
 
 <Layout title={title}>
-  <main class="research-page" id="research-content">
-    <div class="page-inner">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href={researchHref}>Research Areas</a>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{title}</span>
-      </nav>
+  <div class="page-grid">
+    <section>
+      <div class="hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/research">Research Areas</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{title}</span>
+        </nav>
+        <h1>{title}</h1>
+        <p class="subtitle">{subtitle}</p>
+      </div>
+    </section>
 
-      <header class:list={["hero", { "hero--with-focus": focus.length > 0 }]}>
-        <div class="hero-copy">
-          <!-- <p class="eyebrow"><span aria-hidden="true"></span> Research area</p> -->
-          <h1>{title}</h1>
-          <p class="subtitle">{subtitle}</p>
-          <!-- <p class="summary">{summary}</p> -->
-        </div>
+    {
+      (summary || hasBody) && (
+        <section class="section" id="overview" aria-label="Research overview">
+          <div class="prose markdown-copy">
+            <p class="summary">{summary}</p>
+            <slot />
+          </div>
+        </section>
+      )
+    }
 
-        <!-- {
-          focus.length > 0 && (
-            <aside class="focus-panel" aria-labelledby="focus-heading">
-              <svg
-                class="focus-pattern"
-                viewBox="0 0 240 150"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <g fill="none" stroke="currentColor" stroke-width="1">
-                  <path d="M12 115 65 40 120 93 174 24 226 75M12 115 120 93 226 75M65 40 174 24M65 40 226 75" />
-                  <>
-                    <circle cx="12" cy="115" r="4" />
-                    <circle cx="65" cy="40" r="4" />
-                  </>
-                  <>
-                    <circle cx="120" cy="93" r="4" />
-                    <circle cx="174" cy="24" r="4" />
-                  </>
-                  <circle cx="226" cy="75" r="4" />
-                </g>
-              </svg>
-              <h2 id="focus-heading">In this area</h2>
-              <ul>
-                {focus.map((item, index) => (
-                  <li>
-                    <span aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </aside>
-          )
-        } -->
-      </header>
-
-      <!-- {
-        sections.length > 0 && (
-          <nav class="section-nav" aria-label="On this page">
-            {sections.map((section) => (
-              <a href={`#${section.id}`}>{section.label}</a>
+    {
+      applications.length > 0 && (
+        <section
+          class="section"
+          id="applications"
+          aria-labelledby="applications-heading"
+        >
+          <div class="section-heading">
+            {/* <p class="eyebrow">Engineering applications</p> */}
+            <h2 id="applications-heading">Applications in industry</h2>
+          </div>
+          <div class="application-grid">
+            {applications.map((application, index) => (
+              <article class="application-card">
+                {/* <span class="application-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span> */}
+                <h3>{application.title}</h3>
+                <p>{application.description}</p>
+              </article>
             ))}
-          </nav>
-        )
-      } -->
+          </div>
+        </section>
+      )
+    }
 
-      {
-        hasBody && (
-          <section class="section" id="overview" aria-label="Research overview">
-            <div class="prose markdown-copy">
-              <p class="summary">{summary}</p>
-              <slot />
-            </div>
-          </section>
-        )
-      }
+    <section id="publications">
+      <PublicationList
+        researchArea={id}
+        title={`Recent relevant publications`}
+        limit={3}
+        viewAllHref={publicationFilterHref("/publications", {
+          topic: id,
+        })}
+        viewAllLabel={`More publications on ${(shortTitle ?? title).toLowerCase()}`}
+        includeButton={true}
+      >
+        <p slot="intro">
+          Our latest work in the area of {title.toLowerCase()}.
+        </p>
+      </PublicationList>
+    </section>
 
-      {
-        hasChallenge && (
-          <section
-            class="section section--split"
-            id="challenge"
-            aria-labelledby="challenge-heading"
-          >
-            <div class="section-heading">
-              <p class="eyebrow">Understanding the problem</p>
-              <h2 id="challenge-heading">The challenge</h2>
-            </div>
-            <div class="prose challenge-copy">
-              <slot name="challenge" />
-            </div>
-          </section>
-        )
-      }
-
-      {
-        hasApproach && (
-          <section
-            class="section section--split approach-section"
-            id="approach"
-            aria-labelledby="approach-heading"
-          >
-            <div class="section-heading">
-              <p class="eyebrow">Methods and ideas</p>
-              <h2 id="approach-heading">Our approach</h2>
-            </div>
-            <div class="prose approach-copy">
-              <slot name="approach" />
-            </div>
-          </section>
-        )
-      }
-
-      {
-        applications.length > 0 && (
-          <section
-            class="section"
-            id="applications"
-            aria-labelledby="applications-heading"
-          >
-            <div class="section-heading">
-              <p class="eyebrow">Engineering applications</p>
-              <h2 id="applications-heading">Where this research is used</h2>
-            </div>
-            <div class="application-grid">
-              {applications.map((application, index) => (
-                <article class="application-card">
-                  <span class="application-number" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h3>{application.title}</h3>
-                  <p>{application.description}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )
-      }
-
-      {
-        projects.length > 0 && (
-          <section
-            class="section"
-            id="projects"
-            aria-labelledby="projects-heading"
-          >
-            <div class="section-heading">
-              <p class="eyebrow">Work in progress</p>
-              <h2 id="projects-heading">Current projects</h2>
-            </div>
-            <div class="project-grid">
-              {projects.map((project) => (
-                <article class="project-card">
-                  <h3>
-                    {project.href ? (
-                      <a href={project.href}>
-                        {project.title}
-                        <span aria-hidden="true"> ↗</span>
-                      </a>
-                    ) : (
-                      project.title
-                    )}
-                  </h3>
-                  <p>{project.description}</p>
-                  {project.people && (
-                    <p class="project-people">{project.people}</p>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
-        )
-      }
-
-      {
-        publications.length > 0 && (
-          <section
-            class="section"
-            id="publications"
-            aria-labelledby="publications-heading"
-          >
-            <div class="section-heading">
-              <p class="eyebrow">Explore the work</p>
-              <h2 id="publications-heading">Selected publications</h2>
-            </div>
-            <ul class="publication-list">
-              {publications.map((publication) => (
-                <li class="publication">
-                  <span class="publication-year">{publication.year}</span>
-                  <div class="publication-copy">
-                    <h3>
-                      <a href={publication.href}>
-                        {publication.title}
-                        <span aria-hidden="true"> ↗</span>
-                      </a>
-                    </h3>
-                    <p>
-                      {publication.authors}
-                      {publication.venue && (
-                        <>
-                          {" "}
-                          <span aria-hidden="true">·</span> {publication.venue}
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
-      {
-        (related.length > 0 || contact) && (
-          <footer class="research-footer">
-            {related.length > 0 && (
+    {
+      (relatedAreas.length > 0 || contact) && (
+        <section>
+          <div class="research-footer">
+            {relatedAreas.length > 0 && (
               <div>
-                <h2>Connected research</h2>
+                <h2>Related research areas</h2>
                 <ul class="related-list">
-                  {related.map((area) => (
-                    <li>
-                      <a href={area.href}>
-                        {area.title}
-                        <span aria-hidden="true"> ↗</span>
-                      </a>
-                    </li>
-                  ))}
+                  {relatedAreas.map((area) => {
+                    if (area)
+                      return (
+                        <li>
+                          <a href={`/research/${area.id}`}>
+                            {area.data.title}
+                            <span aria-hidden="true"> ↗</span>
+                          </a>
+                        </li>
+                      );
+                  })}
                 </ul>
               </div>
             )}
@@ -305,109 +174,67 @@ const sections = [
                 <span aria-hidden="true"> ↗</span>
               </a>
             )}
-          </footer>
-        )
-      }
-    </div>
-  </main>
+          </div>
+        </section>
+      )
+    }
+  </div>
 </Layout>
 
 <style>
-  .research-page {
-    /* Change these values to match your site's visual identity. */
-    --research-ink: var(--clr-text);
-    --research-muted: var(----clr-text-light);
-    --research-accent: var(--clr-primary);
-    --research-line: var(--clr-border);
-    --research-paper: var(--clr-bg);
-    --research-tint: var(--clr-bg-dark);
-    background: var(--research-paper);
-    color: var(--research-ink);
-    font-family: inherit;
-    line-height: 1.65;
-    padding: 2.5rem 0 0;
+  section {
+    padding-block: 3.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
   }
 
-  .research-page,
-  .research-page :global(*) {
-    box-sizing: border-box;
-  }
-  .page-inner {
-    width: min(72rem, calc(100% - 3rem));
-    margin-inline: auto;
-  }
-  h1,
-  h2,
-  h3,
-  p,
-  ul {
-    margin: 0;
-  }
   h1,
   h2,
   h3 {
-    line-height: 1.18;
+    line-height: 1.2;
     text-wrap: balance;
   }
   a {
     color: inherit;
   }
   a:focus-visible {
-    outline: 3px solid var(--research-accent);
+    outline: 3px solid var(--clr-primary);
     outline-offset: 5px;
     border-radius: 2px;
-  }
-  .research-page :global(img) {
-    max-width: 100%;
-    height: auto;
   }
 
   .breadcrumb {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
+    gap: 0.5rem;
     align-items: baseline;
     font-size: var(--fs-small);
-    color: var(--research-muted);
-  }
-  .breadcrumb a {
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-  }
-  .breadcrumb [aria-current] {
-    overflow-wrap: anywhere;
-  }
-  .hero {
-    padding: 3.5rem 0 3rem;
-    border-block-end: 1px solid var(--research-line);
-  }
-  .hero--with-focus {
-    /* display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.42fr);
-    gap: 4rem;
-    align-items: center; */
-  }
-  .hero-copy {
-    min-width: 0;
+    color: var(--clr-text-light);
+
+    & a {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+    & [aria-current] {
+      overflow-wrap: anywhere;
+    }
   }
   .eyebrow {
     font-size: var(--fs-small);
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--research-accent);
+    color: var(--clr-primary);
   }
-  .hero .eyebrow {
+
+  .hero {
     display: flex;
-    gap: 0.6rem;
-    align-items: center;
-    margin-bottom: 1.25rem;
-  }
-  .hero .eyebrow span {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: currentColor;
+    flex-direction: column;
+    gap: 1rem;
   }
   h1 {
     max-width: 20ch;
@@ -418,97 +245,12 @@ const sections = [
   }
   .subtitle {
     max-width: 40ch;
-    margin-top: 1.4rem;
     font-size: var(--fs-subheading);
-    line-height: 1.45;
-  }
-  /* .summary {
-    max-width: 62ch;
-    margin-top: 1.2rem;
-    color: var(--research-muted);
-  } */
-
-  .focus-panel {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 2rem 1.6rem;
-    background: var(--research-ink);
-    color: var(--clr-bg-dark);
-    border-radius: 0.35rem;
-  }
-  .focus-pattern {
-    position: absolute;
-    z-index: -1;
-    top: -1rem;
-    right: -2.5rem;
-    width: 16rem;
-    color: var(--research-accent);
-    opacity: 0.18;
-  }
-  .focus-panel h2 {
-    margin-bottom: 1.5rem;
-    font-size: var(--fs-small);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .focus-panel ul {
-    list-style: none;
-    padding: 0;
-  }
-  .focus-panel li {
-    display: grid;
-    grid-template-columns: 1.7rem minmax(0, 1fr);
-    gap: 0.6rem;
-    padding: 1rem 0;
-    border-top: 1px solid #ffffff26;
-    line-height: 1.4;
-  }
-  .focus-panel li:last-child {
-    padding-bottom: 0;
-  }
-  .focus-panel li span {
-    color: var(--clr-primary-light);
-    font-size: var(--fs-small);
-    padding-top: 0.15rem;
-    font-variant-numeric: tabular-nums;
   }
 
-  .section-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.7rem;
-    padding: 0.8rem 0;
-    border-block: 1px solid var(--research-line);
-  }
-  .section-nav a {
-    padding: 0.45rem 0;
-    font-size: var(--fs-small);
-    text-decoration: none;
-    text-underline-offset: 5px;
-  }
-  .section-nav a:hover {
-    color: var(--research-accent);
-    text-decoration: underline;
-  }
-  /* Set --research-anchor-offset on a parent to suit your site's header. */
-  .section {
-    padding: 3.5rem 0;
-    border-bottom: 1px solid var(--research-line);
-    scroll-margin-top: var(--research-anchor-offset, 6rem);
-  }
-  .section--split {
-    display: grid;
-    grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
-    gap: 3.5rem;
-  }
-  .section-heading .eyebrow {
-    margin-bottom: 0.7rem;
-  }
   .section-heading h2 {
     font-size: var(--fs-heading);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.025em;
   }
   .prose {
@@ -516,7 +258,7 @@ const sections = [
     max-width: 68ch;
   }
   .prose :global(p + p) {
-    margin-top: 1rem;
+    /* margin-top: 0.5rem; */
   }
   .prose :global(p) {
     margin: 0;
@@ -538,11 +280,11 @@ const sections = [
     margin-top: 0.6rem;
   }
   .prose :global(a) {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     text-underline-offset: 3px;
   }
   .prose :global(a:focus-visible) {
-    outline: 3px solid var(--research-accent);
+    outline: 3px solid var(--clr-primary);
     outline-offset: 4px;
   }
   .prose :global(figure) {
@@ -551,14 +293,14 @@ const sections = [
   .prose :global(figcaption) {
     margin-top: 0.6rem;
     font-size: var(--fs-small);
-    color: var(--research-muted);
+    color: var(--clr-text-light);
   }
   /* Markdown headings sit beside their content, using the same section grid. */
   .markdown-copy {
     display: grid;
     grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
     align-items: start;
-    gap: 1rem 3.5rem;
+    gap: 0.5rem 3.5rem;
     max-width: none;
   }
   .markdown-copy .summary {
@@ -571,12 +313,15 @@ const sections = [
     max-width: 68ch;
     margin: 0;
   }
+  .markdown-copy .summary {
+    max-width: none;
+  }
   .markdown-copy :global(> h2) {
     grid-column: 1;
     max-width: 18ch;
     margin-top: 2rem;
     font-size: var(--fs-heading);
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.18;
     letter-spacing: -0.025em;
     text-wrap: balance;
@@ -590,6 +335,7 @@ const sections = [
     margin-top: 0;
   }
   .markdown-copy :global(> h3) {
+    align-self: end;
     margin: 1rem 0 0;
   }
   .markdown-copy :global(> h2 + *) {
@@ -601,8 +347,8 @@ const sections = [
   }
   .markdown-copy :global(blockquote) {
     padding-left: 1rem;
-    border-left: 3px solid var(--research-accent);
-    color: var(--research-muted);
+    border-left: 3px solid var(--clr-primary);
+    color: var(--clr-text-light);
   }
   .markdown-copy :global(table) {
     display: block;
@@ -612,7 +358,7 @@ const sections = [
   .markdown-copy :global(th),
   .markdown-copy :global(td) {
     padding: 0.6rem;
-    border: 1px solid var(--research-line);
+    border: 1px solid var(--clr-border);
     text-align: left;
   }
   .markdown-copy :global(pre) {
@@ -622,40 +368,45 @@ const sections = [
   }
   .approach-copy {
     padding: 1.7rem 2rem;
-    background: var(--research-tint);
-    border-left: 3px solid var(--research-accent);
+    background: var(--clr-bg-dark);
+    border-left: 3px solid var(--clr-primary);
     border-radius: 0 0.35rem 0.35rem 0;
   }
 
   .application-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
-    gap: 1.2rem;
+    gap: 1.5rem;
     margin-top: 2rem;
   }
   .application-card {
-    padding: 1.7rem;
-    background: var(--research-tint);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--clr-bg-dark);
     border-radius: 0.35rem;
   }
   .application-number {
     display: block;
-    margin-bottom: 1.5rem;
+    margin-block-end: 0.5rem;
     font-family: Georgia, "Times New Roman", serif;
     font-size: var(--fs-heading);
     line-height: 1;
-    color: var(--research-accent);
+    color: var(--clr-primary);
     opacity: 0.65;
   }
   .application-card h3,
   .project-card h3 {
     font-size: var(--fs-subheading);
-    font-weight: 600;
+    color: var(--clr-primary-dark);
+    font-weight: 700;
+    text-wrap: wrap;
   }
   .application-card p,
   .project-card > p {
-    margin-top: 0.8rem;
-    color: var(--research-muted);
+    color: var(--clr-text-light);
   }
   .project-grid {
     display: grid;
@@ -664,7 +415,7 @@ const sections = [
     margin-top: 2rem;
   }
   .project-card {
-    border-top: 2px solid var(--research-ink);
+    border-top: 2px solid var(--clr-text);
     padding-top: 1.2rem;
   }
   .project-card a {
@@ -677,7 +428,7 @@ const sections = [
   .project-card > .project-people {
     margin-top: 1.2rem;
     font-size: var(--fs-small);
-    color: var(--research-ink);
+    color: var(--clr-text);
   }
 
   .publication-list {
@@ -690,11 +441,11 @@ const sections = [
     grid-template-columns: 4.5rem minmax(0, 1fr);
     gap: 1.5rem;
     padding: 1.3rem 0;
-    border-top: 1px solid var(--research-line);
+    border-top: 1px solid var(--clr-border);
   }
   .publication-year {
     padding-top: 0.2rem;
-    color: var(--research-accent);
+    color: var(--clr-primary);
     font-size: var(--fs-small);
     font-variant-numeric: tabular-nums;
   }
@@ -706,7 +457,7 @@ const sections = [
     text-decoration: none;
   }
   .publication a:hover {
-    color: var(--research-accent);
+    color: var(--clr-primary);
     text-decoration: underline;
     text-underline-offset: 4px;
   }
@@ -715,7 +466,7 @@ const sections = [
   }
   .publication-copy p {
     margin-top: 0.5rem;
-    color: var(--research-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
   }
   .research-page :global(p),
@@ -730,13 +481,12 @@ const sections = [
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    padding: 2.5rem 0 3rem;
   }
   .research-footer h2 {
-    font-size: var(--fs-small);
+    font-size: var(--fs-body);
     font-weight: 600;
     margin-bottom: 0.8rem;
-    color: var(--research-muted);
+    /* color: var(--clr-text-light); */
   }
   .related-list {
     display: flex;
@@ -746,7 +496,6 @@ const sections = [
     padding: 0;
   }
   .related-list a {
-    font-size: var(--fs-small);
     text-underline-offset: 4px;
   }
   .contact-link {
@@ -754,138 +503,13 @@ const sections = [
     align-items: center;
     gap: 1.2rem;
     padding: 0.8rem 1.1rem;
-    border: 1px solid var(--research-ink);
+    border: 1px solid var(--clr-text);
     border-radius: 0.25rem;
     text-decoration: none;
     font-size: var(--fs-small);
   }
   .contact-link:hover {
-    background: var(--research-ink);
-    color: var(--research-paper);
-  }
-
-  @media (max-width: 900px) {
-    .hero--with-focus {
-      gap: 2rem;
-      grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.5fr);
-    }
-    .section--split,
-    .markdown-copy {
-      gap: 1rem 2rem;
-      grid-template-columns: minmax(0, 0.4fr) minmax(0, 1fr);
-    }
-  }
-
-  @media (max-width: 680px) {
-    .research-page {
-      padding-top: 1.5rem;
-    }
-    .page-inner {
-      width: calc(100% - 2rem);
-    }
-    .hero {
-      padding: 2.5rem 0 2rem;
-    }
-    .hero--with-focus,
-    .section--split {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.5rem;
-    }
-    .focus-panel {
-      padding: 1.5rem;
-    }
-    .section-nav {
-      gap: 0.15rem 1.2rem;
-    }
-    .section {
-      padding: 2.5rem 0;
-    }
-    .approach-copy {
-      padding: 1.25rem;
-    }
-    .markdown-copy {
-      display: block;
-    }
-    .markdown-copy :global(> *) {
-      margin-top: 1rem;
-    }
-    .markdown-copy :global(> h2) {
-      max-width: none;
-      margin-top: 2.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--research-line);
-    }
-    .markdown-copy :global(> h2 + *),
-    .markdown-copy :global(> p + p) {
-      margin-top: 1rem;
-    }
-    .markdown-copy :global(> h2:first-child) {
-      margin-top: 0;
-      padding-top: 0;
-      border-top: 0;
-    }
-    .markdown-copy :global(> h2:first-child + *) {
-      margin-top: 1rem;
-    }
-    .markdown-copy :global(> ul),
-    .markdown-copy :global(> ol) {
-      margin-top: 1rem;
-    }
-    .publication {
-      grid-template-columns: 3rem minmax(0, 1fr);
-      gap: 0.75rem;
-    }
-  }
-
-  @media print {
-    .research-page {
-      --research-ink: #000;
-      --research-muted: #333;
-      --research-paper: #fff;
-      background: #fff;
-    }
-    .page-inner {
-      width: 100%;
-    }
-    .hero {
-      padding-top: 1rem;
-    }
-    .section-nav,
-    .focus-pattern,
-    .contact-link {
-      display: none;
-    }
-    .hero--with-focus,
-    .section--split,
-    .markdown-copy {
-      display: block;
-    }
-    .focus-panel {
-      margin-top: 1rem;
-      background: #fff;
-      color: #000;
-      border: 1px solid #ccc;
-    }
-    .focus-panel li {
-      border-color: #ccc;
-    }
-    .focus-panel li span {
-      color: #333;
-    }
-    .section {
-      padding: 1.5rem 0;
-    }
-    .section-heading {
-      margin-bottom: 1rem;
-    }
-    .application-card,
-    .project-card,
-    .publication {
-      break-inside: avoid;
-    }
-    .approach-copy {
-      background: #fff;
-      border-color: #777;
-    }
+    background: var(--clr-text);
+    color: var(--clr-bg);
   }
 </style>

@@ -1,62 +1,33 @@
 ---
-title: Bioprocess Engineering & Scale-Up
+title: Bioprocess Engineering and Scale-Up
 shortTitle: Bioprocess Engineering
 subtitle: Connecting biological behaviour with reactor performance and industrial production
-summary: We connect biological behaviour with reactor conditions and production performance.
+summary:
+  We connect biological behaviour with reactor conditions and production performance.
   Our work brings together cell metabolism, fermentation, mixing and light-dependent growth
   to investigate bioprocess design, prediction and scale-up.
 pos: 5
 focus:
-- Multiscale cell-culture and metabolic models
-- Reactor mixing, light and reaction dynamics
-- Fermentation scale-up and algal bioprocesses
+  - Multiscale cell-culture and metabolic models
+  - Reactor mixing, light and reaction dynamics
+  - Fermentation scale-up and algal bioprocesses
 applications:
-- title: Biopharmaceutical cell culture
-  description: Models of Chinese Hamster Ovary cell cultures connect changing reactor conditions
-    with predicted metabolic activity during antibody production.
-- title: Fermentation and scale-up
-  description: Yeast-fermentation studies investigate how hybrid models can use laboratory
-    and pilot-scale information to predict behaviour at industrial scale.
-- title: Microalgae and carbon capture
-  description: Reactor simulations and biokinetic experiments investigate how mixing, light
-    and temperature influence microalgal growth, including Dunaliella tertiolecta in bicarbonate/carbonate
-    media.
-projects: []
-# Add active bioprocess projects, identifying the organism or cell system, target
-# product, reactor context and main engineering question. Include researchers,
-# facilities that can be named publicly, project status and approved collaboration
-# details.
-# Project entry format:
-# - title: "[Project title]"
-#   description: "[Research question, application and project status]"
-#   people: "[Researcher names]"
-#   href: "[Project page URL]"
-
-publications:
-- title: CFD predictive simulations of miniature bioreactor mixing dynamics coupled with photo-bioreaction
-    kinetics in transitional flow regime
-  authors: Anye Cho et al.
-  year: 2025
-  venue: Biochemical Engineering Journal
-  href: https://doi.org/10.1016/j.bej.2024.109585
-- title: Bioprocess modelling assisted analysis of light and temperature effects on Dunaliella
-    tertiolecta's growth in bicarbonate/carbonate medium for algae-based carbon capture
-  authors: Anye Cho et al.
-  year: 2025
-  venue: Journal of Environmental Chemical Engineering
-  href: https://doi.org/10.1016/j.jece.2025.115973
-- title: A multiscale hybrid modelling methodology for cell cultures enabled by enzyme-constrained
-    dynamic metabolic flux analysis under uncertainty
-  authors: Pennington et al.
-  year: 2024
-  venue: Metabolic Engineering
-  href: https://doi.org/10.1016/j.ymben.2024.10.013
+  - title: Biopharmaceutical cell culture
+    description:
+      Models of Chinese Hamster Ovary cell cultures connect changing reactor conditions
+      with predicted metabolic activity during antibody production.
+  - title: Fermentation and scale-up
+    description:
+      Yeast-fermentation studies investigate how hybrid models can use laboratory
+      and pilot-scale information to predict behaviour at industrial scale.
+  - title: Microalgae and carbon capture
+    description:
+      Reactor simulations and biokinetic experiments investigate how mixing, light
+      and temperature influence microalgal growth, including Dunaliella tertiolecta in bicarbonate/carbonate
+      media.
 related:
-- title: Hybrid Modelling & Digital Twins
-  href: /research/hybrid-modelling/
-- title: Process Optimisation & Intelligent Control
-  href: /research/optimisation-control/
-researchHref: /research/
+  - hybrid-modelling
+  - optimisation-control
 
 # Optional cover image: add the relative path to your image file.
 # coverImage: "[Relative image path]"

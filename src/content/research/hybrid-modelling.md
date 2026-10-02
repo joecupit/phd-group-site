@@ -1,71 +1,32 @@
 ---
-title: Hybrid Modelling & Digital Twins
+title: Hybrid Modelling and Digital Twins
 shortTitle: Hybrid Modelling
 subtitle: Combining physical understanding and machine learning to predict process behaviour
-summary: We combine physical models with machine learning to predict chemical and biological
+summary:
+  We combine physical models with machine learning to predict chemical and biological
   process behaviour. Our work investigates how hybrid models can be developed with limited
   data, adapted between systems and scales, and used as a foundation for process digital twins.
 pos: 1
 focus:
-- Hybrid physical and data-driven models
-- Model transfer across systems and scales
-- Bioprocess digital twin development
+  - Hybrid physical and data-driven models
+  - Model transfer across systems and scales
+  - Bioprocess digital twin development
 applications:
-- title: Bioprocess prediction
-  description: Hybrid models combine biological kinetics with process data to predict production
-    dynamics, including microalgal growth and yeast fermentation.
-- title: Model transfer and scale-up
-  description: Information from laboratory and pilot-scale studies is used to adapt models
-    and investigate predictions at industrial scale.
-- title: Chemical reaction kinetics
-  description: Hybrid kinetic modelling is investigated for methanol synthesis and the water–gas
-    shift reaction, including how the physical model structure affects predictions.
-projects: []
-# Add 1–3 active projects on hybrid models, digital twins or model transfer. For each,
-# provide the project title, research question, application, researcher names, dates
-# or status, approved partner or funder details, and a link to the project page.
-# Project entry format:
-# - title: "[Project title]"
-#   description: "[Research question, application and project status]"
-#   people: "[Researcher names]"
-#   href: "[Project page URL]"
-
-publications:
-- title: Enabling Bioprocess Upscaling Prediction Through Hybrid Modelling and Transfer Learning
-    Under Small-Data Scenarios
-  authors: Al-Ramadhan et al.
-  year: 2026
-  venue: Biotechnology and Bioengineering
-  href: https://doi.org/10.1002/bit.70385
-- title: Accelerating bioprocess digital twin development by integrating hybrid modelling
-    with transfer learning
-  authors: Riezzo et al.
-  year: 2025
-  venue: Chemical Engineering Journal
-  href: https://doi.org/10.1016/j.cej.2025.162018
-- title: Developing a Hybrid Modeling Framework for Enhanced Prediction in Chemical Reaction
-    Kinetics
-  authors: Kay et al.
-  year: 2025
-  venue: Industrial and Engineering Chemistry Research
-  href: https://doi.org/10.1021/acs.iecr.5c01597
-- title: A review and perspective on hybrid modeling methodologies
-  authors: Schweidtmann et al.
-  year: 2024
-  venue: Digital Chemical Engineering
-  href: https://doi.org/10.1016/j.dche.2023.100136
-- title: Hybrid physics-based and data-driven modeling for bioprocess online simulation and
-    optimization
-  authors: Zhang et al.
-  year: 2019
-  venue: Biotechnology and Bioengineering
-  href: https://doi.org/10.1002/bit.27120
+  - title: Bioprocess prediction
+    description:
+      Hybrid models combine biological kinetics with process data to predict production
+      dynamics, including microalgal growth and yeast fermentation.
+  - title: Model transfer and scale-up
+    description:
+      Information from laboratory and pilot-scale studies is used to adapt models
+      and investigate predictions at industrial scale.
+  - title: Chemical reaction kinetics
+    description:
+      Hybrid kinetic modelling is investigated for methanol synthesis and the water–gas
+      shift reaction, including how the physical model structure affects predictions.
 related:
-- title: Interpretable AI & Scientific Discovery
-  href: /research/interpretable-ai/
-- title: Bioprocess Engineering & Scale-Up
-  href: /research/bioprocess-engineering/
-researchHref: /research/
+  - interpretable-ai
+  - bioprocess-engineering
 
 # Optional cover image: add the relative path to your image file.
 # coverImage: "[Relative image path]"
