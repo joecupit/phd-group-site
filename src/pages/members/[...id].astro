@@ -2,13 +2,13 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import MemberLayout from "../../layouts/MemberLayout.astro";
 export async function getStaticPaths() {
-  return (await getCollection("group")).map((member) => ({
+  return (await getCollection("members")).map((member) => ({
     params: { id: member.id },
     props: { member },
   }));
 }
 interface Props {
-  member: CollectionEntry<"group">;
+  member: CollectionEntry<"members">;
 }
 const { member } = Astro.props;
 const { Content } = await render(member);

@@ -1,6 +1,6 @@
 ---
 name: Dongda Zhang
-position: Supervisor
+role: Supervisor
 email: dongda.zhang@manchester.ac.uk
 summary: ""
 ---

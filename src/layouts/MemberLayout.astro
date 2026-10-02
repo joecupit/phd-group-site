@@ -2,11 +2,13 @@
 import { Image } from "astro:assets";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "./Layout.astro";
+import PublicationList from "../components/PublicationList.astro";
+import { publicationFilterHref } from "../lib/publications";
 interface Props {
-  member: CollectionEntry<"group">;
+  member: CollectionEntry<"members">;
 }
 const { member } = Astro.props;
-const { name, position, email, profileImage, links = {} } = member.data;
+const { name, role, email, profileImage, links = {} } = member.data;
 // Optional author-ID => member-ID aliases, if publication and member filenames differ.
 const authorMemberAliases: Record<string, string> = {};
 const publications = (
@@ -49,13 +51,14 @@ const labelFor = (key: string) =>
 <Layout
   s
   title={name}
-  description={`${name} — ${position}. Profile and publications from our research group.`}
+  description={`${name} — ${role}. Profile and publications from our research group.`}
 >
   <main class="member-page">
-    <a class="back-link" href="/group">← All people</a>
+    <a class="back-link" href="/members">← All people</a>
     <header class="member-header">
       <div class="identity">
-        <p class="eyebrow">{position}</p><h1>{name}</h1>
+        <p class="eyebrow">{role}</p>
+        <h1>{name}</h1>
         <a class="email" href={`mailto:${email}`}>{email}</a>
         {
           Object.keys(links).length > 0 && (
@@ -92,7 +95,19 @@ const labelFor = (key: string) =>
     <section class="biography" aria-labelledby="about-heading">
       <h2 id="about-heading">About</h2><div class="bio-content"><slot /></div>
     </section>
-    <section
+    <section>
+      <PublicationList
+        author={member.id}
+        highlightAuthor={member.id}
+        limit={4}
+        viewAllHref={publicationFilterHref("/publications", {
+          author: member.id,
+        })}
+        viewAllLabel={`More publications from ${name}`}
+        includeButton={true}
+      />
+    </section>
+    <!-- <section
       class="publications-section"
       aria-labelledby="publications-heading"
     >
@@ -140,7 +155,7 @@ const labelFor = (key: string) =>
           </p>
         )
       }
-    </section>
+    </section> -->
   </main>
 </Layout>
 <style>
@@ -148,7 +163,6 @@ const labelFor = (key: string) =>
     width: min(1040px, 100%);
     margin-inline: auto;
     padding: 2.5rem clamp(1rem, 4vw, 2.5rem) 5rem;
-    box-sizing: border-box;
   }
   a {
     color: var(--clr-primary-dark);
@@ -203,7 +217,9 @@ const labelFor = (key: string) =>
     aspect-ratio: 1;
     display: grid;
     place-items: center;
-    background: var(--clr-bg-light);
+    font-weight: 600;
+    color: var(--clr-primary-dark);
+    background: var(--clr-bg-dark);
     border-radius: 20px;
     overflow: hidden;
   }

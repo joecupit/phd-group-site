@@ -22,6 +22,7 @@ interface Props {
   headingID?: string;
   dateFormat?: "month-year" | "year" | "iso";
   showAuthors?: boolean;
+  highlightAuthor?: string;
   showTopics?: boolean;
   showAbstract?: boolean;
   showPublicationLink?: boolean;
@@ -31,19 +32,20 @@ const {
   members: suppliedMembers,
   research: suppliedResearch,
   aliases = authorMemberAliases,
-  memberHref = (id) => `/group/${id}/`,
-  researchHref = (id) => `/research/${id}/`,
+  memberHref = (id) => `/members/${id}`,
+  researchHref = (id) => `/research/${id}`,
   publicationHref = (entry) => entry.data.doi ?? entry.data.scholarUrl,
   headingLevel = 3,
   headingID = `publication-${crypto.randomUUID()}`,
   dateFormat = "month-year",
   showAuthors = true,
+  highlightAuthor = undefined,
   showTopics = false,
   showAbstract = false,
   showPublicationLink = false,
 } = Astro.props;
 const [members, research] = await Promise.all([
-  suppliedMembers ?? getCollection("group"),
+  suppliedMembers ?? getCollection("members"),
   suppliedResearch ??
     (showTopics ? getCollection("research") : Promise.resolve([])),
 ]);
@@ -104,11 +106,26 @@ const Content = abstract?.Content;
             <Fragment>
               {index > 0 && ", "}
               {memberIDs.has(memberIDFor(id, aliases)) ? (
-                <a href={memberHref(memberIDFor(id, aliases))}>
+                <a
+                  href={memberHref(memberIDFor(id, aliases))}
+                  class:list={{
+                    "highlighted-author":
+                      memberIDFor(id, aliases) === highlightAuthor,
+                  }}
+                  data-author-id={memberIDFor(id, aliases)}
+                >
                   {data.authorNames[id] ?? id}
                 </a>
               ) : (
-                <span>{data.authorNames[id] ?? id}</span>
+                <span
+                  class:list={{
+                    "highlighted-author":
+                      memberIDFor(id, aliases) === highlightAuthor,
+                  }}
+                  data-author-id={memberIDFor(id, aliases)}
+                >
+                  {data.authorNames[id] ?? id}
+                </span>
               )}
             </Fragment>
           ))}
@@ -199,13 +216,13 @@ const Content = abstract?.Content;
     font-size: var(--fs-small);
   }
   .paper-type {
-    font-weight: 650;
+    font-weight: 600;
     color: var(--pub-accent);
   }
   .paper-title {
     margin: 0.45rem 0;
     font-size: var(--fs-subheading);
-    font-weight: 650;
+    font-weight: 600;
     line-height: 1.45;
     letter-spacing: -0.015em;
     overflow-wrap: anywhere;
@@ -226,6 +243,9 @@ const Content = abstract?.Content;
   }
   .authors a {
     color: var(--pub-accent);
+  }
+  .highlighted-author {
+    font-weight: 800;
   }
   .paper-footer {
     display: flex;

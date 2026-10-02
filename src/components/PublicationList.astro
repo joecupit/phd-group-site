@@ -30,6 +30,7 @@ interface Props extends PublicationFilters {
   publicationHref?: (publication: Publication) => string;
   dateFormat?: "month-year" | "year" | "iso";
   showAuthors?: boolean;
+  highlightAuthor?: string;
   showTopics?: boolean;
   showAbstract?: boolean;
   showPublicationLink?: boolean;
@@ -54,6 +55,7 @@ const {
   publicationHref,
   dateFormat = "month-year",
   showAuthors = true,
+  highlightAuthor = undefined,
   showTopics = false,
   showAbstract = false,
   showPublicationLink = false,
@@ -64,7 +66,7 @@ if (limit !== null && (!Number.isInteger(limit) || limit < 0))
   );
 const [publications, members, research] = await Promise.all([
   suppliedPublications ?? getCollection("publications"),
-  getCollection("group"),
+  getCollection("members"),
   getCollection("research"),
 ]);
 const matching = sortPublications(
@@ -149,6 +151,7 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
                   headingID={`${id}-${entry.id}`}
                   dateFormat={dateFormat}
                   showAuthors={showAuthors}
+                  highlightAuthor={highlightAuthor}
                   showTopics={showTopics}
                   showAbstract={showAbstract}
                   showPublicationLink={showPublicationLink}
@@ -191,7 +194,7 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
   .section-heading :is(h2, h3, h4) {
     margin: 0;
     font-size: var(--fs-heading);
-    font-weight: 650;
+    font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.3;
   }

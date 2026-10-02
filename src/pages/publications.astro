@@ -1,11 +1,12 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import PublicationItem from "../components/PublicationItem.astro";
 
 const [publications, research, members] = await Promise.all([
   getCollection("publications", ({ data }) => !data.draft && !data.duplicateOf),
   getCollection("research"),
-  getCollection("group"),
+  getCollection("members"),
 ]);
 
 const memberIDs = new Set(members.map((member) => member.id));
@@ -22,7 +23,7 @@ const typeLabels: Record<string, string> = {
   "journal-article": "Journal article",
   "book-chapter": "Book chapter",
   "edited-book": "Edited book",
-  preprint: "Preprint",
+  "preprint": "Preprint",
   "posted-content": "Preprint",
   "proceedings-article": "Conference paper",
   "conference-contribution": "Conference presentation",
@@ -92,7 +93,7 @@ const description =
   "Publications from our research in intelligent modelling, chemical engineering and process systems.";
 ---
 
-<Layout title="Publications" description={description}>
+<Layout title="Our Publications" description={description}>
   <main class="publications-page" data-publications>
     <header class="page-header">
       <p class="eyebrow">Research outputs</p>
@@ -199,99 +200,15 @@ const description =
               <span data-year-count>{group.papers.length}</span>
             </header>
             <ul class="publication-list">
-              {group.papers.map(
-                ({ entry, Content, topics, year, typeLabel, searchText }) => {
-                  const data = entry.data;
-                  const href = data.doi ?? data.scholarUrl;
-                  return (
-                    <li
-                      class="publication"
-                      data-paper
-                      data-year={year}
-                      data-topics={JSON.stringify(topics)}
-                      data-search={searchText}
-                      data-authors={JSON.stringify(
-                        data.authors.map(memberIDFor),
-                      )}
-                    >
-                      <article aria-labelledby={`publication-${entry.id}`}>
-                        <div class="paper-meta">
-                          {/* <span class="paper-type">{typeLabel}</span> */}
-                          <span class="paper-type">
-                            {data.journal ?? data.venue}
-                          </span>
-                          {data.publicationDate && (
-                            <time datetime={data.publicationDate}>
-                              {`${months[new Date(data.publicationDate).getMonth()]} ${new Date(data.publicationDate).getFullYear()}`}
-                            </time>
-                          )}
-                        </div>
-                        <h3 id={`publication-${entry.id}`}>
-                          <a href={href}>{data.title}</a>
-                        </h3>
-                        <p class="authors">
-                          {data.authorRole === "editors" && (
-                            <span>Edited by </span>
-                          )}
-                          {data.authors.map((id, index) => (
-                            <Fragment>
-                              {index > 0 && ", "}
-                              {memberIDs.has(memberIDFor(id)) ? (
-                                <a href={`/group/${memberIDFor(id)}/`}>
-                                  {data.authorNames[id] ?? id}
-                                </a>
-                              ) : (
-                                <span>{data.authorNames[id] ?? id}</span>
-                              )}
-                            </Fragment>
-                          ))}
-                        </p>
-                        {/* {(data.journal || data.venue) && (
-                          <p class="venue">{data.journal ?? data.venue}</p>
-                        )} */}
-                        {/* <div class="paper-footer">
-                          <ul
-                            class="topic-tags"
-                            aria-label="Related research areas"
-                          >
-                            {topics.map((id) => {
-                              const area = researchByID.get(id);
-                              return (
-                                area && (
-                                  <li>
-                                    <a href={`/research/${id}/`}>
-                                      {area.data.shortTitle ?? area.data.title}
-                                    </a>
-                                  </li>
-                                )
-                              );
-                            })}
-                          </ul>
-                          <a class="publication-link" href={href}>
-                            {data.doi ? "DOI" : "Publication record"}
-                            <span aria-hidden="true"> ↗</span>
-                            <span class="sr-only">: {data.title}</span>
-                          </a>
-                        </div> */}
-                        {/* {["original", "summary"].includes(
-                          data.abstractStatus,
-                        ) && (
-                          <details class="abstract">
-                            <summary>
-                              {data.abstractStatus === "summary"
-                                ? "Read summary"
-                                : "Read abstract"}
-                            </summary>
-                            <div class="abstract-body">
-                              <Content />
-                            </div>
-                          </details>
-                        )} */}
-                      </article>
-                    </li>
-                  );
-                },
-              )}
+              {group.papers.map(({ entry }) => (
+                <PublicationItem
+                  publication={entry}
+                  members={members}
+                  research={research}
+                  aliases={authorMemberAliases}
+                  headingID={`publication-${entry.id}`}
+                />
+              ))}
             </ul>
           </section>
         ))
@@ -387,6 +304,14 @@ const description =
         link.hidden = !counts.has(link.dataset.yearLink ?? "");
       count.textContent = `${visible} of ${papers.length} publications · newest first`;
       empty.hidden = visible !== 0;
+      root
+        ?.querySelectorAll<HTMLElement>("[data-author-id]")
+        .forEach((element) => {
+          element.classList.toggle(
+            "highlighted-author",
+            Boolean(author.value) && element.dataset.authorId === author.value,
+          );
+        });
       if (writeURL) {
         const url = new URL(window.location.href);
         for (const [key, value] of [
@@ -497,7 +422,7 @@ const description =
   h1 {
     margin: 0;
     font-size: var(--fs-title);
-    font-weight: 650;
+    font-weight: 600;
     letter-spacing: -0.045em;
     line-height: 1.1;
   }
@@ -525,7 +450,7 @@ const description =
   }
   label {
     font-size: var(--fs-small);
-    font-weight: 650;
+    font-weight: 600;
   }
   input,
   select,
@@ -534,7 +459,6 @@ const description =
   }
   input,
   select {
-    box-sizing: border-box;
     width: 100%;
     min-height: 44px;
     padding: 0.6rem 0.7rem;
@@ -637,13 +561,13 @@ const description =
     font-size: var(--fs-small);
   }
   .paper-type {
-    font-weight: 650;
+    font-weight: 600;
     color: var(--pub-accent);
   }
   h3 {
     margin: 0.45rem 0;
     font-size: var(--fs-subheading);
-    font-weight: 650;
+    font-weight: 600;
     line-height: 1.45;
     letter-spacing: -0.015em;
   }

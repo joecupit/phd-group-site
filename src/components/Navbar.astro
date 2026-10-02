@@ -17,10 +17,10 @@ const {
   skipTo = "#main-content",
   links = [
     { label: "Home", href: "/" },
-    { label: "Research", href: "/research/" },
-    { label: "Publications", href: "/publications/" },
-    { label: "Group", href: "/group/" },
-    { label: "Contact", href: "/contact/" },
+    { label: "Members", href: "/members" },
+    { label: "Research", href: "/research" },
+    { label: "Publications", href: "/publications" },
+    // { label: "Contact", href: "/contact" },
   ],
 } = Astro.props;
 const normalise = (path: string) => path.replace(/\/+$/, "") || "/";
@@ -133,14 +133,13 @@ const activeFor = (href: string) => {
     width: min(1180px, 100%);
     margin-inline: auto;
     padding: 1.25rem clamp(1rem, 4vw, 2.5rem);
-    box-sizing: border-box;
   }
   .brand {
     min-width: 0;
     max-width: 26ch;
     color: var(--clr-primary-dark);
     font-size: var(--fs-subheading);
-    font-weight: 650;
+    font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.35;
     text-decoration: none;
@@ -205,7 +204,7 @@ const activeFor = (href: string) => {
     background: var(--clr-primary);
     color: var(--clr-bg);
     border-radius: 4px;
-  } 
+  }
   .skip-link:focus {
     transform: translateY(0);
   }

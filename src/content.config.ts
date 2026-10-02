@@ -1,20 +1,23 @@
 import { defineCollection, reference, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-const group = defineCollection({
+const members = defineCollection({
   loader: glob({
-    base: "./src/content/group",
+    base: "./src/content/members",
     pattern: "**/*.{md,mdx}",
   }),
 
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      position: z.string(),
+      role: z.string(),
+      type: z.enum(["current", "alumni"]).default("current"),
       email: z.string(),
       summary: z.string().optional(),
       profileImage: image().optional(),
       links: z.record(z.string().url()).optional(),
+      startDate: z.coerce.date().optional(),
+      endDate: z.coerce.date().optional(),
     }),
 });
 
@@ -90,4 +93,4 @@ const research = defineCollection({
     }),
 });
 
-export const collections = { group, publications, research };
+export const collections = { members, publications, research };

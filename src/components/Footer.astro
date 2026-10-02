@@ -1,5 +1,10 @@
 ---
-import { LONG_TITLE, SHORT_TITLE } from "../consts";
+import {
+  LONG_TITLE,
+  SHORT_TITLE,
+  UNIVERSITY_NAME,
+  UNIVERSITY_URL,
+} from "../consts";
 import { getCollection } from "astro:content";
 
 interface FooterLink {
@@ -7,8 +12,7 @@ interface FooterLink {
   href: string;
 }
 interface Props {
-  groupName?: string;
-  description?: string;
+  department?: string;
   institution?: string;
   institutionHref?: string;
   email?: string;
@@ -16,22 +20,22 @@ interface Props {
   profileLinks?: FooterLink[];
 }
 const {
-  groupName = SHORT_TITLE,
-  description = "Machine Learning for Chemical and Biochemical Systems.",
-  institution = "The University of Manchester",
-  institutionHref = "https://www.manchester.ac.uk/",
+  department = "Department of Chemical Engineering",
+  institution = UNIVERSITY_NAME,
+  institutionHref = UNIVERSITY_URL,
   email = "dongda.zhang@manchester.ac.uk",
   links = [
-    { label: "Research", href: "/research/" },
-    { label: "Publications", href: "/publications/" },
-    { label: "Group", href: "/group/" },
-    { label: "Contact", href: "/contact/" },
+    { label: "Research", href: "/research" },
+    { label: "Publications", href: "/publications" },
+    { label: "Members", href: "/members" },
+    // { label: "Contact", href: "/contact" },
   ],
-  profileLinks = [
-    { label: "GitHub", href: "" },
-    { label: "LinkedIn", href: "" },
-    { label: "ORCID", href: "" },
-  ],
+  profileLinks = [],
+  // profileLinks = [
+  //   { label: "GitHub", href: "" },
+  //   { label: "LinkedIn", href: "" },
+  //   { label: "ORCID", href: "" },
+  // ],
 } = Astro.props;
 const researchAreas = (await getCollection("research")).sort(
   (a, b) => a.data.pos - b.data.pos || a.data.title.localeCompare(b.data.title),
@@ -43,74 +47,74 @@ const year = new Date().getFullYear();
   <div class="footer-inner">
     <div class="footer-main">
       <div class="group-info">
-        <p class="group-name">{groupName}</p>
-        <p class="description">{LONG_TITLE}</p>
+        <div>
+          <p class="group-name">{SHORT_TITLE}</p>
+          <p class="description">{LONG_TITLE}</p>
+        </div>
         {
-          institution && (
-            <p class="institution">
-              {institutionHref ? (
-                <a href={institutionHref}>{institution}</a>
-              ) : (
-                institution
+          email && (
+            <div class="contact-links">
+              <p class="contact-heading">
+                Contact:{" "}
+                <a class="email" href={`mailto:${email}`}>
+                  {email}
+                </a>
+              </p>
+            </div>
+          )
+        }
+        {
+          (department || institution) && (
+            <div class="institution">
+              {department && <p>{department}</p>}
+              {institution && (
+                <p>
+                  {institutionHref ? (
+                    <a href={institutionHref}>{institution}</a>
+                  ) : (
+                    institution
+                  )}
+                </p>
               )}
-            </p>
+            </div>
           )
         }
       </div>
-      <nav class="footer-navigation" aria-label="Footer navigation">
-        <p class="link-heading">Explore</p>
-        <ul>
-          {
-            links.map(({ label, href }) => (
-              <li>
-                <a href={href}>{label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      {
-        researchAreas.length > 0 && (
-          <nav class="research-navigation" aria-label="Research areas">
-            <p class="link-heading">Research areas</p>
-            <ul>
-              {researchAreas.map((area) => (
+      <div class="footer-links">
+        <nav class="footer-navigation" aria-label="Footer navigation">
+          <p class="link-heading">Explore</p>
+          <ul>
+            {
+              links.map(({ label, href }) => (
                 <li>
-                  <a href={`/research/${area.id}/`}>{area.data.title}</a>
+                  <a href={href}>{label}</a>
                 </li>
-              ))}
-            </ul>
-          </nav>
-        )
-      }
-      {
-        (email || profileLinks.length > 0) && (
-          <div class="contact-links">
-            <p class="contact-heading">Contact</p>
-            {email && (
-              <a class="email" href={`mailto:${email}`}>
-                {email}
-              </a>
-            )}
-            {profileLinks.length > 0 && (
-              <ul aria-label="Group profiles">
-                {profileLinks.map(({ label, href }) => (
+              ))
+            }
+          </ul>
+        </nav>
+        {
+          researchAreas.length > 0 && (
+            <nav class="research-navigation" aria-label="Research areas">
+              <p class="link-heading">Research areas</p>
+              <ul>
+                {researchAreas.map((area) => (
                   <li>
-                    <a href={href}>
-                      {label} <span aria-hidden="true">↗</span>
+                    <a href={`/research/${area.id}/`}>
+                      {area.data.shortTitle ?? area.data.title}
                     </a>
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-        )
-      }
+            </nav>
+          )
+        }
+      </div>
     </div>
     <div class="footer-bottom">
-      <p>© {year} {groupName}</p>
+      <p>© {year} {SHORT_TITLE}</p>
       <p>
-        A site by <a href="/group/joe-cupit">Joe Cupit</a>.
+        A site by <a href="/members/joe-cupit">Joe Cupit</a>.
       </p>
     </div>
   </div>
@@ -124,22 +128,25 @@ const year = new Date().getFullYear();
     width: min(1180px, 100%);
     margin-inline: auto;
     padding: 2.75rem clamp(1rem, 4vw, 2.5rem) 1.25rem;
-    box-sizing: border-box;
   }
   .footer-main {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 2rem 3rem;
     padding-bottom: 2.5rem;
   }
   .group-info {
-    flex: 2 1 340px;
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* flex: 2 1 340px; */
+    /* flex: 1; */
   }
   .group-name {
-    margin: 0 0 0.75rem;
+    /* margin: 0 0 0.75rem; */
     font-size: var(--fs-subheading);
-    font-weight: 650;
+    font-weight: 700;
   }
   .description {
     max-width: 48ch;
@@ -148,24 +155,30 @@ const year = new Date().getFullYear();
     color: var(--clr-text-light);
   }
   .institution {
-    margin: 0.9rem 0 0;
     color: var(--clr-text-light);
     line-height: 1.6;
   }
-  .footer-navigation {
-    flex: 1 1 120px;
+  .footer-links {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 4rem 5rem;
+    /* flex: 1; */
   }
+  .footer-navigation,
   .research-navigation {
-    flex: 1.5 1 240px;
-    min-width: 0;
+    text-align: right;
   }
   .research-navigation a {
     line-height: 1.5;
     overflow-wrap: anywhere;
+    text-wrap: nowrap;
   }
   .contact-links {
-    flex: 1 1 200px;
-    min-width: 0;
+    color: var(--clr-text-light);
+  }
+  .contact-links-inner {
+    display: flex;
+    /* justify-content: space-between; */
   }
   ul {
     display: grid;
@@ -174,16 +187,18 @@ const year = new Date().getFullYear();
     padding: 0;
     margin: 0;
   }
-  .link-heading,
-  .contact-heading {
+  .contact-links ul {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .link-heading {
     margin: 0 0 0.75rem;
     font-weight: 600;
     color: var(--clr-text-light);
   }
   .email {
     display: inline-block;
-    margin-bottom: 0.9rem;
-    overflow-wrap: anywhere;
+    text-wrap: nowrap;
   }
   a {
     color: inherit;

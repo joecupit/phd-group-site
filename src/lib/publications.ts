@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 
 export type Publication = CollectionEntry<"publications">;
-export type Member = CollectionEntry<"group">;
+export type Member = CollectionEntry<"members">;
 export type ResearchArea = CollectionEntry<"research">;
 export type OneOrMany<T> = T | T[];
 

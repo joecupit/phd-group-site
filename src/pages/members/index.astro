@@ -1,18 +1,34 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
+import { UNIVERSITY_NAME } from "../../consts";
 
-const members = (await getCollection("group")).sort((a, b) =>
+// : CollectionEntry<"members">
+const members = (await getCollection("members")).sort((a, b) =>
   a.data.name.localeCompare(b.data.name),
 );
-const isSupervisor = (position: string) => /\bsupervisor\b/i.test(position);
-const supervisors = members.filter((member) =>
-  isSupervisor(member.data.position),
-);
-const researchers = members.filter(
-  (member) => !isSupervisor(member.data.position),
-);
+const isSupervisor = (role: string) => /\bsupervisor\b/i.test(role);
+const current = members
+  .filter((member) => member.data.type !== "alumni")
+  .sort(
+    (a, b) =>
+      (a.data.startDate?.getTime() ?? Infinity) -
+        (b.data.startDate?.getTime() ?? Infinity) ||
+      a.data.name.localeCompare(b.data.name),
+  );
+const alumni = members
+  .filter((member) => member.data.type === "alumni")
+  .sort(
+    (a, b) =>
+      (b.data.endDate?.getTime() ?? -Infinity) -
+        (a.data.endDate?.getTime() ?? -Infinity) ||
+      a.data.name.localeCompare(b.data.name),
+  );
+
+const supervisors = current.filter((member) => isSupervisor(member.data.role));
+const researchers = current.filter((member) => !isSupervisor(member.data.role));
+
 const sections = [
   {
     id: "supervisors",
@@ -20,19 +36,21 @@ const sections = [
     members: supervisors,
   },
   { id: "team", title: "Research team", members: researchers },
+  { id: "alumni", title: "Alumni", members: alumni },
 ].filter((section) => section.members.length > 0);
 ---
 
 <Layout
-  title="The Group"
+  title="Group Members"
   description="Meet the people behind our research in intelligent systems and chemical engineering."
 >
   <main class="people-page">
     <header class="people-header">
-      <h1>The Group</h1>
+      <h1>Group Members</h1>
       <p>
-        We are an interdisciplinary research group working at the interface of
-        chemical engineering, sustainable manufacturing, and machine learning.
+        We are an interdisciplinary research group based at {UNIVERSITY_NAME} working
+        at the interface of chemical engineering, sustainable manufacturing, and machine
+        learning.
       </p>
     </header>
 
@@ -46,7 +64,7 @@ const sections = [
           <ul class="people-list">
             {section.members.map((member) => (
               <li class="person">
-                <a class="person-profile" href={`/group/${member.id}/`}>
+                <a class="person-profile" href={`/members/${member.id}`}>
                   <span class="portrait">
                     {member.data.profileImage ? (
                       <Image
@@ -69,7 +87,7 @@ const sections = [
                   </span>
                   <span class="person-name">{member.data.name}</span>
                 </a>
-                <span class="person-role">{member.data.position}</span>
+                <span class="person-role">{member.data.role}</span>
                 <a class="person-email" href={`mailto:${member.data.email}`}>
                   Email<span class="sr-only"> {member.data.name}</span>
                 </a>
@@ -93,7 +111,6 @@ const sections = [
     width: min(960px, 100%);
     margin-inline: auto;
     padding: 3rem clamp(1rem, 4vw, 2.5rem) 5rem;
-    box-sizing: border-box;
   }
   .people-header {
     display: block;
@@ -152,7 +169,8 @@ const sections = [
     height: var(--_size);
     border-radius: 0.5rem;
     overflow: hidden;
-    background: var(--clr-bg-light);
+    color: var(--clr-primary-dark);
+    background: var(--clr-bg-dark);
   }
   .portrait :global(img) {
     width: 100%;
