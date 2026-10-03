@@ -158,13 +158,13 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
                 />
               ))}
             </ul>
-            <div class="view-all-button">
-              {viewAllHref && includeButton && (
+            {viewAllHref && includeButton && (
+              <div class="view-all-button">
                 <Button href={viewAllHref} icon="arrow" size="small">
                   {viewAllLabel}
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         ))
       ) : (

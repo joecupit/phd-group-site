@@ -3,14 +3,15 @@ import ArrowRightIcon from "../assets/icons/ArrowRightIcon.astro";
 
 interface Props {
   href: string;
+  fill?: "empty" | "solid";
   size?: "big" | "small";
   color?: "white";
   icon?: "arrow";
 }
-const { href, size, color, icon } = Astro.props as Props;
+const { href, fill, size, color, icon } = Astro.props as Props;
 ---
 
-<a href={href} class={"button" + (size ? ` ${size}` : "") + (color ? ` ${color}` : "")}>
+<a href={href} class={"button" + (fill ? ` ${fill}` : "") + (size ? ` ${size}` : "") + (color ? ` ${color}` : "")}>
     <slot />
     {icon === "arrow" ? <ArrowRightIcon /> : <></>}
 </a>
@@ -28,7 +29,6 @@ const { href, size, color, icon } = Astro.props as Props;
 
         font-family: var(--ff-body);
         font-size: var(--fs-body);
-        font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
 
@@ -50,9 +50,23 @@ const { href, size, color, icon } = Astro.props as Props;
         }
     }
 
+    /* fills */
+    .button.solid {
+        color: var(--clr-bg);
+        background: var(--clr-primary);
+
+        &:hover {
+            background: var(--clr-primary-dark);
+            border-color: var(--clr-primary-dark);
+        }
+    }
+
     /* sizes */
+    .button.small {
+        font-size: var(--fs-small);
+    }
     .button.big {
-        font-size: 1.125rem;
+        font-size: var(--fs-subheading);
     }
 
     /* colours */

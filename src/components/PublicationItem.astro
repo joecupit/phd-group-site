@@ -181,13 +181,14 @@ const Content = abstract?.Content;
 </li>
 <style>
   .publication {
-    padding: 1.45rem 0;
+    padding-block: 1.45rem;
     border-bottom: 1px solid var(--clr-border);
     color: var(--clr-text);
     min-width: 0;
 
     &:last-child {
       border: none;
+      padding-block-end: 0;
     }
   }
   .publication[hidden] {
