@@ -176,12 +176,8 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
 }
 <style>
   .publication-section {
-    --pub-accent: var(--clr-primary, #245f51);
-    --pub-ink: var(--clr-text, #183b36);
-    --pub-muted: var(--clr-text-light, #536760);
-    --pub-border: var(--clr-border, #dce5e2);
     min-width: 0;
-    color: var(--pub-ink);
+    color: var(--clr-text);
   }
   .section-heading {
     display: flex;
@@ -199,17 +195,17 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
     line-height: 1.3;
   }
   .view-all {
-    color: var(--pub-accent);
+    color: var(--clr-primary);
     font-size: var(--fs-small);
     text-underline-offset: 3px;
   }
   .view-all:focus-visible {
-    outline: 3px solid var(--pub-accent);
+    outline: 3px solid var(--clr-primary);
     outline-offset: 3px;
   }
   .count {
     margin: 0.5rem 0 0;
-    color: var(--pub-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
   }
   .publication-list {
@@ -233,7 +229,7 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
     display: flex;
     align-items: center;
     gap: 0.65rem;
-    border-bottom: 2px solid var(--pub-ink);
+    border-bottom: 2px solid var(--clr-text);
     padding: 1rem 0 0.6rem;
   }
   .year-heading :is(h3, h4, h5) {
@@ -243,12 +239,12 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
     scroll-margin-top: 6rem;
   }
   .year-heading > span {
-    color: var(--pub-muted);
+    color: var(--clr-text-light);
     font-size: var(--fs-small);
   }
   .empty-message {
     margin: 1.2rem 0;
-    color: var(--pub-muted);
+    color: var(--clr-text-light);
     line-height: 1.6;
   }
 </style>
