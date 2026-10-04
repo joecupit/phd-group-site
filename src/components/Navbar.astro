@@ -1,5 +1,5 @@
 ---
-import { SHORT_TITLE } from "../consts";
+import { SHORT_TITLE, URL_BASE } from "../consts";
 
 interface NavLink {
   label: string;
@@ -13,14 +13,14 @@ interface Props {
 }
 const {
   groupName = SHORT_TITLE,
-  homeHref = "/",
+  homeHref = `${URL_BASE}/`,
   skipTo = "#main-content",
   links = [
-    { label: "Home", href: "/" },
-    { label: "Members", href: "/members" },
-    { label: "Research", href: "/research" },
-    { label: "Publications", href: "/publications" },
-    // { label: "Contact", href: "/contact" },
+    { label: "Home", href: `${URL_BASE}/` },
+    { label: "Members", href: `${URL_BASE}/members` },
+    { label: "Research", href: `${URL_BASE}/research` },
+    { label: "Publications", href: `${URL_BASE}/publications` },
+    // { label: "Contact", href: `${URL_BASE}/contact` },
   ],
 } = Astro.props;
 const normalise = (path: string) => path.replace(/\/+$/, "") || "/";
@@ -30,7 +30,8 @@ const activeFor = (href: string) => {
   if (target.origin !== Astro.url.origin) return false;
   const path = normalise(target.pathname);
   return (
-    currentPath === path || (path !== "/" && currentPath.startsWith(`${path}/`))
+    currentPath === path ||
+    (path !== `${URL_BASE}/` && currentPath.startsWith(`${path}/`))
   );
 };
 ---

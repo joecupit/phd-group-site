@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import { UNIVERSITY_NAME } from "../../consts";
+import { UNIVERSITY_NAME, URL_BASE } from "../../consts";
 
 // : CollectionEntry<"members">
 const members = (await getCollection("members")).sort((a, b) =>
@@ -64,7 +64,10 @@ const sections = [
           <ul class="people-list">
             {section.members.map((member) => (
               <li class="person">
-                <a class="person-profile" href={`/members/${member.id}`}>
+                <a
+                  class="person-profile"
+                  href={`${URL_BASE}/members/${member.id}`}
+                >
                   <span class="portrait">
                     {member.data.profileImage ? (
                       <Image

@@ -9,6 +9,7 @@ import {
   type Member,
   type ResearchArea,
 } from "../lib/publications";
+import { URL_BASE } from "../consts";
 
 interface Props {
   publication: Publication;
@@ -32,8 +33,8 @@ const {
   members: suppliedMembers,
   research: suppliedResearch,
   aliases = authorMemberAliases,
-  memberHref = (id) => `/members/${id}`,
-  researchHref = (id) => `/research/${id}`,
+  memberHref = (id) => `${URL_BASE}/members/${id}`,
+  researchHref = (id) => `${URL_BASE}/research/${id}`,
   publicationHref = (entry) => entry.data.doi ?? entry.data.scholarUrl,
   headingLevel = 3,
   headingID = `publication-${crypto.randomUUID()}`,

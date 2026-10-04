@@ -5,6 +5,7 @@ import Button from "../../components/Button.astro";
 import ArrowDownBoldIcon from "../../assets/icons/ArrowDownBoldIcon.astro";
 import ArrowUpRightIcon from "../../assets/icons/ArrowUpRightIcon.astro";
 import ArrowRightIcon from "../../assets/icons/ArrowRightIcon.astro";
+import { URL_BASE } from "../../consts";
 
 const [researchAreas, publications] = await Promise.all([
   getCollection("research"),
@@ -21,7 +22,7 @@ for (const publication of publications) {
     publicationCounts.set(id, (publicationCounts.get(id) ?? 0) + 1);
   }
 }
-const areaHref = (id: string) => `/research/${id}/`;
+const areaHref = (id: string) => `${URL_BASE}/research/${id}/`;
 const papersHref = (id: string) =>
   `/publications/?topic=${encodeURIComponent(id)}`;
 
@@ -148,7 +149,7 @@ const description =
           <Button href="#research-areas">
             Explore our research <ArrowDownBoldIcon />
           </Button>
-          <a class="text-link" href="/publications/"
+          <a class="text-link" href=`${URL_BASE}/publications/`
             >Browse publications <ArrowUpRightIcon />
           </a>
         </div>
@@ -300,7 +301,7 @@ const description =
                 <h2 id="examples-heading">Research examples</h2>
               </>
             </div>
-            <a class="text-link" href="/publications/">
+            <a class="text-link" href=`${URL_BASE}/publications/`>
               All publications <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -374,7 +375,7 @@ const description =
             challenges and opportunities to work with the group.
           </p>
         </div>
-        <Button href="/contact" icon="arrow"> Get in touch </Button>
+        <Button href=`${URL_BASE}/contact` />
       </div>
     </section>
   </div>

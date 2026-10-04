@@ -12,6 +12,7 @@ import GitHubIcon from "../assets/icons/GitHubIcon.astro";
 
 import { publicationFilterHref } from "../lib/publications";
 import ArrowLeftIcon from "../assets/icons/ArrowLeftIcon.astro";
+import { URL_BASE } from "../consts";
 interface Props {
   member: CollectionEntry<"members">;
 }
@@ -69,7 +70,7 @@ const hasBio = Boolean(member.body?.trim());
 >
   <div class="page-grid member-page">
     <section class="back-link">
-      <a href="/members"><ArrowLeftIcon /> All members</a>
+      <a href=`${URL_BASE}/members`><ArrowLeftIcon /> All members</a>
     </section>
     <section class="member-header-section">
       <div class="member-header">
@@ -142,7 +143,7 @@ const hasBio = Boolean(member.body?.trim());
         author={member.id}
         highlightAuthor={member.id}
         limit={4}
-        viewAllHref={publicationFilterHref("/publications", {
+        viewAllHref={publicationFilterHref(`${URL_BASE}/publications`, {
           author: member.id,
         })}
         viewAllLabel={`More publications from ${name}`}
@@ -200,6 +201,7 @@ const hasBio = Boolean(member.body?.trim());
       </section> -->
   </div>
 </Layout>
+
 <style>
   .member-page {
     --content-max-width: 930px;

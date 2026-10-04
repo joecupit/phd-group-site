@@ -4,6 +4,7 @@ import {
   SHORT_TITLE,
   UNIVERSITY_NAME,
   UNIVERSITY_URL,
+  URL_BASE,
 } from "../consts";
 import { getCollection } from "astro:content";
 
@@ -25,10 +26,10 @@ const {
   institutionHref = UNIVERSITY_URL,
   email = "dongda.zhang@manchester.ac.uk",
   links = [
-    { label: "Research", href: "/research" },
-    { label: "Publications", href: "/publications" },
-    { label: "Members", href: "/members" },
-    // { label: "Contact", href: "/contact" },
+    { label: "Research", href: `${URL_BASE}/research` },
+    { label: "Publications", href: `${URL_BASE}/publications` },
+    { label: "Members", href: `${URL_BASE}/members` },
+    // { label: "Contact", href: `${URL_BASE}/contact` },
   ],
   profileLinks = [],
   // profileLinks = [
@@ -100,7 +101,7 @@ const year = new Date().getFullYear();
               <ul>
                 {researchAreas.map((area) => (
                   <li>
-                    <a href={`/research/${area.id}/`}>
+                    <a href={`${URL_BASE}/research/${area.id}`}>
                       {area.data.shortTitle ?? area.data.title}
                     </a>
                   </li>
@@ -114,7 +115,7 @@ const year = new Date().getFullYear();
     <div class="footer-bottom">
       <p>© {year} {SHORT_TITLE}</p>
       <p>
-        A site by <a href="/members/joe-cupit">Joe Cupit</a>.
+        A site by <a href=`${URL_BASE}/members/joe-cupit`>Joe Cupit</a>.
       </p>
     </div>
   </div>

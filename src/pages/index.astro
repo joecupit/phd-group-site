@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import { LONG_TITLE } from "../consts";
+import { LONG_TITLE, URL_BASE } from "../consts";
 import PublicationList from "../components/PublicationList.astro";
 import Button from "../components/Button.astro";
 import ArrowRightIcon from "../assets/icons/ArrowRightIcon.astro";
@@ -9,14 +9,14 @@ import ArrowUpRightIcon from "../assets/icons/ArrowUpRightIcon.astro";
 
 const site = {
   groupName: LONG_TITLE, // Replace with your agreed group name.
-  groupHref: "/members",
-  publicationsHref: "/publications",
-  contactHref: "/contact",
+  groupHref: `${URL_BASE}/members`,
+  publicationsHref: `${URL_BASE}/publications`,
+  contactHref: `${URL_BASE}/contact`,
 };
 
 // Optional: a laboratory, group or research image from your public/ directory.
 const media: { hero?: { src: string; alt: string } } = {
-  // hero: { src: "/images/research.webp", alt: "[Describe the research shown]" },
+  // hero: { src: `${URL_BASE}/research.webp", alt: "[Describe the research shown]" },
 };
 const heroImage = media.hero;
 
@@ -29,35 +29,35 @@ interface Partner {
 const partners: Partner[] = [
   {
     name: "Unilever",
-    logo: "/images/logos/unilever.svg",
+    logo: `${URL_BASE}/images/logos/unilever.svg`,
   },
   {
     name: "BP",
-    logo: "/images/logos/bp.png",
+    logo: `${URL_BASE}/images/logos/bp.png`,
   },
   {
     name: "Croda",
-    logo: "/images/logos/croda.png",
+    logo: `${URL_BASE}/images/logos/croda.png`,
   },
   {
     name: "Johnson Matthey",
-    logo: "/images/logos/johnson-matthey.svg",
+    logo: `${URL_BASE}/images/logos/johnson-matthey.svg`,
   },
   {
     name: "Keit Industrial Analytics",
-    logo: "/images/logos/keit-industrial-analytics.png",
+    logo: `${URL_BASE}/images/logos/keit-industrial-analytics.png`,
   },
   {
     name: "Applied Materials",
-    logo: "/images/logos/applied-materials.png",
+    logo: `${URL_BASE}/images/logos/applied-materials.png`,
   },
   {
     name: "CPACT",
-    logo: "/images/logos/cpact.png",
+    logo: `${URL_BASE}/images/logos/cpact.png`,
   },
   {
     name: "CPACT",
-    logo: "/images/logos/cpact.png",
+    logo: `${URL_BASE}/images/logos/cpact.png`,
   },
 ];
 
@@ -76,21 +76,21 @@ const featuredResearch: Feature[] = [
     title: "Predicting performance across scales",
     description:
       "How can laboratory and pilot-scale data help predict industrial fermentation? We investigate hybrid models that combine process knowledge with data and adapt between scales.",
-    href: "/research/bioprocess-engineering/",
+    href: `${URL_BASE}/research/bioprocess-engineering/`,
   },
   {
     category: "Industrial analytics",
     title: "Making operational data useful",
     description:
       "Industrial sensor histories contain information about quality and equipment condition. We develop soft sensors and predictive-maintenance methods that make use of these records, including trajectories with missing failure labels.",
-    href: "/research/industrial-analytics/",
+    href: `${URL_BASE}/research/industrial-analytics/`,
   },
 ];
 
 const researchAreas = (await getCollection("research")).sort(
   (a, b) => a.data.pos - b.data.pos || a.data.title.localeCompare(b.data.title),
 );
-const researchHref = (id: string) => `/research/${id}`;
+const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
 ---
 
 <Layout>
@@ -108,10 +108,10 @@ const researchHref = (id: string) => `/research/${id}`;
             digital transformation of chemical and biochemical processes
           </p>
           <div class="button-row">
-            <Button href="/research" fill="solid">
+            <Button href=`${URL_BASE}/research` fill="solid">
               Explore our research <ArrowRightIcon />
             </Button>
-            <Button href="/members">Meet the group</Button>
+            <Button href=`${URL_BASE}/members`>Meet the group</Button>
           </div>
         </div>
         <!-- <div
@@ -232,7 +232,7 @@ const researchHref = (id: string) => `/research/${id}`;
                 manufacturing, and machine learning
               </p>
             </div>
-            <Button href="/research" size="small">
+            <Button href={`${URL_BASE}/research`} size="small">
               Explore our research <ArrowRightIcon />
             </Button>
           </div>
@@ -321,7 +321,7 @@ const researchHref = (id: string) => `/research/${id}`;
     } -->
 
     <section>
-      <PublicationList limit={4} viewAllHref="/publications">
+      <PublicationList limit={4} viewAllHref=`${URL_BASE}/publications`>
         <p slot="intro" class="section-intro">
           Explore our current body of work.
         </p>
