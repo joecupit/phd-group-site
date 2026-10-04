@@ -1,0 +1,238 @@
+---
+import { SHORT_TITLE } from "../consts";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+interface Props {
+  groupName?: string;
+  homeHref?: string;
+  links?: NavLink[];
+  skipTo?: string;
+}
+const {
+  groupName = SHORT_TITLE,
+  homeHref = "/",
+  skipTo = "#main-content",
+  links = [
+    { label: "Home", href: "/" },
+    { label: "Members", href: "/members" },
+    { label: "Research", href: "/research" },
+    { label: "Publications", href: "/publications" },
+    // { label: "Contact", href: "/contact" },
+  ],
+} = Astro.props;
+const normalise = (path: string) => path.replace(/\/+$/, "") || "/";
+const currentPath = normalise(Astro.url.pathname);
+const activeFor = (href: string) => {
+  const target = new URL(href, Astro.url);
+  if (target.origin !== Astro.url.origin) return false;
+  const path = normalise(target.pathname);
+  return (
+    currentPath === path || (path !== "/" && currentPath.startsWith(`${path}/`))
+  );
+};
+---
+
+<header class="site-header">
+  <a class="skip-link" href={skipTo}>Skip to content</a>
+  <group-navigation class="navigation" data-open="false">
+    <a class="brand" href={homeHref}>{groupName}</a>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-navigation"
+      hidden
+    >
+      <span>Menu</span><span class="menu-icon" aria-hidden="true"
+        ><span></span><span></span></span
+      >
+    </button>
+    <nav id="site-navigation" class="nav-links" aria-label="Main navigation">
+      {
+        links.map(({ label, href }) => (
+          <a href={href} aria-current={activeFor(href) ? "page" : undefined}>
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+  </group-navigation>
+</header>
+
+<script>
+  class GroupNavigation extends HTMLElement {
+    private controller?: AbortController;
+    connectedCallback() {
+      this.controller?.abort();
+      const controller = new AbortController();
+      this.controller = controller;
+      const button = this.querySelector<HTMLButtonElement>(".menu-toggle");
+      const nav = this.querySelector<HTMLElement>("nav");
+      if (!button || !nav) return;
+      const mobile = window.matchMedia("(max-width: 760px)");
+      const setOpen = (open: boolean) => {
+        this.dataset.open = String(open);
+        button.setAttribute("aria-expanded", String(open));
+      };
+      setOpen(false);
+      this.dataset.enhanced = "true";
+      button.hidden = false;
+      button.addEventListener(
+        "click",
+        () => setOpen(this.dataset.open !== "true"),
+        { signal: controller.signal },
+      );
+      this.addEventListener(
+        "keydown",
+        (event) => {
+          if (event.key === "Escape" && this.dataset.open === "true") {
+            setOpen(false);
+            button.focus();
+          }
+        },
+        { signal: controller.signal },
+      );
+      nav.addEventListener(
+        "click",
+        (event) => {
+          if (event.target instanceof Element && event.target.closest("a"))
+            setOpen(false);
+        },
+        { signal: controller.signal },
+      );
+      mobile.addEventListener("change", () => setOpen(false), {
+        signal: controller.signal,
+      });
+    }
+    disconnectedCallback() {
+      this.controller?.abort();
+    }
+  }
+  if (!customElements.get("group-navigation"))
+    customElements.define("group-navigation", GroupNavigation);
+</script>
+
+<style>
+  .site-header {
+    /* position: relative; */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--clr-border);
+    background: var(--clr-bg);
+    color: var(--clr-text);
+  }
+  .navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: min(1180px, 100%);
+    margin-inline: auto;
+    padding: 1.25rem clamp(1rem, 4vw, 2.5rem);
+  }
+  .brand {
+    min-width: 0;
+    max-width: 26ch;
+    color: var(--clr-primary-dark);
+    font-size: var(--fs-subheading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.35rem 1.3rem;
+  }
+  .nav-links a {
+    padding: 0.4rem 0;
+    color: var(--clr-text-light);
+    text-decoration: none;
+    text-underline-offset: 6px;
+    white-space: nowrap;
+  }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] {
+    color: var(--clr-text);
+    text-decoration: underline;
+  }
+  .nav-links a[aria-current="page"] {
+    font-weight: 600;
+  }
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.7rem;
+    background: transparent;
+    border: 1px solid var(--clr-border);
+    border-radius: 5px;
+    color: var(--clr-text);
+    font: inherit;
+    cursor: pointer;
+  }
+  .menu-icon {
+    display: grid;
+    gap: 5px;
+    width: 16px;
+  }
+  .menu-icon span {
+    display: block;
+    height: 1px;
+    background: currentColor;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  .skip-link {
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    z-index: 10;
+    transform: translateY(-200%);
+    padding: 0.65rem 1rem;
+    background: var(--clr-primary);
+    color: var(--clr-bg);
+    border-radius: 4px;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+  @media (max-width: 760px) {
+    .navigation {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .brand {
+      flex: 1;
+    }
+    .nav-links {
+      flex: 0 0 100%;
+      justify-content: flex-start;
+      gap: 0.3rem 1.3rem;
+      padding-top: 0.3rem;
+    }
+    .navigation[data-enhanced="true"] .menu-toggle {
+      display: inline-flex;
+    }
+    .navigation[data-enhanced="true"][data-open="false"] .nav-links {
+      display: none;
+    }
+    .navigation[data-enhanced="true"][data-open="true"] .nav-links {
+      display: flex;
+    }
+  }
+  [hidden] {
+    display: none !important;
+  }
+</style>

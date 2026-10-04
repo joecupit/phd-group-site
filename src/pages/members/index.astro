@@ -1,0 +1,288 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { UNIVERSITY_NAME } from "../../consts";
+
+// : CollectionEntry<"members">
+const members = (await getCollection("members")).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+const isSupervisor = (role: string) => /\bsupervisor\b/i.test(role);
+const current = members
+  .filter((member) => member.data.type !== "alumni")
+  .sort(
+    (a, b) =>
+      (a.data.startDate?.getTime() ?? Infinity) -
+        (b.data.startDate?.getTime() ?? Infinity) ||
+      a.data.name.localeCompare(b.data.name),
+  );
+const alumni = members
+  .filter((member) => member.data.type === "alumni")
+  .sort(
+    (a, b) =>
+      (b.data.endDate?.getTime() ?? -Infinity) -
+        (a.data.endDate?.getTime() ?? -Infinity) ||
+      a.data.name.localeCompare(b.data.name),
+  );
+
+const supervisors = current.filter((member) => isSupervisor(member.data.role));
+const researchers = current.filter((member) => !isSupervisor(member.data.role));
+
+const sections = [
+  {
+    id: "supervisors",
+    title: supervisors.length === 1 ? "Group supervisor" : "Group supervisors",
+    members: supervisors,
+  },
+  { id: "team", title: "Current members", members: researchers },
+  { id: "alumni", title: "Group alumni", members: alumni },
+].filter((section) => section.members.length > 0);
+---
+
+<Layout
+  title="Group Members"
+  description="Meet the people behind our research in intelligent systems and chemical engineering."
+>
+  <div class="page-grid people-page">
+    <section class="people-header">
+      <h1>Group Members</h1>
+      <p>
+        We are an interdisciplinary research group based at {UNIVERSITY_NAME} working
+        at the interface of chemical engineering, sustainable manufacturing, and machine
+        learning.
+      </p>
+    </section>
+
+    {
+      sections.map((section) => (
+        <section
+          class="people-section"
+          aria-labelledby={`${section.id}-heading`}
+        >
+          <h2 id={`${section.id}-heading`}>{section.title}</h2>
+          <ul class="people-list">
+            {section.members.map((member) => (
+              <li class="person">
+                <a class="person-profile" href={`/members/${member.id}`}>
+                  <span class="portrait">
+                    {member.data.profileImage ? (
+                      <Image
+                        src={member.data.profileImage}
+                        alt=""
+                        width={144}
+                        height={144}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="initials" aria-hidden="true">
+                        {member.data.name
+                          .split(/\s+/)
+                          .filter(Boolean)
+                          .map((part) => part[0])
+                          .slice(0, 2)
+                          .join("")}
+                      </span>
+                    )}
+                  </span>
+                  <span class="person-name">{member.data.name}</span>
+                </a>
+                <span class="person-role">{member.data.role}</span>
+                <a class="person-email" href={`mailto:${member.data.email}`}>
+                  Email<span class="sr-only"> {member.data.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    {
+      members.length === 0 && (
+        <section>Member profiles will appear here as they are added.</section>
+      )
+    }
+
+    <section>
+      <h2>Interested in joining?</h2>
+      <p>
+        Email <a href="mailto:dongda.zhang@manchester.ac.uk"
+          >dongda.zhang@manchester.ac.uk</a
+        >.
+      </p>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .people-page {
+    --content-max-width: 960px;
+  }
+  section {
+    padding-block: 3.5rem;
+    /* border-block-end: 1px solid var(--clr-border); */
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  .people-header {
+    border: none;
+    padding-block-end: 2rem;
+  }
+  h1 {
+    /* margin: 0 0 1rem; */
+    font-size: var(--fs-title);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+  }
+  .people-header p {
+    max-width: 65ch;
+    margin: 0;
+    color: var(--clr-text-light);
+    font-size: var(--fs-subheading);
+    line-height: 1.7;
+  }
+  .people-section {
+    padding-block: 1.5rem;
+
+    &:last-child {
+      padding-block-end: 3.5rem;
+    }
+  }
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: var(--fs-heading);
+    font-weight: 600;
+  }
+  .people-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .person {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 0.5rem 1.5rem;
+    align-items: center;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--clr-border);
+
+    &:last-child {
+      border: none;
+    }
+  }
+  .person-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+    color: var(--clr-primary-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .portrait {
+    display: grid;
+    place-items: center;
+    --_size: 6rem;
+    flex: 0 0 var(--_size);
+    width: var(--_size);
+    height: var(--_size);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    color: var(--clr-primary-dark);
+    background: var(--clr-bg-dark);
+  }
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .initials {
+    color: var(--clr-primary-dark);
+    font-size: var(--fs-heading);
+  }
+  .person-name {
+    color: var(--clr-text);
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .person-profile:hover .person-name {
+    text-decoration: underline;
+  }
+  .person-role {
+    color: var(--clr-text-light);
+    overflow-wrap: anywhere;
+  }
+  .person-email {
+    color: var(--clr-primary-dark);
+  }
+  a {
+    text-underline-offset: 4px;
+  }
+  a:focus-visible {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 600px) {
+    .person {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .person-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+      color: var(--clr-primary-dark);
+      text-decoration: none;
+    }
+    .portrait {
+      display: grid;
+      place-items: center;
+      flex: 0 0 72px;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--clr-bg-light);
+    }
+    .portrait :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .initials {
+      color: var(--clr-primary-dark);
+      font-size: var(--fs-heading);
+    }
+    .person-name {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .person-role {
+      grid-column: 1;
+      grid-row: 2;
+      padding-left: calc(72px + 1rem);
+    }
+    .person-email {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+</style>

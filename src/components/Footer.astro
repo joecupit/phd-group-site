@@ -1,159 +1,239 @@
 ---
-import { getCollection } from 'astro:content';
-import { SITE_TITLE } from '../consts';
+import {
+  LONG_TITLE,
+  SHORT_TITLE,
+  UNIVERSITY_NAME,
+  UNIVERSITY_URL,
+} from "../consts";
+import { getCollection } from "astro:content";
 
-const researchAreas = (await getCollection("research")).sort((a, b) => a.data.pos - b.data.pos);
+interface FooterLink {
+  label: string;
+  href: string;
+}
+interface Props {
+  department?: string;
+  institution?: string;
+  institutionHref?: string;
+  email?: string;
+  links?: FooterLink[];
+  profileLinks?: FooterLink[];
+}
+const {
+  department = "Department of Chemical Engineering",
+  institution = UNIVERSITY_NAME,
+  institutionHref = UNIVERSITY_URL,
+  email = "dongda.zhang@manchester.ac.uk",
+  links = [
+    { label: "Research", href: "/research" },
+    { label: "Publications", href: "/publications" },
+    { label: "Members", href: "/members" },
+    // { label: "Contact", href: "/contact" },
+  ],
+  profileLinks = [],
+  // profileLinks = [
+  //   { label: "GitHub", href: "" },
+  //   { label: "LinkedIn", href: "" },
+  //   { label: "ORCID", href: "" },
+  // ],
+} = Astro.props;
+const researchAreas = (await getCollection("research")).sort(
+  (a, b) => a.data.pos - b.data.pos || a.data.title.localeCompare(b.data.title),
+);
+const year = new Date().getFullYear();
 ---
 
-<footer>
-    <div class="contact">
-        <h2>Get in touch</h2>
-        <p>If you want to know more about us and our research, please email <a href="mailto:dongda.zhang@manchester.ac.uk">dongda.zhang@manchester.ac.uk</a>.</p>
-    </div>
-    <div class="base">
-        <div class="main">
-            <h2>{SITE_TITLE}</h2>
-            <div class="main-right">
-                <div>
-                    <h3 class="caps-title">Research Areas</h3>
-                    <ul>
-                        {researchAreas.map((researchArea) => {
-                            return (
-                                <li><a href={`/phd-group-site/research/${researchArea.id}`}>{researchArea.data.shortTitle}</a></li>
-                            )
-                        })}
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="caps-title">About Us</h3>
-                    <ul>
-                        <li><a href="/phd-group-site/">Home</a></li>
-                        <li><a href="/phd-group-site/about">About</a></li>
-                        <li><a href="/phd-group-site/research">Research</a></li>
-                        <li><a href="/phd-group-site/group">Group</a></li>
-                        <li><a href="/phd-group-site/publications">Publications</a></li>
-                    </ul>
-                </div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-main">
+      <div class="group-info">
+        <div>
+          <p class="group-name">{SHORT_TITLE}</p>
+          <p class="description">{LONG_TITLE}</p>
+        </div>
+        {
+          email && (
+            <div class="contact-links">
+              <p class="contact-heading">
+                Contact:{" "}
+                <a class="email" href={`mailto:${email}`}>
+                  {email}
+                </a>
+              </p>
             </div>
-        </div>
-        <div class="copy">
-            <p>&copy; {new Date().getFullYear()} {SITE_TITLE}</p>
-            <p>Designed & developed by <a href="/phd-group-site/group/joe-cupit">Joe Cupit</a>.</p>
-        </div>
+          )
+        }
+        {
+          (department || institution) && (
+            <div class="institution">
+              {department && <p>{department}</p>}
+              {institution && (
+                <p>
+                  {institutionHref ? (
+                    <a href={institutionHref}>{institution}</a>
+                  ) : (
+                    institution
+                  )}
+                </p>
+              )}
+            </div>
+          )
+        }
+      </div>
+      <div class="footer-links">
+        <nav class="footer-navigation" aria-label="Footer navigation">
+          <p class="link-heading">Explore</p>
+          <ul>
+            {
+              links.map(({ label, href }) => (
+                <li>
+                  <a href={href}>{label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        {
+          researchAreas.length > 0 && (
+            <nav class="research-navigation" aria-label="Research areas">
+              <p class="link-heading">Research areas</p>
+              <ul>
+                {researchAreas.map((area) => (
+                  <li>
+                    <a href={`/research/${area.id}/`}>
+                      {area.data.shortTitle ?? area.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )
+        }
+      </div>
     </div>
+    <div class="footer-bottom">
+      <p>© {year} {SHORT_TITLE}</p>
+      <p>
+        A site by <a href="/members/joe-cupit">Joe Cupit</a>.
+      </p>
+    </div>
+  </div>
 </footer>
 <style>
-    footer {
-        --content-max-width: 1350px;
-        background: var(--clr-bg-dark);
+  .site-footer {
+    border-top: 1px solid var(--clr-border);
+    background: var(--clr-bg-dark);
+  }
+  .footer-inner {
+    padding: 2.75rem clamp(1rem, 4vw, 2.5rem) 1.25rem;
+  }
+  .footer-main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    padding-bottom: 2.5rem;
+  }
+  .group-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* flex: 2 1 340px; */
+    /* flex: 1; */
+  }
+  .group-name {
+    /* margin: 0 0 0.75rem; */
+    font-size: var(--fs-subheading);
+    font-weight: 700;
+  }
+  .description {
+    max-width: 48ch;
+    margin: 0;
+    line-height: 1.7;
+    color: var(--clr-text-light);
+  }
+  .institution {
+    color: var(--clr-text-light);
+    line-height: 1.6;
+  }
+  .footer-links {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: 4rem 5rem;
+    /* flex: 1; */
+  }
+  .footer-navigation,
+  .research-navigation {
+    text-align: right;
+  }
+  .research-navigation a {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    text-wrap: nowrap;
+  }
+  .contact-links {
+    color: var(--clr-text-light);
+  }
+  .contact-links-inner {
+    display: flex;
+    /* justify-content: space-between; */
+  }
+  ul {
+    display: grid;
+    gap: 0.65rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .contact-links ul {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .link-heading {
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+    color: var(--clr-text-light);
+  }
+  .email {
+    display: inline-block;
+    text-wrap: nowrap;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    text-underline-offset: 4px;
+  }
+  a:hover {
+    text-decoration: underline;
+    color: var(--clr-primary);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-border);
+  }
+  .footer-bottom p {
+    margin: 0;
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+    line-height: 1.6;
+  }
+  .footer-bottom a {
+    font-size: var(--fs-small);
+  }
+  @media (max-width: 520px) {
+    .footer-main {
+      gap: 1.75rem;
     }
-
-	.contact {
-        display: grid;
-        align-items: center;
-        text-align: center;
-        gap: 0.5rem;
-
-		padding-block: 3rem;
-        padding-inline: 1rem;
-
-        & h2 {
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        & p {
-            max-width: none;
-        }
-	}
-
-    .main,
-    .copy {
-        display: flex;
-        gap: 2rem;
-        justify-content: space-between;
+    .group-info {
+      flex-basis: 100%;
     }
-    
-    .main {
-        text-align: left;
-
-        & h3 {
-            margin-block-end: 0.5rem;
-            font-size: 0.9rem;
-            color: inherit;
-            opacity: 0.7;
-        }
-        & ul {
-            display: grid;
-            gap: 0.125rem;
-            list-style: none;
-            font-weight: 500;
-        }
-        & a {
-            text-decoration: none;
-            min-width: fit-content;
-        }
-    }
-    .main-right {
-        display: flex;
-        gap: 5rem;
-        text-align: right;
-    }
-
-    .base {
-        display: inherit;
-        grid-template-columns: inherit;
-        grid-column: full-width;
-		row-gap: 5rem;
-
-        padding-block: 2rem 1rem;
-
-        color: var(--clr-bg);
-        background: var(--clr-primary);
-
-
-        & h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        & a {
-            color: inherit;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-        > * {
-            grid-column: content;
-            flex-wrap: wrap-reverse;
-        }
-    }
-    .copy {
-        font-size: 0.9rem;
-        opacity: 0.8;
-    }
-
-    @media (max-width: 40rem) {
-        .base {
-            padding-block-start: 2.5rem;
-            row-gap: 4rem;
-        }
-
-        .main,
-        .main-right {
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            align-items: center;
-            text-align: center;
-        }
-
-        .copy {
-            display: flex;
-            gap: 0.375lh;
-            flex-direction: column-reverse;
-            text-align: center;
-            padding-block: 0.5lh;
-        }
-    }
+  }
 </style>

@@ -4,7 +4,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/manrope-v20-latin-regular.woff2") format("woff2"),
+  src:
+    url("/fonts/manrope-v20-latin-regular.woff2") format("woff2"),
     url("/fonts/manrope-v20-latin-regular.ttf") format("truetype");
 }
 
@@ -14,7 +15,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 500;
-  src: url("/fonts/manrope-v20-latin-500.woff2") format("woff2"),
+  src:
+    url("/fonts/manrope-v20-latin-500.woff2") format("woff2"),
     url("/fonts/manrope-v20-latin-500.ttf") format("truetype");
 }
 
@@ -24,7 +26,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/manrope-v20-latin-600.woff2") format("woff2"),
+  src:
+    url("/fonts/manrope-v20-latin-600.woff2") format("woff2"),
     url("/fonts/manrope-v20-latin-600.ttf") format("truetype");
 }
 
@@ -34,7 +37,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/manrope-v20-latin-700.woff2") format("woff2"),
+  src:
+    url("/fonts/manrope-v20-latin-700.woff2") format("woff2"),
     url("/fonts/manrope-v20-latin-700.ttf") format("truetype");
 }
 
@@ -44,7 +48,8 @@
   font-family: "Manrope";
   font-style: normal;
   font-weight: 800;
-  src: url("/fonts/manrope-v20-latin-800.woff2") format("woff2"),
+  src:
+    url("/fonts/manrope-v20-latin-800.woff2") format("woff2"),
     url("/fonts/manrope-v20-latin-800.ttf") format("truetype");
 }
 
@@ -54,7 +59,8 @@
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/work-sans-v24-latin-regular.woff2") format("woff2"),
+  src:
+    url("/fonts/work-sans-v24-latin-regular.woff2") format("woff2"),
     url("/fonts/work-sans-v24-latin-regular.ttf") format("truetype");
 }
 
@@ -64,7 +70,8 @@
   font-family: "Work Sans";
   font-style: italic;
   font-weight: 400;
-  src: url("/fonts/work-sans-v24-latin-italic.woff2") format("woff2"),
+  src:
+    url("/fonts/work-sans-v24-latin-italic.woff2") format("woff2"),
     url("/fonts/work-sans-v24-latin-italic.ttf") format("truetype");
 }
 
@@ -74,7 +81,8 @@
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 500;
-  src: url("/fonts/work-sans-v24-latin-500.woff2") format("woff2"),
+  src:
+    url("/fonts/work-sans-v24-latin-500.woff2") format("woff2"),
     url("/fonts/work-sans-v24-latin-500.ttf") format("truetype");
 }
 
@@ -84,31 +92,53 @@
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/work-sans-v24-latin-600.woff2") format("woff2"),
+  src:
+    url("/fonts/work-sans-v24-latin-600.woff2") format("woff2"),
     url("/fonts/work-sans-v24-latin-600.ttf") format("truetype");
 }
 
 :root {
-  --clr-bg: #f7f8fa;
+  /* --clr-bg: #f7f8fa;
   --clr-bg-dark: #eceff3;
 
   --clr-text: #1f2933;
   --clr-text-light: #4b5563;
 
-  /* --clr-primary: #1e3a5f;
-  --clr-primary-dark: #0b1e36; */
+  --clr-primary: #1e3a5f;
+  --clr-primary-dark: #0b1e36;
 
-  --clr-primary: hsl(160, 52%, 25%);
-  --clr-primary-dark: hsl(158, 69%, 13%);
+  --clr-primary: hsl(235, 48%, 41%);
+  --clr-primary-dark: hsl(234, 61%, 21%); */
 
-  --ff-body: "Work Sans", sans-serif;
-  --ff-heading: "Manrope", sans-serif;
+  --clr-text: #163330;
+  --clr-text-light: #52645f;
 
-  font-size: 18px;
-  line-height: 1.5;
+  --clr-primary-light: #9bd0b9;
+  --clr-primary: #1f7062;
+  --clr-primary-dark: #193e36;
+
+  --clr-border: #d8e1dc;
+  --clr-bg-light: #fefffe;
+  --clr-bg: #fbfcf9;
+  --clr-bg-dark: #edf3ee;
+
+  --fs-small: clamp(0.8rem, 1.5vw, 0.875rem);
+  --fs-body: clamp(0.9rem, 2vw, 1.05rem);
+  --fs-subheading: clamp(1.1rem, 2.25vw, 1.3rem);
+  --fs-heading: clamp(1.5rem, 2.5vw, 2rem);
+  --fs-title: clamp(2.5rem, 4.5vw, 4rem);
+
+  --ff-body: "Manrope", sans-serif;
+  --ff-heading: "Sora", sans-serif;
+  --ff-title: Georgia, "Times New Roman", serif;
+  /* --ff-body: "Source Sans 3", sans-serif;
+  --ff-heading: "Outfit", sans-serif; */
+
+  /* font-size: 16px; */
+  line-height: 1.6;
 }
 
-@media (max-width: 810px) {
+/* @media (max-width: 810px) {
   :root {
     font-size: 17px;
   }
@@ -117,7 +147,7 @@
   :root {
     font-size: 16px;
   }
-}
+} */
 
 * {
   margin: 0;
@@ -130,6 +160,7 @@ body {
   flex-direction: column;
   min-height: 100lvh;
 
+  font-size: var(--fs-body);
   font-family: var(--ff-body);
 
   color: var(--clr-text);
@@ -143,7 +174,7 @@ body {
 
 main {
   flex: 1;
-  margin-block-start: 5.5rem;
+  display: grid;
 }
 section,
 header,
@@ -151,7 +182,7 @@ footer,
 .page-grid {
   --page-padding: 3rem;
   --section-inline-padding: 1.5rem;
-  --content-max-width: 1200px;
+  --content-max-width: 1050px;
 
   @media (max-width: 41rem) {
     --section-inline-padding: 1rem;
@@ -176,7 +207,7 @@ footer > *,
 }
 header,
 footer {
-  --content-max-width: 1450px;
+  --content-max-width: 1100px;
 }
 
 section:first-child {
@@ -193,7 +224,7 @@ h4,
 h5,
 h6 {
   font-family: var(--ff-heading);
-  font-weight: 700;
+  font-weight: 600;
   max-width: 70ch;
   text-wrap: pretty;
 }
@@ -257,7 +288,7 @@ svg {
 }
 
 ::selection {
-  color: var(--clr-bg);
-  background: hsl(from var(--clr-primary) h s 35%);
+  color: var(--clr-primary);
+  background: hsl(from var(--clr-bg) h s 90%);
   /* background: var(--clr-text); */
 }

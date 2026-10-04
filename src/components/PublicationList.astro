@@ -1,0 +1,250 @@
+---
+import { getCollection } from "astro:content";
+import PublicationItem from "./PublicationItem.astro";
+import Button from "./Button.astro";
+import {
+  authorMemberAliases,
+  selectPublications,
+  sortPublications,
+  type Publication,
+  type PublicationFilters,
+} from "../lib/publications";
+
+interface Props extends PublicationFilters {
+  publications?: Publication[];
+  limit?: number | null;
+  order?: "newest" | "oldest" | "provided";
+  title?: string;
+  id?: string;
+  includeButton?: boolean;
+  headingLevel?: 2 | 3 | 4;
+  viewAllHref?: string;
+  viewAllLabel?: string;
+  showCount?: boolean;
+  groupByYear?: boolean;
+  hideWhenEmpty?: boolean;
+  emptyMessage?: string;
+  aliases?: Record<string, string>;
+  memberHref?: (id: string) => string;
+  researchHref?: (id: string) => string;
+  publicationHref?: (publication: Publication) => string;
+  dateFormat?: "month-year" | "year" | "iso";
+  showAuthors?: boolean;
+  highlightAuthor?: string;
+  showTopics?: boolean;
+  showAbstract?: boolean;
+  showPublicationLink?: boolean;
+}
+const {
+  publications: suppliedPublications,
+  limit = 4,
+  order = "newest",
+  title = "Recent publications",
+  id = `publications-${crypto.randomUUID()}`,
+  includeButton = false,
+  headingLevel = 2,
+  viewAllHref,
+  viewAllLabel = "View all publications",
+  showCount = false,
+  groupByYear = false,
+  hideWhenEmpty = false,
+  emptyMessage = "No publications to display yet.",
+  aliases = authorMemberAliases,
+  memberHref,
+  researchHref,
+  publicationHref,
+  dateFormat = "month-year",
+  showAuthors = true,
+  highlightAuthor = undefined,
+  showTopics = false,
+  showAbstract = false,
+  showPublicationLink = false,
+} = Astro.props;
+if (limit !== null && (!Number.isInteger(limit) || limit < 0))
+  throw new Error(
+    "PublicationList: limit must be a non-negative integer or null.",
+  );
+const [publications, members, research] = await Promise.all([
+  suppliedPublications ?? getCollection("publications"),
+  getCollection("members"),
+  getCollection("research"),
+]);
+const matching = sortPublications(
+  selectPublications(publications, Astro.props, aliases),
+  order,
+);
+const visible = limit === null ? matching : matching.slice(0, limit);
+const groups = groupByYear
+  ? [
+      ...new Set(
+        visible.map(
+          (entry) => entry.data.publicationDate?.slice(0, 4) ?? "undated",
+        ),
+      ),
+    ].map((year) => ({
+      year,
+      entries: visible.filter(
+        (entry) =>
+          (entry.data.publicationDate?.slice(0, 4) ?? "undated") === year,
+      ),
+    }))
+  : [{ year: "", entries: visible }];
+const Heading = `h${headingLevel}` as "h2" | "h3" | "h4";
+const YearHeading = `h${headingLevel + 1}` as "h3" | "h4" | "h5";
+const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
+  3 | 4 | 5 | 6;
+---
+
+{
+  (!hideWhenEmpty || visible.length > 0) && (
+    <div
+      class="publication-section"
+      id={id}
+      aria-labelledby={title ? `${id}-heading` : undefined}
+      aria-label={!title ? "Publications" : undefined}
+    >
+      {(title || viewAllHref || showCount) && (
+        <header class="section-heading">
+          <div>
+            {title && <Heading id={`${id}-heading`}>{title}</Heading>}
+            <slot name="intro" />
+            {showCount && (
+              <p class="count">
+                Showing {visible.length} of {matching.length}{" "}
+                {matching.length === 1 ? "publication" : "publications"}
+              </p>
+            )}
+          </div>
+          {viewAllHref && visible.length > 0 && (
+            <a class="view-all" href={viewAllHref}>
+              {viewAllLabel}
+              <span aria-hidden="true"> →</span>
+            </a>
+          )}
+        </header>
+      )}
+      {visible.length > 0 ? (
+        groups.map((group) => (
+          <div
+            class="publication-group"
+            data-year-group={groupByYear ? group.year : undefined}
+          >
+            {groupByYear && (
+              <header class="year-heading">
+                <YearHeading id={`${id}-year-${group.year}`}>
+                  {group.year === "undated" ? "Date not available" : group.year}
+                </YearHeading>
+                <span data-year-count>{group.entries.length}</span>
+              </header>
+            )}
+            <ul class="publication-list">
+              {group.entries.map((entry) => (
+                <PublicationItem
+                  publication={entry}
+                  members={members}
+                  research={research}
+                  aliases={aliases}
+                  memberHref={memberHref}
+                  researchHref={researchHref}
+                  publicationHref={publicationHref}
+                  headingLevel={itemHeadingLevel}
+                  headingID={`${id}-${entry.id}`}
+                  dateFormat={dateFormat}
+                  showAuthors={showAuthors}
+                  highlightAuthor={highlightAuthor}
+                  showTopics={showTopics}
+                  showAbstract={showAbstract}
+                  showPublicationLink={showPublicationLink}
+                />
+              ))}
+            </ul>
+            {viewAllHref && includeButton && (
+              <div class="view-all-button">
+                <Button href={viewAllHref} icon="arrow" size="small">
+                  {viewAllLabel}
+                </Button>
+              </div>
+            )}
+          </div>
+        ))
+      ) : (
+        <p class="empty-message">{emptyMessage}</p>
+      )}
+      <slot name="after" />
+    </div>
+  )
+}
+<style>
+  .publication-section {
+    min-width: 0;
+    color: var(--clr-text);
+  }
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .section-heading :is(h2, h3, h4) {
+    margin: 0;
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.3;
+  }
+  .view-all {
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    text-underline-offset: 3px;
+  }
+  .view-all:focus-visible {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 3px;
+  }
+  .count {
+    margin: 0.5rem 0 0;
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+  }
+  .publication-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .publication-group[hidden] {
+    display: none !important;
+  }
+  .publication-group + .publication-group {
+    margin-top: 2rem;
+  }
+  .view-all-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .year-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    border-bottom: 2px solid var(--clr-text);
+    padding: 1rem 0 0.6rem;
+  }
+  .year-heading :is(h3, h4, h5) {
+    margin: 0;
+    font-size: var(--fs-heading);
+    letter-spacing: -0.03em;
+    scroll-margin-top: 6rem;
+  }
+  .year-heading > span {
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+  }
+  .empty-message {
+    margin: 1.2rem 0;
+    color: var(--clr-text-light);
+    line-height: 1.6;
+  }
+</style>

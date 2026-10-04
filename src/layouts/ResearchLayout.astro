@@ -1,58 +1,464 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import PublicationList from "../components/PublicationList.astro";
+import { publicationFilterHref } from "../lib/publications";
 import Layout from "./Layout.astro";
 
-type Props = CollectionEntry<"research">["data"];
+interface Application {
+  title: string;
+  description: string;
+}
 
-const { title, summary } = Astro.props;
+interface Project {
+  title: string;
+  description: string;
+  people?: string;
+  href?: string;
+}
+
+interface Publication {
+  title: string;
+  authors: string;
+  year: number;
+  venue?: string;
+  href: string;
+}
+
+interface ResearchData {
+  id: string;
+  shortTitle?: string;
+  title: string;
+  subtitle: string;
+  summary: string;
+  focus?: string[];
+  applications?: Application[];
+  projects?: Project[];
+  publications?: Publication[];
+  related?: string[];
+  contact?: { label: string; href: string };
+}
+
+type Props = ResearchData | { frontmatter: ResearchData };
+const page =
+  "frontmatter" in Astro.props ? Astro.props.frontmatter : Astro.props;
+
+const {
+  id,
+  shortTitle,
+  title,
+  subtitle,
+  summary,
+  focus = [],
+  applications = [],
+  projects = [],
+  publications = [],
+  related = [],
+  contact,
+} = page;
+
+const relatedAreas = await Promise.all(
+  related.map((id) => getEntry("research", id)),
+);
+
+const hasBody = Astro.slots.has("default");
+const hasChallenge = Astro.slots.has("challenge");
+const hasApproach = Astro.slots.has("approach");
+
+const sections = [
+  ...(hasBody ? [{ id: "overview", label: "Research overview" }] : []),
+  ...(hasChallenge ? [{ id: "challenge", label: "The challenge" }] : []),
+  ...(hasApproach ? [{ id: "approach", label: "Our approach" }] : []),
+  ...(applications.length
+    ? [{ id: "applications", label: "Applications" }]
+    : []),
+  ...(projects.length ? [{ id: "projects", label: "Current projects" }] : []),
+  ...(publications.length
+    ? [{ id: "publications", label: "Publications" }]
+    : []),
+];
 ---
 
-<Layout>
-  <section class="hero-section">
-    <div class="hero">
+<Layout title={title}>
+  <div class="page-grid">
+    <section>
+      <div class="hero">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/research">Research Areas</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{title}</span>
+        </nav>
         <h1>{title}</h1>
-    </div>
-  </section>
+        <p class="subtitle">{subtitle}</p>
+      </div>
+    </section>
 
-  <section class="main-section">
-      <div class="md">
-        <!-- <p class="summary">
-            {summary}
-        </p> -->
-        <slot />
-    </div>
-  </section>
+    {
+      (summary || hasBody) && (
+        <section class="section" id="overview" aria-label="Research overview">
+          <div class="prose markdown-copy">
+            <p class="summary">{summary}</p>
+            <slot />
+          </div>
+        </section>
+      )
+    }
 
+    {
+      applications.length > 0 && (
+        <section
+          class="section"
+          id="applications"
+          aria-labelledby="applications-heading"
+        >
+          <div class="section-heading">
+            {/* <p class="eyebrow">Engineering applications</p> */}
+            <h2 id="applications-heading">Applications in industry</h2>
+          </div>
+          <div class="application-grid">
+            {applications.map((application, index) => (
+              <article class="application-card">
+                {/* <span class="application-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span> */}
+                <h3>{application.title}</h3>
+                <p>{application.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <section id="publications">
+      <PublicationList
+        researchArea={id}
+        title={`Recent relevant publications`}
+        limit={3}
+        viewAllHref={publicationFilterHref("/publications", {
+          topic: id,
+        })}
+        viewAllLabel={`More publications on ${(shortTitle ?? title).toLowerCase()}`}
+        includeButton={true}
+      >
+        <p slot="intro">
+          Our latest work in the area of {title.toLowerCase()}.
+        </p>
+      </PublicationList>
+    </section>
+
+    {
+      (relatedAreas.length > 0 || contact) && (
+        <section>
+          <div class="research-footer">
+            {relatedAreas.length > 0 && (
+              <div>
+                <h2>Related research areas</h2>
+                <ul class="related-list">
+                  {relatedAreas.map((area) => {
+                    if (area)
+                      return (
+                        <li>
+                          <a href={`/research/${area.id}`}>
+                            {area.data.title}
+                            <span aria-hidden="true"> ↗</span>
+                          </a>
+                        </li>
+                      );
+                  })}
+                </ul>
+              </div>
+            )}
+            {contact && (
+              <a class="contact-link" href={contact.href}>
+                {contact.label}
+                <span aria-hidden="true"> ↗</span>
+              </a>
+            )}
+          </div>
+        </section>
+      )
+    }
+  </div>
 </Layout>
 
 <style>
-    .hero-section {
-        grid-column: full-width;
-        background: var(--clr-bg-dark);
-        padding-block: calc(var(--page-padding) * 1.5);
-    }
-    .hero {
-        display: grid;
+  section {
+    padding-block: 3.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
 
-        & h1 {
-            font-size: clamp(2rem, 4vw, 3.25rem);
-            line-height: 1.3;
-            font-weight: 600;
-            max-width: 30ch;
-        }
+    &:last-child {
+      border: none;
     }
+  }
 
-    .main-section {
-        display: grid;
-        padding-block: 3rem;
-    }
+  h1,
+  h2,
+  h3 {
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  a {
+    color: inherit;
+  }
+  a:focus-visible {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
 
-    .md {
-        max-width: 70ch;
-    }
-    .summary {
-        font-size: 1.125rem;
-        font-weight: 600;
-    }
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+    font-size: var(--fs-small);
+    color: var(--clr-text-light);
 
+    & a {
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+    & [aria-current] {
+      overflow-wrap: anywhere;
+    }
+  }
+  .eyebrow {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clr-primary);
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  h1 {
+    max-width: 20ch;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    font-size: var(--fs-title);
+    /* font-weight: 400; */
+    letter-spacing: -0.035em;
+  }
+  .subtitle {
+    max-width: 40ch;
+    font-size: var(--fs-subheading);
+  }
+
+  .section-heading h2 {
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .prose {
+    min-width: 0;
+    max-width: 68ch;
+  }
+  .prose :global(p + p) {
+    /* margin-top: 0.5rem; */
+  }
+  .prose :global(p) {
+    margin: 0;
+  }
+  .prose :global(h3) {
+    margin: 1.7rem 0 0.65rem;
+    font-size: var(--fs-subheading);
+    line-height: 1.35;
+  }
+  .prose :global(h3:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 1rem 0;
+    padding-inline-start: 1.25rem;
+  }
+  .prose :global(li + li) {
+    margin-top: 0.6rem;
+  }
+  .prose :global(a) {
+    color: var(--clr-primary);
+    text-underline-offset: 3px;
+  }
+  .prose :global(a:focus-visible) {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  .prose :global(figure) {
+    margin: 1.5rem 0 0;
+  }
+  .prose :global(figcaption) {
+    margin-top: 0.6rem;
+    font-size: var(--fs-small);
+    color: var(--clr-text-light);
+  }
+  /* Markdown headings sit beside their content, using the same section grid. */
+  .markdown-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.5rem 3.5rem;
+    max-width: none;
+  }
+  .markdown-copy .summary {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+  .markdown-copy :global(> *) {
+    grid-column: 2;
+    min-width: 0;
+    max-width: 68ch;
+    margin: 0;
+  }
+  .markdown-copy .summary {
+    max-width: none;
+  }
+  .markdown-copy :global(> h2) {
+    grid-column: 1;
+    max-width: 18ch;
+    margin-top: 2rem;
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+  }
+  .markdown-copy :global(> h2:first-child),
+  .markdown-copy :global(> h2:first-child + *) {
+    margin-top: 0;
+  }
+  .markdown-copy :global(> p + p) {
+    margin-top: 0;
+  }
+  .markdown-copy :global(> h3) {
+    align-self: end;
+    margin: 1rem 0 0;
+  }
+  .markdown-copy :global(> h2 + *) {
+    margin-top: 2rem;
+  }
+  .markdown-copy :global(> ul),
+  .markdown-copy :global(> ol) {
+    margin: 0;
+  }
+  .markdown-copy :global(blockquote) {
+    padding-left: 1rem;
+    border-left: 3px solid var(--clr-primary);
+    color: var(--clr-text-light);
+  }
+  .markdown-copy :global(table) {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+  .markdown-copy :global(th),
+  .markdown-copy :global(td) {
+    padding: 0.6rem;
+    border: 1px solid var(--clr-border);
+    text-align: left;
+  }
+  .markdown-copy :global(pre) {
+    overflow-x: auto;
+    padding: 1rem;
+    border-radius: 0.35rem;
+  }
+  .approach-copy {
+    padding: 1.7rem 2rem;
+    background: var(--clr-bg-dark);
+    border-left: 3px solid var(--clr-primary);
+    border-radius: 0 0.35rem 0.35rem 0;
+  }
+
+  .application-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .application-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--clr-bg-dark);
+    border-radius: 0.35rem;
+  }
+  .application-number {
+    display: block;
+    margin-block-end: 0.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: var(--fs-heading);
+    line-height: 1;
+    color: var(--clr-primary);
+    opacity: 0.65;
+  }
+  .application-card h3,
+  .project-card h3 {
+    font-size: var(--fs-subheading);
+    color: var(--clr-primary-dark);
+    font-weight: 700;
+    text-wrap: wrap;
+  }
+  .application-card p,
+  .project-card > p {
+    color: var(--clr-text-light);
+  }
+
+  .research-page :global(p),
+  .research-page :global(h3),
+  .research-page :global(li) {
+    overflow-wrap: anywhere;
+  }
+
+  .research-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  .research-footer h2 {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    /* color: var(--clr-text-light); */
+  }
+  .related-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .related-list a {
+    text-underline-offset: 4px;
+  }
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--clr-text);
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: var(--fs-small);
+  }
+  .contact-link:hover {
+    background: var(--clr-text);
+    color: var(--clr-bg);
+  }
+
+  @media (max-width: 680px) {
+    section {
+      padding-block: 2.5rem;
+    }
+    .markdown-copy {
+      display: block;
+    }
+  }
 </style>

@@ -1,0 +1,392 @@
+---
+import { Image } from "astro:assets";
+import { type CollectionEntry } from "astro:content";
+import Layout from "./Layout.astro";
+import PublicationList from "../components/PublicationList.astro";
+
+import ArrowUpRightIcon from "../assets/icons/ArrowUpRightIcon.astro";
+import GoogleScholarIcon from "../assets/icons/GoogleScholarIcon.astro";
+import ORCIDIcon from "../assets/icons/OrcidIcon.astro";
+import LinkedInIcon from "../assets/icons/LinkedInIcon.astro";
+import GitHubIcon from "../assets/icons/GitHubIcon.astro";
+
+import { publicationFilterHref } from "../lib/publications";
+import ArrowLeftIcon from "../assets/icons/ArrowLeftIcon.astro";
+interface Props {
+  member: CollectionEntry<"members">;
+}
+const { member } = Astro.props;
+const { name, role, type, email, profileImage, links = {} } = member.data;
+
+const initials = name
+  .split(/\s+/)
+  .filter(Boolean)
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join("");
+
+const linkOrder = ["linkedin", "googlescholar", "orcid"];
+const normaliseLink = (key: string) => {
+  const value = key.toLowerCase().replace(/[\s_-]/g, "");
+  return value === "scholar" ? "googlescholar" : value;
+};
+const priority = (key: string) => {
+  const index = linkOrder.indexOf(normaliseLink(key));
+  return index === -1 ? linkOrder.length : index;
+};
+const orderedLinks = Object.entries(links ?? {}).sort(
+  ([a], [b]) => priority(a) - priority(b),
+);
+
+const labelFor = (key: string) =>
+  ({
+    scholar: "Google Scholar",
+    googlescholar: "Google Scholar",
+    orcid: "ORCID",
+    linkedin: "LinkedIn",
+    github: "GitHub",
+    website: "Website",
+  })[key.toLowerCase().replace(/[\s_-]/g, "")] ?? key;
+
+const icons = {
+  scholar: GoogleScholarIcon,
+  googlescholar: GoogleScholarIcon,
+  orcid: ORCIDIcon,
+  github: GitHubIcon,
+  linkedin: LinkedInIcon,
+};
+const iconFor = (key: string) => {
+  const normalised = key.toLowerCase().replace(/[\s_-]/g, "");
+  return icons[normalised as keyof typeof icons];
+};
+
+const hasBio = Boolean(member.body?.trim());
+---
+
+<Layout
+  title={name}
+  description={`${name} — ${role}. Profile and publications from our research group.`}
+>
+  <div class="page-grid member-page">
+    <section class="back-link">
+      <a href="/members"><ArrowLeftIcon /> All members</a>
+    </section>
+    <section class="member-header-section">
+      <div class="member-header">
+        <div class="identity">
+          <div>
+            <p class="eyebrow">
+              {role + (type === "alumni" ? ` Alumni` : "")}
+            </p>
+            <h1>{name}</h1>
+          </div>
+          {
+            type !== "alumni" && (
+              <a class="email" href={`mailto:${email}`}>
+                {email}
+              </a>
+            )
+          }
+          {
+            orderedLinks.length > 0 && (
+              <ul class="profile-links" aria-label="Profile links">
+                {orderedLinks.map(([label, href]) => {
+                  const Icon = iconFor(label);
+                  return (
+                    <li>
+                      <a href={href} target="_blank" rel="noopener">
+                        {Icon && <Icon />}
+                        {labelFor(label)}
+                        <ArrowUpRightIcon />
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            )
+          }
+        </div>
+        <div class="portrait">
+          {
+            profileImage ? (
+              <Image
+                src={profileImage}
+                alt={`Portrait of ${name}`}
+                width={560}
+                height={560}
+                loading="eager"
+              />
+            ) : (
+              <span class="initials" aria-hidden="true">
+                {initials}
+              </span>
+            )
+          }
+        </div>
+      </div>
+    </section>
+    <section class="biography" aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <div class="bio-content">
+        {
+          hasBio ? (
+            <slot />
+          ) : (
+            <p class="empty-state">No information available.</p>
+          )
+        }
+      </div>
+    </section>
+    <section>
+      <PublicationList
+        author={member.id}
+        highlightAuthor={member.id}
+        limit={4}
+        viewAllHref={publicationFilterHref("/publications", {
+          author: member.id,
+        })}
+        viewAllLabel={`More publications from ${name}`}
+        includeButton={true}
+      />
+    </section>
+    <!-- <section
+        class="publications-section"
+        aria-labelledby="publications-heading"
+      >
+        <header class="section-heading">
+          <h2 id="publications-heading">Recent publications</h2>{
+            publications.length > 0 && (
+              <a href={publicationsHref}>
+                View all {publications.length} <span aria-hidden="true">→</span>
+              </a>
+            )
+          }
+        </header>
+        {
+          recent.length > 0 ? (
+            <ol class="paper-list">
+              {recent.map((paper) => (
+                <li>
+                  <div class="paper-meta">
+                    {paper.data.publicationDate && (
+                      <time datetime={paper.data.publicationDate}>
+                        {paper.data.publicationDate}
+                      </time>
+                    )}
+                    {(paper.data.journal || paper.data.venue) && (
+                      <span>{paper.data.journal ?? paper.data.venue}</span>
+                    )}
+                  </div>
+                  <h3>
+                    <a href={paper.data.doi ?? paper.data.scholarUrl}>
+                      {paper.data.title}
+                    </a>
+                  </h3>
+                  <p class="authors">
+                    {paper.data.authorRole === "editors" ? "Edited by " : ""}
+                    {paper.data.authors
+                      .map((id) => paper.data.authorNames[id] ?? id)
+                      .join(", ")}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="empty-state">
+              Publications will appear here as they are added.
+            </p>
+          )
+        }
+      </section> -->
+  </div>
+</Layout>
+<style>
+  .member-page {
+    --content-max-width: 930px;
+  }
+  section {
+    padding-block: 2.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  a {
+    color: var(--clr-primary-dark);
+    text-underline-offset: 4px;
+  }
+  a:has(svg) {
+    display: flex;
+    align-items: center;
+    gap: 0.5ch;
+
+    & :global(svg) {
+      max-width: 2ch;
+      max-height: 2ch;
+    }
+  }
+  a:hover {
+    text-decoration: underline !important;
+    color: var(--clr-primary);
+  }
+  a:focus-visible {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  .back-link {
+    border: none;
+    padding-block-end: 1rem;
+    & a {
+      text-wrap: nowrap;
+      text-decoration: none;
+    }
+  }
+  .member-header-section {
+    padding-block-start: 0;
+  }
+  .member-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .identity {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  h1 {
+    font-size: var(--fs-title);
+    letter-spacing: -0.04em;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+  .email {
+    overflow-wrap: anywhere;
+  }
+  .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    font-weight: 500;
+
+    & a {
+      text-wrap: nowrap;
+      text-decoration: none;
+    }
+  }
+  .portrait {
+    grid-column: 2;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    color: var(--clr-primary-dark);
+    background: var(--clr-bg-dark);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .initials {
+    font-size: var(--fs-title);
+    color: var(--clr-primary-dark);
+  }
+  h2 {
+    margin-block-end: 1rem;
+    font-size: var(--fs-heading);
+    letter-spacing: -0.02em;
+  }
+  .bio-content {
+    max-width: 75ch;
+    line-height: 1.8;
+    /* color: #435e55; */
+    overflow-wrap: anywhere;
+  }
+  .bio-content .empty-state {
+    font-style: italic;
+  }
+  .bio-content :global(h2),
+  .bio-content :global(h3) {
+    margin-top: 1.8rem;
+    /* color: #183b36; */
+    line-height: 1.3;
+  }
+  .bio-content :global(p + p) {
+    margin-top: 0.5rem;
+  }
+  .bio-content :global(a) {
+    color: var(--clr-primary-dark);
+    text-underline-offset: 4px;
+  }
+  .bio-content :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+  .publications-section {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--clr-border);
+  }
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .paper-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .paper-list li {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--clr-border);
+  }
+  .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    color: var(--clr-text-light);
+  }
+  h3 {
+    margin: 0.65rem 0;
+    line-height: 1.5;
+  }
+  h3 a {
+    text-decoration: none;
+    font-size: var(--fs-subheading);
+  }
+  h3 a:hover {
+    text-decoration: underline;
+  }
+  .authors {
+    margin: 0;
+    color: var(--clr-text-light);
+    line-height: 1.6;
+  }
+  .empty-state {
+    color: var(--clr-text-light);
+  }
+  @media (max-width: 650px) {
+    .member-header {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .portrait {
+      grid-column: 1;
+      width: min(240px, 100%);
+    }
+  }
+</style>

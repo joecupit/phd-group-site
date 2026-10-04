@@ -1,0 +1,339 @@
+---
+import { getCollection, render } from "astro:content";
+import {
+  authorMemberAliases,
+  memberIDFor,
+  topicID,
+  formatPublicationDate,
+  type Publication,
+  type Member,
+  type ResearchArea,
+} from "../lib/publications";
+
+interface Props {
+  publication: Publication;
+  members?: Member[];
+  research?: ResearchArea[];
+  aliases?: Record<string, string>;
+  memberHref?: (id: string) => string;
+  researchHref?: (id: string) => string;
+  publicationHref?: (publication: Publication) => string;
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
+  headingID?: string;
+  dateFormat?: "month-year" | "year" | "iso";
+  showAuthors?: boolean;
+  highlightAuthor?: string;
+  showTopics?: boolean;
+  showAbstract?: boolean;
+  showPublicationLink?: boolean;
+}
+const {
+  publication,
+  members: suppliedMembers,
+  research: suppliedResearch,
+  aliases = authorMemberAliases,
+  memberHref = (id) => `/members/${id}`,
+  researchHref = (id) => `/research/${id}`,
+  publicationHref = (entry) => entry.data.doi ?? entry.data.scholarUrl,
+  headingLevel = 3,
+  headingID = `publication-${crypto.randomUUID()}`,
+  dateFormat = "month-year",
+  showAuthors = true,
+  highlightAuthor = undefined,
+  showTopics = false,
+  showAbstract = false,
+  showPublicationLink = false,
+} = Astro.props;
+const [members, research] = await Promise.all([
+  suppliedMembers ?? getCollection("members"),
+  suppliedResearch ??
+    (showTopics ? getCollection("research") : Promise.resolve([])),
+]);
+const memberIDs = new Set(members.map((member) => member.id));
+const researchByID = new Map(research.map((area) => [area.id, area]));
+const data = publication.data;
+const topics = [...new Set(data.researchTopics.map(topicID))];
+const href = publicationHref(publication);
+const Heading = `h${headingLevel}` as "h2" | "h3" | "h4" | "h5" | "h6";
+const searchText = [
+  data.title,
+  ...data.authors.map((id) => data.authorNames[id] ?? id),
+  data.journal ?? data.venue ?? "",
+  data.doi ?? "",
+  ...topics.map((id) => researchByID.get(id)?.data.title ?? id),
+].join(" ");
+const abstract =
+  showAbstract && ["original", "summary"].includes(data.abstractStatus)
+    ? await render(publication)
+    : null;
+const Content = abstract?.Content;
+---
+
+<li
+  class="publication"
+  data-paper
+  data-publication-id={publication.id}
+  data-year={data.publicationDate?.slice(0, 4) ?? "undated"}
+  data-topics={JSON.stringify(topics)}
+  data-authors={JSON.stringify(
+    data.authors.map((id) => memberIDFor(id, aliases)),
+  )}
+  data-search={searchText}
+>
+  <article aria-labelledby={headingID}>
+    <div class="paper-meta">
+      {
+        (data.journal || data.venue) && (
+          <span class="paper-type">{data.journal ?? data.venue}</span>
+        )
+      }
+      {
+        data.publicationDate && (
+          <time datetime={data.publicationDate}>
+            {formatPublicationDate(data.publicationDate, dateFormat)}
+          </time>
+        )
+      }
+    </div>
+    <Heading class="paper-title" id={headingID}
+      ><a href={href}>{data.title}</a></Heading
+    >
+    {
+      showAuthors && (
+        <p class="authors">
+          {data.authorRole === "editors" && <span>Edited by </span>}
+          {data.authors.map((id, index) => (
+            <Fragment>
+              {index > 0 && ", "}
+              {memberIDs.has(memberIDFor(id, aliases)) ? (
+                <a
+                  href={memberHref(memberIDFor(id, aliases))}
+                  class:list={{
+                    "highlighted-author":
+                      memberIDFor(id, aliases) === highlightAuthor,
+                  }}
+                  data-author-id={memberIDFor(id, aliases)}
+                >
+                  {data.authorNames[id] ?? id}
+                </a>
+              ) : (
+                <span
+                  class:list={{
+                    "highlighted-author":
+                      memberIDFor(id, aliases) === highlightAuthor,
+                  }}
+                  data-author-id={memberIDFor(id, aliases)}
+                >
+                  {data.authorNames[id] ?? id}
+                </span>
+              )}
+            </Fragment>
+          ))}
+        </p>
+      )
+    }
+    {
+      (showTopics || showPublicationLink) && (
+        <div class="paper-footer">
+          {showTopics && (
+            <ul class="topic-tags" aria-label="Related research areas">
+              {topics.map((id) => {
+                const area = researchByID.get(id);
+                return (
+                  area && (
+                    <li>
+                      <a href={researchHref(id)}>
+                        {area.data.shortTitle ?? area.data.title}
+                      </a>
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          )}
+          {showPublicationLink && (
+            <a class="publication-link" href={href}>
+              {data.doi && !Astro.props.publicationHref
+                ? "DOI"
+                : "Publication record"}
+              <span aria-hidden="true"> ↗</span>
+              <span class="sr-only">: {data.title}</span>
+            </a>
+          )}
+        </div>
+      )
+    }
+    {
+      Content && (
+        <details class="abstract">
+          <summary>
+            {data.abstractStatus === "summary"
+              ? "Read summary"
+              : "Read abstract"}
+          </summary>
+          <div class="abstract-body">
+            <Content />
+          </div>
+        </details>
+      )
+    }
+  </article>
+</li>
+<style>
+  .publication {
+    padding-block: 1.45rem;
+    border-bottom: 1px solid var(--clr-border);
+    color: var(--clr-text);
+    min-width: 0;
+
+    &:last-child {
+      border: none;
+      padding-block-end: 0;
+    }
+  }
+  .publication[hidden] {
+    display: none !important;
+  }
+  a {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  :is(a, summary):focus-visible {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 3px;
+  }
+  .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    align-items: center;
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+  }
+  .paper-type {
+    font-weight: 600;
+    color: var(--clr-primary);
+  }
+  .paper-title {
+    margin: 0.45rem 0;
+    font-size: var(--fs-subheading);
+    font-family: var(--ff-heading);
+    font-weight: 600;
+    line-height: 1.45;
+    /* letter-spacing: -0.015em; */
+    overflow-wrap: anywhere;
+    max-width: none;
+  }
+  .paper-title a {
+    text-decoration: none;
+  }
+  .paper-title a:hover {
+    color: var(--clr-primary);
+    text-decoration: underline;
+  }
+  .authors {
+    margin: 0.45rem 0;
+    color: var(--clr-text-light);
+    line-height: 1.6;
+    max-width: none;
+    overflow-wrap: anywhere;
+  }
+  .authors a {
+    color: var(--clr-primary);
+  }
+  .highlighted-author {
+    font-weight: 800;
+  }
+  .paper-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.8rem;
+  }
+  .topic-tags {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .topic-tags a {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    background: var(--clr-bg-dark);
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    text-decoration: none;
+  }
+  .topic-tags a:hover {
+    text-decoration: underline;
+  }
+  .publication-link {
+    font-size: var(--fs-small);
+    color: var(--clr-primary);
+    white-space: nowrap;
+  }
+  .abstract {
+    margin-top: 0.85rem;
+  }
+  summary {
+    width: fit-content;
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .abstract-body {
+    max-width: 78ch;
+    margin-top: 0.8rem;
+    padding: 0.1rem 1rem;
+    border-left: 2px solid var(--clr-border);
+    color: var(--clr-text-light);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  .abstract-body :global(h2) {
+    margin: 0.7rem 0;
+  }
+  .abstract-body :global(p) {
+    margin: 0.75rem 0;
+  }
+  .abstract-body :global(a) {
+    color: var(--clr-primary);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 480px) {
+    .publication {
+      padding: 1.2rem 0;
+    }
+    .paper-footer {
+      align-items: flex-start;
+    }
+    .topic-tags {
+      flex: 1 1 100%;
+    }
+  }
+  @media print {
+    .publication {
+      break-inside: avoid;
+    }
+    summary,
+    .abstract-body {
+      display: none;
+    }
+  }
+</style>

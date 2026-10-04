@@ -1,100 +1,941 @@
 ---
 import { getCollection } from "astro:content";
-import Button from "../../components/Button.astro";
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
+import Button from "../../components/Button.astro";
+import ArrowDownBoldIcon from "../../assets/icons/ArrowDownBoldIcon.astro";
+import ArrowUpRightIcon from "../../assets/icons/ArrowUpRightIcon.astro";
+import ArrowRightIcon from "../../assets/icons/ArrowRightIcon.astro";
 
-const researchAreas = (await getCollection("research")).sort((a, b) => a.data.pos - b.data.pos);
+const [researchAreas, publications] = await Promise.all([
+  getCollection("research"),
+  getCollection("publications", ({ data }) => !data.draft && !data.duplicateOf),
+]);
+researchAreas.sort(
+  (a, b) => a.data.pos - b.data.pos || a.data.title.localeCompare(b.data.title),
+);
+const topicID = (topic: string | { id: string }) =>
+  typeof topic === "string" ? topic : topic.id;
+const publicationCounts = new Map<string, number>();
+for (const publication of publications) {
+  for (const id of new Set(publication.data.researchTopics.map(topicID))) {
+    publicationCounts.set(id, (publicationCounts.get(id) ?? 0) + 1);
+  }
+}
+const areaHref = (id: string) => `/research/${id}/`;
+const papersHref = (id: string) =>
+  `/publications/?topic=${encodeURIComponent(id)}`;
+
+// Page-level editorial content: update these examples as your priorities evolve.
+// Paper titles, dates and journals come from the publication Markdown records.
+const exampleSelections = [
+  {
+    doi: "https://doi.org/10.1002/bit.70385",
+    area: "bioprocess-engineering",
+    label: "Bioprocess scale-up",
+    title: "Taking useful models beyond the laboratory",
+    description:
+      "Hybrid modelling and transfer learning use information from related systems and scales to investigate fermentation predictions when new experimental data are limited.",
+  },
+  {
+    doi: "https://doi.org/10.1021/acs.iecr.3c04021",
+    area: "industrial-analytics",
+    label: "Industrial quality",
+    title: "Turning process histories into readable models",
+    description:
+      "Symbolic regression constructs interpretable soft sensors from industrial data, linking process measurements to product quality through mathematical expressions.",
+  },
+  {
+    doi: "https://doi.org/10.1016/j.compchemeng.2019.106649",
+    area: "optimisation-control",
+    label: "Process operation",
+    title: "Adapting decisions from one batch to the next",
+    description:
+      "Reinforcement learning develops a control policy from a process model and refines it using batch observations, addressing uncertainty and differences between models and plants.",
+  },
+  {
+    doi: "https://doi.org/10.1021/acs.jcim.5c03062",
+    area: "molecular-design",
+    label: "Molecular design",
+    title: "Working backwards from desired properties",
+    description:
+      "Chemical language models generate molecular candidates for target properties. Surfactant design provides a case study for investigating chemical validity, fidelity and candidate diversity.",
+  },
+];
+const publicationByDOI = new Map(
+  publications
+    .filter((paper) => paper.data.doi)
+    .map((paper) => [paper.data.doi!.toLowerCase(), paper]),
+);
+const examples = exampleSelections.flatMap((example) => {
+  const paper = publicationByDOI.get(example.doi.toLowerCase());
+  return paper ? [{ ...example, paper }] : [];
+});
+
+const questions = [
+  {
+    title: "What can we understand?",
+    text: "Which mechanisms explain the observations, and how can interpretable models help reveal them?",
+  },
+  {
+    title: "What can we predict?",
+    text: "How can models remain useful when data are scarce, conditions change or a process moves to a different scale?",
+  },
+  {
+    title: "What should we do next?",
+    text: "Which experiments, operating conditions or molecular candidates offer the most useful next step?",
+  },
+];
+const approach = [
+  {
+    title: "Use physical knowledge",
+    text: "Material balances, kinetic relationships and process constraints provide structure. Machine learning represents behaviour that is difficult to describe mechanistically.",
+  },
+  {
+    title: "Make data informative",
+    text: "Experimental design, transfer learning and analysis of operating histories help extract useful information from limited or imperfect observations.",
+  },
+  {
+    title: "Examine reliability",
+    text: "We investigate model assumptions, interpretation and uncertainty using experimental datasets, industrial records and simulation benchmarks.",
+  },
+  {
+    title: "Support decisions",
+    text: "Models become tools for process design, quality prediction, scale-up, scheduling and control, with methods chosen around the decision being made.",
+  },
+];
+const applications = [
+  {
+    title: "Chemicals & catalysis",
+    text: "Reaction kinetics, mechanism discovery and catalytic process modelling.",
+    area: "interpretable-ai",
+  },
+  {
+    title: "Biomanufacturing",
+    text: "Fermentation, cell cultures, microalgae and bioreactor scale-up.",
+    area: "bioprocess-engineering",
+  },
+  {
+    title: "Formulated products",
+    text: "Batch manufacturing, quality prediction and surfactant design.",
+    area: "industrial-analytics",
+  },
+  {
+    title: "Energy & resources",
+    text: "Biohydrogen, anaerobic digestion and optimisation of energy-related processes.",
+    area: "optimisation-control",
+  },
+];
+const description =
+  "Our research combines machine learning, physical modelling and process systems engineering to understand, predict and improve chemical and biological systems.";
 ---
 
-<Layout>
-    <section>
-        <h1>Research Areas</h1>
-        <p>We work in close partnership with industry across formulation, specialty chemicals, and biopharmaceuticals.</p>
+<Layout title="Research Areas" description={description}>
+  <div class="page-grid research-page">
+    <!-- <section>
+      <div class="hero-copy">
+        <h1>Intelligent methods.<br /><span>Engineering insight.</span></h1>
+        <p class="hero-lead">
+          We combine machine learning, physical modelling and process systems
+          engineering to understand, predict and improve chemical and biological
+          systems.
+        </p>
+        <p class="hero-detail">
+          Our work connects the discovery of molecules and reaction mechanisms
+          with the design and operation of processes. Across these scales, we
+          ask how data and engineering knowledge can support reliable decisions.
+        </p>
+        <div class="hero-actions">
+          <Button href="#research-areas">
+            Explore our research <ArrowDownBoldIcon />
+          </Button>
+          <a class="text-link" href="/publications/"
+            >Browse publications <ArrowUpRightIcon />
+          </a>
+        </div>
+      </div>
+    </section> -->
+
+    <section
+      id="research-areas"
+      class="areas-section"
+      aria-labelledby="areas-heading"
+    >
+      <div class="section-heading">
+        <!-- <p class="eyebrow">Explore the group's work</p> -->
+        <h1 id="areas-heading">Our areas of research</h1>
+        <p class="intro">
+          We combine machine learning, physical modelling and process systems
+          engineering to understand, predict and improve chemical and biological
+          systems.
+        </p>
+      </div>
+      <div class="area-grid">
+        {
+          researchAreas.map((area, index) => {
+            const count = publicationCounts.get(area.id) ?? 0;
+            const focus = area.data.focus ?? [];
+            const applications = area.data.applications ?? [];
+            return (
+              <article class="area-card" aria-labelledby={`area-${area.id}`}>
+                <span class="area-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 id={`area-${area.id}`}>
+                  <a href={areaHref(area.id)}>{area.data.title}</a>
+                </h3>
+                <p class="area-summary">{area.data.summary}</p>
+                {focus.length > 0 && (
+                  <ul class="focus-list" aria-label="Research focus">
+                    {focus.map((focus) => (
+                      <li>{focus}</li>
+                    ))}
+                  </ul>
+                )}
+                {/* {applications.length > 0 && (
+                  <p class="area-applications">
+                    <span>Applications include</span>{" "}
+                    {applications
+                      .slice(0, 2)
+                      .map((application) => application.title)
+                      .join(" · ")}
+                  </p>
+                )} */}
+                <div class="area-links">
+                  <a class="area-link" href={areaHref(area.id)}>
+                    Explore area
+                    <ArrowRightIcon />
+                    <span class="sr-only">: {area.data.title}</span>
+                  </a>
+                  {count > 0 && (
+                    <a class="paper-count" href={papersHref(area.id)}>
+                      {count} {count === 1 ? "publication" : "publications"}
+                      <span class="sr-only"> in {area.data.title}</span>
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
     </section>
 
-    <section class="research-section">
-        <div class="research">
-            {researchAreas.map((area, index) => {
-                return (
-                <div class={"research-area" + (index % 2 !== 0 ? " reversed" : "")}>
-                    <div class="text">
-                    <h3>{area.data.title}</h3>
-                    <p>{area.data.summary}</p>
-                    <Button href={`/phd-group-site/research/${area.id}`}>Find out more</Button>
-                    </div>
-                    {area.data.coverImage && <Image src={area.data.coverImage} alt={area.data.title} />}
-                </div>
-                )
-            })}
-        </div>
+    <!-- <section class="page-navigation" aria-label="On this research page">
+      <a href="#research-areas">Research areas</a>
+      <a href="#our-approach">Our approach</a>
+      {
+        examples.length > 0 && (
+          <a href="#research-examples">Research examples</a>
+        )
+      }
+      <a href="#applications">Applications</a>
+    </section> -->
+
+    <section class="questions-section" aria-labelledby="questions-heading">
+      <div class="section-intro">
+        <!-- <p class="eyebrow">The questions that connect our work</p> -->
+        <h2 id="questions-heading">From observations to useful decisions</h2>
+        <p>
+          Complex systems rarely offer complete mechanisms or perfect datasets.
+          Our research develops methods that work with these limitations while
+          retaining a connection to the underlying engineering.
+        </p>
+      </div>
+      <div class="question-grid">
+        {
+          questions.map((question) => (
+            <article class="question">
+              <>
+                <h3>{question.title}</h3>
+                <p>{question.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
     </section>
+
+    <section
+      id="our-approach"
+      class="approach-section"
+      aria-labelledby="approach-heading"
+    >
+      <div class="section-intro">
+        <!-- <p class="eyebrow">A shared approach</p> -->
+        <h2 id="approach-heading">Bringing knowledge and data together</h2>
+        <p>
+          The balance between physical models, machine learning and optimisation
+          depends on the system, the available evidence and the intended use.
+          Four principles run through our work.
+        </p>
+      </div>
+      <div class="approach-grid">
+        {
+          approach.map((item, index) => (
+            <article>
+              <>
+                <span class="approach-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- {
+      examples.length > 0 && (
+        <section
+          id="research-examples"
+          class="examples-section"
+          aria-labelledby="examples-heading"
+        >
+          <div class="section-heading">
+            <div>
+              <>
+                <p class="eyebrow">Methods in practice</p>
+                <h2 id="examples-heading">Research examples</h2>
+              </>
+            </div>
+            <a class="text-link" href="/publications/">
+              All publications <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="example-grid">
+            {examples.map((example) => (
+              <article class="example-card">
+                <p class="example-label">{example.label}</p>
+                <h3>{example.title}</h3>
+                <p class="example-description">{example.description}</p>
+                <div class="example-paper">
+                  <p class="paper-caption">Related publication</p>
+                  <a href={example.paper.data.doi!}>
+                    {example.paper.data.title}
+                  </a>
+                  <p class="paper-meta">
+                    {example.paper.data.journal ?? example.paper.data.venue}
+                    {example.paper.data.publicationDate &&
+                      ` · ${example.paper.data.publicationDate.slice(0, 4)}`}
+                  </p>
+                </div>
+                <a class="area-link" href={areaHref(example.area)}>
+                  Explore the research <span aria-hidden="true">→</span>
+                  <span class="sr-only">: {example.label}</span>
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )
+    } -->
+
+    <section
+      id="applications"
+      class="applications-section"
+      aria-labelledby="applications-heading"
+    >
+      <div class="section-intro">
+        <!-- <p class="eyebrow">Where the methods are used</p> -->
+        <h2 id="applications-heading">A broad range of engineering systems</h2>
+        <p>
+          Common modelling and decision-making challenges connect applications
+          that can otherwise look very different.
+        </p>
+      </div>
+      <div class="application-grid">
+        {
+          applications.map((application) => (
+            <article>
+              <>
+                <h3>
+                  <a href={areaHref(application.area)}>
+                    {application.title}
+                    <span aria-hidden="true"> ↗</span>
+                  </a>
+                </h3>
+                <p>{application.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="contact-heading">
+      <div class="contact-section">
+        <div>
+          <!-- <p class="eyebrow">Connect with the group</p> -->
+          <h2 id="contact-heading">Have a research question in mind?</h2>
+          <p>
+            We welcome conversations about research collaborations, industrial
+            challenges and opportunities to work with the group.
+          </p>
+        </div>
+        <Button href="/contact" icon="arrow"> Get in touch </Button>
+      </div>
+    </section>
+  </div>
 </Layout>
 
 <style>
-    h1 {
-        font-size: 3rem;
-        font-weight: 600;
-        line-height: 1.2;
-    }
+  .research-page {
+    scroll-behavior: smooth;
+    /* --content-max-width: 960px; */
+  }
+  section {
+    padding-block: 3.5rem;
+    border-block-end: 1px solid var(--clr-border);
+    scroll-margin-top: var(--research-anchor-offset, 6rem);
 
-    .research-section {
-        padding-block: 4rem;
+    &:last-child {
+      border: none;
     }
-    .research {
-        display: grid;
-        gap: 8rem;
-        margin-block-start: 2rem;
-    }
-    .research-area {
-        display: grid;
-        gap: 4rem;
-        grid-template-columns: 1.25fr 1fr;
-    }
-    .research-area .text {
-        display: grid;
-        align-content: center;
+  }
 
-        & h3 {
-        font-family: var(--ff-heading);
-        font-size: 2rem;
-        font-weight: 600;
-        max-width: 31ch;
-        line-height: 1.3;
-        margin-block-end: 0.5lh;
-        }
-        & p {
-        max-width: 62ch;
-        margin-block-end: 1.25lh;
-        }
-    }
-    .research-area img {
-        object-fit: contain;
-        mix-blend-mode: multiply;
-    }
-    .research-area.reversed {
-        grid-template-columns: 1fr 1.2fr;
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  a:focus-visible {
+    outline: 3px solid var(--clr-primary);
+    outline-offset: 4px;
+  }
+  :is(section, h2)[id] {
+    scroll-margin-top: 6rem;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+  h1 {
+    font-size: var(--fs-title);
+    font-weight: 600;
+    line-height: 1.07;
+    letter-spacing: -0.045em;
+    /* margin-bottom: 1.4rem; */
+  }
+  h1 span {
+    color: var(--clr-primary);
+  }
+  .intro {
+    color: var(--clr-text-light);
+    font-size: var(--fs-subheading);
+    line-height: 1.6;
+    max-width: 50ch;
+  }
+  h2 {
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+    margin-bottom: 1rem;
+  }
+  h3 {
+    font-size: var(--fs-subheading);
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  p {
+    line-height: 1.7;
+  }
+  .eyebrow {
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.7rem;
+  }
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
-        & img {
-        order: -1;
-        }
+    & p {
+      max-width: 48ch;
     }
+  }
+  .hero-lead {
+    font-size: var(--fs-subheading);
+    line-height: 1.6;
+  }
+  .hero-detail {
+    max-width: 62ch;
+    color: var(--clr-text-light);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.6rem;
+  }
+  .button {
+    display: inline-flex;
+    gap: 0.9rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.8rem 1.05rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  .primary {
+    background: var(--clr-primary);
+    color: white;
+  }
+  .primary:hover {
+    background: var(--clr-primary-dark);
+  }
+  .text-link,
+  .area-link {
+    display: inline-flex;
+    gap: 1ch;
+    align-items: center;
+    color: var(--clr-primary);
+    font-weight: 600;
 
-    @media (max-width: 1070px) {
-        .research {
-        gap: 5rem;
-        }
-        .research-area {
-        display: flex;
-        flex-direction: column;
-        gap: 2.5rem;
-        }
-
-        .research-area img {
-        display: none;
-        }
-        .research-area.reversed img {
-        order: 1;
-        }
+    & :global(svg) {
+      width: 2ch;
+      height: 2ch;
     }
+  }
+  .scale-panel {
+    padding: 1.65rem;
+    background: var(--clr-bg-light);
+    border: 1px solid var(--clr-border);
+    border-radius: 14px;
+  }
+  .scale-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.4rem 0;
+  }
+  .scale-list li {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 0.75rem;
+    position: relative;
+    padding-bottom: 1.4rem;
+  }
+  .scale-list li:last-child {
+    padding-bottom: 0;
+  }
+  .scale-list li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 34px;
+    left: 16px;
+    bottom: 5px;
+    border-left: 1px solid var(--clr-border);
+  }
+  .scale-marker {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--clr-border);
+    border-radius: 50%;
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+  .scale-list h2 {
+    font-size: var(--fs-body);
+    letter-spacing: 0;
+    margin: 0.15rem 0 0.3rem;
+  }
+  .scale-list p {
+    margin-bottom: 0;
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+  }
+  .scale-note {
+    border-top: 1px solid var(--clr-border);
+    padding-top: 1rem;
+    font-size: var(--fs-small);
+    color: var(--clr-primary);
+    margin-bottom: 0;
+  }
+  .page-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.6rem;
+    padding: 1.1rem 0;
+    margin: 2.5rem 0 3.5rem;
+    border-top: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border);
+  }
+  .page-navigation a {
+    color: var(--clr-text-light);
+    text-decoration: none;
+    padding: 0.3rem 0;
+  }
+  .page-navigation a:hover {
+    color: var(--clr-primary);
+    text-decoration: underline;
+  }
+  .section-intro {
+    max-width: 730px;
+    margin-bottom: 1.75rem;
+  }
+  .section-intro > p:last-child {
+    color: var(--clr-text-light);
+  }
+  .question-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .question {
+    border-left: 2px solid var(--clr-border);
+    padding-left: 1rem;
+  }
+  .question h3 {
+    margin-bottom: 0.65rem;
+  }
+  .question p {
+    color: var(--clr-text-light);
+    margin-bottom: 0;
+  }
+  .section-heading {
+    margin-bottom: 1.8rem;
+  }
+  .section-heading h2 {
+    margin-bottom: 0;
+  }
+  .section-heading > p {
+    color: var(--clr-text-light);
+  }
+  .area-grid,
+  .example-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  .area-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--clr-border);
+    border-radius: 10px;
+    padding: clamp(1.3rem, 2.5vw, 1.8rem);
+    background: var(--clr-bg-light);
+  }
+  .area-number {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--clr-primary);
+    margin-bottom: 0.8rem;
+  }
+  .area-card h3 {
+    font-size: var(--fs-heading);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.85rem;
+  }
+  .area-card h3 a {
+    text-decoration: none;
+  }
+  .area-card h3 a:hover {
+    color: var(--clr-primary);
+    text-decoration: underline;
+  }
+  .area-summary {
+    /* color: var(--clr-text-light); */
+  }
+  .focus-list {
+    padding: 0;
+    margin-block: 1rem;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+  .focus-list li {
+    position: relative;
+    padding-left: 0.85rem;
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+  .focus-list li::before {
+    content: "";
+    position: absolute;
+    top: 0.58em;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background: var(--clr-primary);
+    border-radius: 50%;
+  }
+  .area-applications {
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+  .area-applications span {
+    display: block;
+    font-weight: 600;
+    color: var(--clr-text);
+    margin-bottom: 0.2rem;
+  }
+  .area-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-border);
+  }
+  .area-link {
+    color: var(--clr-primary);
+    font-weight: 600;
+    text-decoration: none;
+
+    & :global(svg) {
+      width: 1.5ch;
+      height: 1.5ch;
+    }
+  }
+  .area-link:hover {
+    text-decoration: underline;
+  }
+  .area-link > span[aria-hidden] {
+    margin-left: 0.5rem;
+  }
+  .paper-count {
+    font-size: var(--fs-small);
+    color: var(--clr-text-light);
+  }
+  .approach-section {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 12px;
+    background: var(--clr-primary-dark);
+    color: var(--clr-bg);
+    margin-block: 3.5rem;
+  }
+  .approach-section .eyebrow {
+    color: var(--clr-primary-light);
+  }
+  .approach-section .section-intro > p:last-child {
+    color: var(--clr-border);
+  }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .approach-grid article {
+    border-top: 1px solid var(--clr-border);
+    padding-top: 1rem;
+  }
+  .approach-number {
+    font-size: var(--fs-small);
+    color: var(--clr-border);
+  }
+  .approach-grid h3 {
+    margin: 0.7rem 0;
+    font-size: var(--fs-body);
+  }
+  .approach-grid p {
+    font-size: var(--fs-small);
+    color: var(--clr-border);
+    line-height: 1.65;
+    margin-bottom: 0;
+  }
+  .example-card {
+    padding: 1.4rem;
+    border-left: 3px solid var(--clr-border);
+    background: var(--clr-bg-light);
+  }
+  .example-label {
+    color: var(--clr-primary);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+  }
+  .example-card h3 {
+    margin-bottom: 0.7rem;
+    font-size: var(--fs-subheading);
+    letter-spacing: -0.02em;
+  }
+  .example-description {
+    color: var(--clr-text-light);
+    font-size: var(--fs-body);
+  }
+  .example-paper {
+    padding-top: 1rem;
+    margin-bottom: 1.1rem;
+    border-top: 1px solid var(--clr-border);
+  }
+  .paper-caption {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--clr-text-light);
+    margin-bottom: 0.3rem;
+  }
+  .example-paper > a {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+  .paper-meta {
+    color: var(--clr-text-light);
+    font-size: var(--fs-small);
+    margin: 0.4rem 0 0;
+  }
+  .applications-section {
+    border-top: 1px solid var(--clr-border);
+  }
+  .application-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .application-grid article {
+    border-top: 1px solid var(--clr-border);
+    padding-top: 1rem;
+  }
+  .application-grid h3 {
+    font-size: var(--fs-body);
+    margin-bottom: 0.5rem;
+  }
+  .application-grid h3 a {
+    text-decoration: none;
+  }
+  .application-grid h3 a:hover {
+    color: var(--clr-primary);
+    text-decoration: underline;
+  }
+  .application-grid p {
+    font-size: var(--fs-small);
+    color: var(--clr-text-light);
+    margin-bottom: 0;
+  }
+  .contact-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  .contact-section > div {
+    max-width: 650px;
+  }
+  .contact-section h2 {
+    font-size: var(--fs-subheading);
+  }
+  .contact-section p:last-child {
+    color: var(--clr-text-light);
+    font-size: var(--fs-body);
+    margin-bottom: 0;
+  }
+  .contact-section .button {
+    flex-shrink: 0;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 900px) {
+    .research-hero {
+      grid-template-columns: 1fr;
+    }
+    .scale-panel {
+      max-width: none;
+    }
+    .scale-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .scale-list li {
+      grid-template-columns: 1fr;
+      padding: 0;
+    }
+    .scale-list li::after {
+      display: none;
+    }
+    .approach-grid,
+    .application-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .section-heading {
+      align-items: start;
+    }
+  }
+  @media (max-width: 650px) {
+    .area-grid,
+    .example-grid,
+    .question-grid {
+      grid-template-columns: 1fr;
+    }
+    .section-heading {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .section-heading > p {
+      max-width: none;
+    }
+    .scale-panel {
+      padding: 1.25rem;
+    }
+    .scale-list {
+      grid-template-columns: 1fr;
+    }
+    .scale-list li {
+      grid-template-columns: 34px 1fr;
+    }
+    .contact-section {
+      flex-direction: column;
+      align-items: start;
+      gap: 1.4rem;
+    }
+    .page-navigation {
+      margin: 2rem 0 2.5rem;
+    }
+  }
+  @media (max-width: 420px) {
+    .approach-grid,
+    .application-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media print {
+    .research-page {
+      max-width: none;
+      padding: 0;
+    }
+    .page-navigation,
+    .hero-actions,
+    .contact-section {
+      display: none;
+    }
+    .approach-section {
+      background: white;
+      color: black;
+      border: 1px solid #ccc;
+    }
+    .approach-section :is(p, .eyebrow, .approach-number) {
+      color: black !important;
+    }
+    .area-card,
+    .example-card {
+      break-inside: avoid;
+    }
+  }
 </style>

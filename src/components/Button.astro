@@ -1,12 +1,19 @@
 ---
-import ArrowIcon from "../assets/icons/ArrowIcon.astro";
+import ArrowRightIcon from "../assets/icons/ArrowRightIcon.astro";
 
-const { href, size } = Astro.props;
+interface Props {
+  href: string;
+  fill?: "empty" | "solid";
+  size?: "big" | "small";
+  color?: "white";
+  icon?: "arrow";
+}
+const { href, fill, size, color, icon } = Astro.props as Props;
 ---
 
-<a href={href} class={"button" + (size ? ` ${size}` : "")}>
+<a href={href} class={"button" + (fill ? ` ${fill}` : "") + (size ? ` ${size}` : "") + (color ? ` ${color}` : "")}>
     <slot />
-    <ArrowIcon />
+    {icon === "arrow" ? <ArrowRightIcon /> : <></>}
 </a>
 
 <style is:global>
@@ -14,20 +21,24 @@ const { href, size } = Astro.props;
         display: flex;
         gap: 1ch;
         align-items: center;
+        text-align: center;
 
-        padding-inline: 1.5ch 1.25ch;
+        padding-inline: 2ch 1.5ch;
         padding-block: 0.5ch;
+        height: fit-content;
 
         font-family: var(--ff-body);
-        font-size: 1rem;
-        font-weight: 500;
+        font-size: var(--fs-body);
+        font-weight: 600;
         text-decoration: none;
 
         background: none;
         color: var(--clr-primary);
         border: 2px solid var(--clr-primary);
 
-        transition: all 100ms ease-in-out;
+        transition-property: color, background-color;
+        transition-duration: 100ms;
+        transition-timing-function: ease-in-out;
 
         & svg {
             width: 1.5ch;
@@ -38,7 +49,34 @@ const { href, size } = Astro.props;
             background: var(--clr-primary);
         }
     }
+
+    /* fills */
+    .button.solid {
+        color: var(--clr-bg);
+        background: var(--clr-primary);
+
+        &:hover {
+            background: var(--clr-primary-dark);
+            border-color: var(--clr-primary-dark);
+        }
+    }
+
+    /* sizes */
+    .button.small {
+        font-size: var(--fs-small);
+    }
     .button.big {
-        font-size: 1.125rem;
+        font-size: var(--fs-subheading);
+    }
+
+    /* colours */
+    .button.white {
+        color: var(--clr-bg);
+        border-color: var(--clr-bg);
+
+        &:hover {
+            color: var(--clr-primary);
+            background-color: var(--clr-bg);
+        }
     }
 </style>
