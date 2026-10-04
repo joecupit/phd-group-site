@@ -131,7 +131,7 @@ const description =
 
 <Layout title="Research Areas" description={description}>
   <div class="page-grid research-page">
-    <section>
+    <!-- <section>
       <div class="hero-copy">
         <h1>Intelligent methods.<br /><span>Engineering insight.</span></h1>
         <p class="hero-lead">
@@ -139,11 +139,11 @@ const description =
           engineering to understand, predict and improve chemical and biological
           systems.
         </p>
-        <!-- <p class="hero-detail">
+        <p class="hero-detail">
           Our work connects the discovery of molecules and reaction mechanisms
           with the design and operation of processes. Across these scales, we
           ask how data and engineering knowledge can support reliable decisions.
-        </p> -->
+        </p>
         <div class="hero-actions">
           <Button href="#research-areas">
             Explore our research <ArrowDownBoldIcon />
@@ -153,7 +153,7 @@ const description =
           </a>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section
       id="research-areas"
@@ -162,10 +162,11 @@ const description =
     >
       <div class="section-heading">
         <!-- <p class="eyebrow">Explore the group's work</p> -->
-        <h2 id="areas-heading">Our areas of research</h2>
-        <p>
-          These areas share methods and applications. A single study may combine
-          interpretable model discovery, process prediction and optimisation.
+        <h1 id="areas-heading">Our areas of research</h1>
+        <p class="intro">
+          We combine machine learning, physical modelling and process systems
+          engineering to understand, predict and improve chemical and biological
+          systems.
         </p>
       </div>
       <div class="area-grid">
@@ -232,7 +233,7 @@ const description =
 
     <section class="questions-section" aria-labelledby="questions-heading">
       <div class="section-intro">
-        <p class="eyebrow">The questions that connect our work</p>
+        <!-- <p class="eyebrow">The questions that connect our work</p> -->
         <h2 id="questions-heading">From observations to useful decisions</h2>
         <p>
           Complex systems rarely offer complete mechanisms or perfect datasets.
@@ -367,17 +368,13 @@ const description =
       <div class="contact-section">
         <div>
           <!-- <p class="eyebrow">Connect with the group</p> -->
-           <h2 id="contact-heading">
-            Have a research question in mind?
-          </h2>
+          <h2 id="contact-heading">Have a research question in mind?</h2>
           <p>
             We welcome conversations about research collaborations, industrial
             challenges and opportunities to work with the group.
           </p>
         </div>
-        <Button href="/contact" icon="arrow">
-          Get in touch
-        </Button>
+        <Button href="/contact" icon="arrow"> Get in touch </Button>
       </div>
     </section>
   </div>
@@ -386,6 +383,7 @@ const description =
 <style>
   .research-page {
     scroll-behavior: smooth;
+    /* --content-max-width: 960px; */
   }
   section {
     padding-block: 3.5rem;
@@ -420,10 +418,16 @@ const description =
     font-weight: 600;
     line-height: 1.07;
     letter-spacing: -0.045em;
-    margin-bottom: 1.4rem;
+    /* margin-bottom: 1.4rem; */
   }
   h1 span {
     color: var(--clr-primary);
+  }
+  .intro {
+    color: var(--clr-text-light);
+    font-size: var(--fs-subheading);
+    line-height: 1.6;
+    max-width: 50ch;
   }
   h2 {
     font-size: var(--fs-heading);
