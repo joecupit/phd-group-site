@@ -47,7 +47,7 @@ export const publications = defineCollection({
     abstractStatus: z.enum(["original", "summary", "unavailable", "duplicate"]),
     draft: z.boolean().default(false),
     duplicateOf: z.string().optional(),
-    scholarUrl: z.string().url(),
+    scholarUrl: z.string().url().optional(),
     retrievedOn: z.string(),
     dateSource: z.string().nullable(),
     abstractSource: z.string().url().nullable(),
