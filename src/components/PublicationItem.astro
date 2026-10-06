@@ -96,9 +96,11 @@ const Content = abstract?.Content;
         )
       }
     </div>
-    <Heading class="paper-title" id={headingID}
-      ><a href={href}>{data.title}</a></Heading
-    >
+    <Heading class="paper-title" id={headingID}>
+      <a href={href} target="_blank" rel="noopener">
+        {data.title}
+      </a>
+    </Heading>
     {
       showAuthors && (
         <p class="authors">
