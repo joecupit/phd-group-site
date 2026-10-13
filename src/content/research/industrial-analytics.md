@@ -81,5 +81,4 @@ explore differences in their processing sequences.
 Our predictive-maintenance research addresses the scarcity of Remaining Useful Life
 labels. A semi-supervised framework combines temporal modelling with optimisation to
 infer labels for unlabelled trajectories, making more of the existing operational data
-available for model training. This work has been presented at ENBIS as a conference
-contribution.
+available for model training.

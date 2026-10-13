@@ -1,12 +1,13 @@
 ---
-title: Dynamic modeling and optimization of cyanobacterial C-phycocyanin production process by artificial neural
+title:
+  Dynamic modeling and optimization of cyanobacterial C-phycocyanin production process by artificial neural
   network
 authors:
-- ehecatl-del-rio-chanona
-- emmanuel-manirafasha
-- dongda-zhang
-- qian-yue
-- keju-jing
+  - ehecatl-del-rio-chanona
+  - emmanuel-manirafasha
+  - dongda-zhang
+  - qian-yue
+  - keju-jing
 authorNames:
   ehecatl-del-rio-chanona: Ehecatl Antonio del Río Chanona
   emmanuel-manirafasha: Emmanuel Manirafasha
@@ -19,14 +20,14 @@ publicationDate: 2016-01
 datePrecision: month
 doi: https://doi.org/10.1016/j.algal.2015.11.004
 researchTopics:
-- hybrid-modelling
-- optimisation-control
-- bioprocess-engineering
+  - digital-twins
+  - optimisation-control
+  - bioprocess-engineering
 type: journal-article
 abstractStatus: summary
 draft: false
 scholarUrl: https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:0EnyYjriUFMC
-retrievedOn: '2026-09-30'
+retrievedOn: "2026-09-30"
 dateSource: crossref:published
 abstractSource: https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:0EnyYjriUFMC
 license: null
@@ -37,6 +38,6 @@ reviewNotes: []
 
 Neural networks model changes in process states during cyanobacterial pigment production. Data augmentation and alternative training outputs are examined to improve long-horizon predictions and support dynamic optimisation with limited experimental information.
 
-*Original summary based on the [source abstract](https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:0EnyYjriUFMC). This is not the authors’ verbatim abstract.*
+_Original summary based on the [source abstract](https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:0EnyYjriUFMC). This is not the authors’ verbatim abstract._
 
 <!-- Replace with the original abstract if the group supplies an authorised version. -->

@@ -1,14 +1,15 @@
 ---
-title: Dynamic modelling of Haematococcus pluvialis photoinduction for astaxanthin production in both attached and
+title:
+  Dynamic modelling of Haematococcus pluvialis photoinduction for astaxanthin production in both attached and
   suspended photobioreactors
 authors:
-- dongda-zhang
-- minxi-wan
-- ehecatl-del-rio-chanona
-- jianke-huang
-- weiliang-wang
-- yuanguang-li
-- vassilios-vassiliadis
+  - dongda-zhang
+  - minxi-wan
+  - ehecatl-del-rio-chanona
+  - jianke-huang
+  - weiliang-wang
+  - yuanguang-li
+  - vassilios-vassiliadis
 authorNames:
   dongda-zhang: Dongda Zhang
   minxi-wan: Minxi Wan
@@ -23,13 +24,13 @@ publicationDate: 2016-01
 datePrecision: month
 doi: https://doi.org/10.1016/j.algal.2015.11.019
 researchTopics:
-- hybrid-modelling
-- bioprocess-engineering
+  - digital-twins
+  - bioprocess-engineering
 type: journal-article
 abstractStatus: summary
 draft: false
 scholarUrl: https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:hqOjcs7Dif8C
-retrievedOn: '2026-09-30'
+retrievedOn: "2026-09-30"
 dateSource: crossref:published
 abstractSource: https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:hqOjcs7Dif8C
 license: null
@@ -40,6 +41,6 @@ reviewNotes: []
 
 Dynamic models describe how illumination, temperature and nitrogen availability affect astaxanthin production by Haematococcus pluvialis. Comparing attached and suspended cultivation reveals how reactor configuration and light attenuation influence growth and product accumulation.
 
-*Original summary based on the [source abstract](https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:hqOjcs7Dif8C). This is not the authors’ verbatim abstract.*
+_Original summary based on the [source abstract](https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:hqOjcs7Dif8C). This is not the authors’ verbatim abstract._
 
 <!-- Replace with the original abstract if the group supplies an authorised version. -->

@@ -1,5 +1,5 @@
 ---
-title: Interpretable AI and Scientific Discovery
+title: Interpretable AI and Knowledge Discovery
 shortTitle: Interpretable AI
 subtitle: Discovering equations, mechanisms and physical knowledge from data
 summary:
@@ -27,7 +27,7 @@ applications:
       Relationships between reaction orders, activation energies and surface coverages
       connect measurable kinetics with catalyst behaviour.
 related:
-  - hybrid-modelling
+  - digital-twins
   - industrial-analytics
   - molecular-design
 
@@ -48,8 +48,7 @@ and use to guide further experiments. This is especially important when data are
 or when a model will be applied beyond the conditions used to develop it.
 
 We develop methods that turn process measurements into candidate equations and physical
-explanations. Our work connects interpretable AI with reaction engineering and
-biochemical modelling, with an emphasis on understanding the relationships behind
+explanations. Our work connects interpretable AI with reaction engineering, formulation engineering, and biochemical modelling, with an emphasis on understanding the relationships behind
 observed behaviour.
 
 ## Our approach

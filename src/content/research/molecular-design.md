@@ -1,5 +1,5 @@
 ---
-title: Molecular Design and Discovery
+title: Generative AI for Molecular and Formulation Design
 shortTitle: Molecular Design
 subtitle: Designing molecules with targeted properties through AI and chemical knowledge
 summary:

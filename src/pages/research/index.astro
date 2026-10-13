@@ -22,7 +22,7 @@ for (const publication of publications) {
     publicationCounts.set(id, (publicationCounts.get(id) ?? 0) + 1);
   }
 }
-const areaHref = (id: string) => `${URL_BASE}/research/${id}/`;
+const areaHref = (id: string) => `${URL_BASE}/research/${id}`;
 const papersHref = (id: string) =>
   `/publications/?topic=${encodeURIComponent(id)}`;
 
@@ -165,9 +165,10 @@ const description =
         <!-- <p class="eyebrow">Explore the group's work</p> -->
         <h1 id="areas-heading">Our areas of research</h1>
         <p class="intro">
-          We combine machine learning, physical modelling and process systems
-          engineering to understand, predict and improve chemical and biological
-          systems.
+          We advance AI and integrate it with engineering knowledge to
+          accelerate the discovery, prediction, design, and optimisation of
+          sustainable chemical and biochemical systems, from molecular
+          innovation to smart manufacturing.
         </p>
       </div>
       <div class="area-grid">
@@ -428,7 +429,7 @@ const description =
     color: var(--clr-text-light);
     font-size: var(--fs-subheading);
     line-height: 1.6;
-    max-width: 50ch;
+    max-width: 67ch;
   }
   h2 {
     font-size: var(--fs-heading);

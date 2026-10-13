@@ -1,6 +1,6 @@
 ---
-title: Hybrid Modelling and Digital Twins
-shortTitle: Hybrid Modelling
+title: Scientific AI and Digital Twins
+shortTitle: Digital Twins
 subtitle: Combining physical understanding and machine learning to predict process behaviour
 summary:
   We combine physical models with machine learning to predict chemical and biological

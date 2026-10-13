@@ -26,7 +26,7 @@ applications:
       and temperature influence microalgal growth, including Dunaliella tertiolecta in bicarbonate/carbonate
       media.
 related:
-  - hybrid-modelling
+  - digital-twins
   - optimisation-control
 
 # Optional cover image: add the relative path to your image file.

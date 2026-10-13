@@ -2,6 +2,7 @@
 import {
   LONG_TITLE,
   SHORT_TITLE,
+  UNIVERSITY_DEPARTMENT,
   UNIVERSITY_NAME,
   UNIVERSITY_URL,
   URL_BASE,
@@ -21,7 +22,7 @@ interface Props {
   profileLinks?: FooterLink[];
 }
 const {
-  department = "Department of Chemical Engineering",
+  department = UNIVERSITY_DEPARTMENT,
   institution = UNIVERSITY_NAME,
   institutionHref = UNIVERSITY_URL,
   email = "dongda.zhang@manchester.ac.uk",

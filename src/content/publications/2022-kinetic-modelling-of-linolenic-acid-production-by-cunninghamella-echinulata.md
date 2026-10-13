@@ -1,11 +1,11 @@
 ---
 title: Kinetic modelling of γ-linolenic acid production by Cunninghamella echinulata
 authors:
-- ziqi-song
-- alexander-rogers
-- bovinille-anye-cho
-- keju-jing
-- dongda-zhang
+  - ziqi-song
+  - alexander-rogers
+  - bovinille-anye-cho
+  - keju-jing
+  - dongda-zhang
 authorNames:
   ziqi-song: Ziqi Song
   alexander-rogers: Alexander W. Rogers
@@ -14,17 +14,17 @@ authorNames:
   dongda-zhang: Dongda Zhang
 journal: null
 venue: Computer Aided Chemical Engineering
-publicationDate: '2022'
+publicationDate: "2022"
 datePrecision: year
 doi: https://doi.org/10.1016/b978-0-323-95879-0.50019-9
 researchTopics:
-- hybrid-modelling
-- bioprocess-engineering
+  - digital-twins
+  - bioprocess-engineering
 type: book-chapter
 abstractStatus: summary
 draft: false
 scholarUrl: https://scholar.google.com/citations?view_op=view_citation&hl=en&oe=ASCII&user=g25KQLwAAAAJ&pagesize=100&citation_for_view=g25KQLwAAAAJ:zA6iFVUQeVQC
-retrievedOn: '2026-09-30'
+retrievedOn: "2026-09-30"
 dateSource: crossref:published
 abstractSource: https://research.manchester.ac.uk/en/publications/kinetic-modelling-of-%CE%B3-linolenic-acid-production-by-cunninghamell/
 license: null
@@ -35,6 +35,6 @@ reviewNotes: []
 
 A temperature-dependent kinetic model describes fungal biomass, substrate consumption and gamma-linolenic acid production. Experiments and scale-up investigate a two-stage temperature strategy that separates favourable growth conditions from conditions supporting product formation.
 
-*Original summary based on the [source abstract](https://research.manchester.ac.uk/en/publications/kinetic-modelling-of-%CE%B3-linolenic-acid-production-by-cunninghamell/). This is not the authors’ verbatim abstract.*
+_Original summary based on the [source abstract](https://research.manchester.ac.uk/en/publications/kinetic-modelling-of-%CE%B3-linolenic-acid-production-by-cunninghamell/). This is not the authors’ verbatim abstract._
 
 <!-- Replace with the original abstract if the group supplies an authorised version. -->

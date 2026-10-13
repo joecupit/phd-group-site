@@ -25,7 +25,7 @@ applications:
       Control policies are investigated for simulated fatty-acid and lactate production
       systems, balancing productive metabolic activity against cellular burden.
 related:
-  - hybrid-modelling
+  - digital-twins
   - bioprocess-engineering
 
 # Optional cover image: add the relative path to your image file.
