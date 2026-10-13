@@ -1,6 +1,6 @@
 ---
 name: Alexander Rogers
-role: PhD Student
+role: PhD Researcher
 type: alumni
 email: alexander.rogers@manchester.ac.uk
 summary: ""

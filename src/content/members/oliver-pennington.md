@@ -1,6 +1,6 @@
 ---
 name: Oliver Pennington
-role: PhD Student
+role: PhD Researcher
 email: oliver.pennington@manchester.ac.uk
 summary: ""
 profileImage: "./_images/oliver-pennington.jpeg"

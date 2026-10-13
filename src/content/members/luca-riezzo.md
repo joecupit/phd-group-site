@@ -1,6 +1,6 @@
 ---
 name: Luca Riezzo
-role: PhD Student
+role: PhD Researcher
 email: luca.riezzo@manchester.ac.uk
 summary: ""
 profileImage: "./_images/luca-riezzo.jpeg"

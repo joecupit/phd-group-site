@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import type { InferEntrySchema } from "astro:content";
+
+interface Props {
+  href: string;
+  member: InferEntrySchema<"members">;
+  featured?: boolean;
+}
+const { href, member, featured = false } = Astro.props;
+const initials = member.name
+  .split(/\s+/)
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join("");
+---
+
+<a
+  href={href}
+  class:list={["portrait", { featured }]}
+  style={`--photo-position: ${"center 35%"}`}
+>
+  {
+    member.profileImage ? (
+      // <img
+      //   src={member.profileImage}
+      //   alt={`Portrait of ${member.name}`}
+      //   width="640"
+      //   height="720"
+      //   loading={featured ? "eager" : "lazy"}
+      //   decoding="async"
+      // />
+      <Image
+        src={member.profileImage}
+        alt=""
+        width={640}
+        height={720}
+        loading={featured ? "eager" : "lazy"}
+        decoding="async"
+      />
+    ) : (
+      <div
+        class="portrait-placeholder"
+        role="img"
+        aria-label={`Portrait placeholder for ${member.name}`}
+      >
+        <span aria-hidden="true">{initials}</span>
+      </div>
+    )
+  }
+</a>
+
+<style>
+  .portrait {
+    aspect-ratio: 1 / 1.12;
+    overflow: hidden;
+    background: var(--clr-primary-light);
+    border-radius: 0.25rem;
+
+    &:hover img {
+      opacity: 0.9;
+    }
+  }
+  .portrait.featured {
+    aspect-ratio: unset;
+    max-width: 400px;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--photo-position);
+    /* filter: grayscale(1); */
+
+    transition: opacity 50ms ease-in-out;
+  }
+  .portrait-placeholder {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--clr-border);
+    color: #646c6a;
+  }
+  .portrait-placeholder span {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
+    letter-spacing: -0.07em;
+  }
+</style>

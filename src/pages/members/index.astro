@@ -2,7 +2,9 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import { URL_BASE } from "../../consts";
+import { ABBR_TITLE, SHORT_TITLE, URL_BASE } from "../../consts";
+import MemberCard from "../../components/MemberCard.astro";
+import FeaturedLead from "../../components/FeaturedLead.astro";
 
 // : CollectionEntry<"members">
 const members = (await getCollection("members")).sort((a, b) =>
@@ -30,12 +32,7 @@ const supervisors = current.filter((member) => isSupervisor(member.data.role));
 const researchers = current.filter((member) => !isSupervisor(member.data.role));
 
 const sections = [
-  {
-    id: "supervisors",
-    title: supervisors.length === 1 ? "Group supervisor" : "Group supervisors",
-    members: supervisors,
-  },
-  { id: "team", title: "Current members", members: researchers },
+  { id: "members", title: "Current members", members: researchers },
   { id: "alumni", title: "Group alumni", members: alumni },
 ].filter((section) => section.members.length > 0);
 ---
@@ -48,12 +45,14 @@ const sections = [
     <section class="people-header">
       <h1>Group Members</h1>
       <p>
-        We are an interdisciplinary research group based at the University of
-        Birmingham and the University of Manchester working at the intersection
-        of chemical engineering, sustainable manufacturing, and artificial
-        intelligence.
+        <!-- We are an interdisciplinary research group based at The University of Birmingham and The University of Manchester working at the intersection of chemical engineering, sustainable manufacturing, and artificial intelligence.  -->
+        Based at the Universities of Birmingham and Manchester, our interdisciplinary
+        team brings together expertise in chemical engineering, sustainable manufacturing
+        and artificial intelligence.
       </p>
     </section>
+
+    <FeaturedLead id={supervisors[0].id} member={supervisors[0].data} />
 
     {
       sections.map((section) => (
@@ -62,42 +61,11 @@ const sections = [
           aria-labelledby={`${section.id}-heading`}
         >
           <h2 id={`${section.id}-heading`}>{section.title}</h2>
-          <ul class="people-list">
+          <div class="people-list">
             {section.members.map((member) => (
-              <li class="person">
-                <a
-                  class="person-profile"
-                  href={`${URL_BASE}/members/${member.id}`}
-                >
-                  <span class="portrait">
-                    {member.data.profileImage ? (
-                      <Image
-                        src={member.data.profileImage}
-                        alt=""
-                        width={144}
-                        height={144}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span class="initials" aria-hidden="true">
-                        {member.data.name
-                          .split(/\s+/)
-                          .filter(Boolean)
-                          .map((part) => part[0])
-                          .slice(0, 2)
-                          .join("")}
-                      </span>
-                    )}
-                  </span>
-                  <span class="person-name">{member.data.name}</span>
-                </a>
-                <span class="person-role">{member.data.role}</span>
-                <a class="person-email" href={`mailto:${member.data.email}`}>
-                  Email<span class="sr-only"> {member.data.name}</span>
-                </a>
-              </li>
+              <MemberCard id={member.id} member={member.data} />
             ))}
-          </ul>
+          </div>
         </section>
       ))
     }
@@ -121,7 +89,7 @@ const sections = [
 
 <style>
   .people-page {
-    --content-max-width: 960px;
+    /* --content-max-width: 960px; */
   }
   section {
     padding-block: 3.5rem;
@@ -145,10 +113,10 @@ const sections = [
   }
   .people-header p {
     max-width: 65ch;
-    margin: 0;
     color: var(--clr-text-light);
     font-size: var(--fs-subheading);
-    line-height: 1.7;
+    line-height: 1.6;
+    margin-block-start: 0.5rem;
   }
   .people-section {
     padding-block: 1.5rem;
@@ -167,6 +135,34 @@ const sections = [
     padding: 0;
     margin: 0;
   }
+
+  .people-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.4rem 1.6rem;
+    align-items: start;
+  }
+  @media (max-width: 950px) {
+    .people-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .people-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.8rem 1rem;
+    }
+    /* .directory-heading { display: block; }
+    .member-count { margin-top: .5rem; }
+    .filters { gap: 0 1rem; } */
+  }
+  @media (max-width: 400px) {
+    .people-list {
+      grid-template-columns: 1fr;
+    }
+    /* .mobile-break { display: block; } */
+  }
+
   .person {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;

@@ -285,13 +285,13 @@ const hasBio = Boolean(member.body?.trim());
   }
   .portrait {
     grid-column: 2;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1.05;
     display: grid;
     place-items: center;
     font-weight: 600;
     color: var(--clr-primary-dark);
     background: var(--clr-bg-dark);
-    border-radius: 20px;
+    border-radius: 0.25rem;
     overflow: hidden;
   }
   .portrait :global(img) {

@@ -1,6 +1,6 @@
 ---
 name: Sam Kay
-role: PhD Student
+role: PhD Researcher
 email: sam.kay@manchester.ac.uk
 summary: ""
 profileImage: "./_images/sam-kay.jpeg"

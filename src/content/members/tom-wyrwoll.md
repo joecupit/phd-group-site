@@ -1,6 +1,6 @@
 ---
 name: Tom Wyrwoll
-role: PhD Student
+role: PhD Researcher
 email: tom.wyrwoll@student.manchester.ac.uk
 summary: ""
 profileImage: "./_images/tom-wywroll.jpg"

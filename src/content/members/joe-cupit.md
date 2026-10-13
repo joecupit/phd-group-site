@@ -1,6 +1,6 @@
 ---
 name: Joe Cupit
-role: PhD Student
+role: PhD Researcher
 email: joseph.cupit@postgrad.manchester.ac.uk
 summary: ""
 profileImage: "./_images/joe-cupit.jpg"

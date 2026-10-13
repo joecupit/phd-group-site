@@ -1,6 +1,6 @@
 ---
 name: Harvey Al-Ramadhan
-role: PhD Student
+role: PhD Researcher
 email: harvey.al-ramadhan@student.manchester.ac.uk
 summary: ""
 profileImage: "./_images/harvey-al-ramadhan.png"

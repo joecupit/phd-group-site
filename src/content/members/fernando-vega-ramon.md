@@ -1,6 +1,6 @@
 ---
 name: Fernando Vega-Ramon
-role: PhD Student
+role: PhD Researcher
 type: alumni
 email: fernando.vegaramon@manchester.ac.uk
 summary: ""

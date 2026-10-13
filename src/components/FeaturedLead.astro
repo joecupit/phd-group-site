@@ -1,0 +1,89 @@
+---
+import type { InferEntrySchema } from "astro:content";
+import Portrait from "./Portrait.astro";
+import { URL_BASE } from "../consts";
+
+interface Props {
+  id: string;
+  member: InferEntrySchema<"members">;
+}
+const { id, member } = Astro.props;
+
+const memberHref = `${URL_BASE}/members/${id}`;
+---
+
+<section aria-labelledby="lead-name">
+  <div class="featured-lead">
+    <Portrait href={memberHref} member={member} featured />
+    <div class="lead-copy">
+      <div>
+        <p class="eyebrow">{member.role}</p>
+        <h2 id="lead-name"><a href={memberHref}>{member.name}</a></h2>
+      </div>
+      {member.summary && <p class="lead-bio">{member.summary}</p>}
+      <a class="text-link" href={`${URL_BASE}/members/${id}`}> More info </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-lead {
+    padding-block: 0.5rem 2.5rem;
+    margin-block-end: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2.5rem;
+    border-bottom: 1px solid var(--clr-border);
+    /* align-items: center; */
+  }
+  .featured-lead:has(a:not(.text-link):hover) a:not(.text-link) {
+    text-decoration: underline;
+  }
+  .lead-copy {
+    /* max-width: 650px; */
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+    max-width: 58ch;
+  }
+  .eyebrow {
+    font-weight: 600;
+    font-size: var(--fs-subheading);
+  }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.05em;
+
+    & a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  .lead-bio {
+    /* font-size: var(--fs-subheading); */
+    line-height: 1.5;
+    letter-spacing: -0.025em;
+  }
+  .lead-research {
+    color: var(--clr-text-light);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .text-link {
+    display: inline-block;
+    margin-top: auto;
+  }
+  @media (max-width: 750px) {
+    .featured-lead {
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+    .featured-lead > :first-child {
+      max-width: 340px;
+      width: 100%;
+    }
+  }
+</style>

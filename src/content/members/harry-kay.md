@@ -1,6 +1,6 @@
 ---
 name: Harry Kay
-role: PhD Student
+role: PhD Researcher
 email: harry.kay@manchester.ac.uk
 summary: ""
 profileImage: "./_images/harry-kay.jpeg"
