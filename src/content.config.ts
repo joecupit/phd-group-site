@@ -10,7 +10,12 @@ const members = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      role: z.string(),
+      role: z.enum([
+        "Group Supervisor",
+        "Postdoctoral Research Associate",
+        "PhD Researcher",
+        "Masters Student",
+      ]),
       type: z.enum(["current", "alumni"]).default("current"),
       email: z.string(),
       summary: z.string().optional(),
