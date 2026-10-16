@@ -3,23 +3,25 @@ title: Generative AI for Molecular and Formulation Design
 shortTitle: Molecular Design
 subtitle: Designing molecules with targeted properties through AI and chemical knowledge
 summary:
-  We investigate how chemical language models can generate molecular candidates for
-  targeted properties. Our work focuses on the fidelity, validity and diversity of generated
-  structures, with a demonstrated application in surfactant design.
+  We develop AI methods to generate molecules with targeted properties and assess
+  their practical accessibility. Our work spans surfactant design and cost-aware
+  molecular screening, connecting candidate generation with the challenges of
+  making or purchasing promising compounds.
 pos: 6
 focus:
   - Inverse molecular design
   - Chemical language models
   - Structural fidelity and candidate diversity
 applications:
-  - title: Surfactant design
+  - title: Surfactant and formulation development
     description:
-      "Molecular candidates are generated for a target critical micelle concentration:
-      the concentration at which surfactant molecules begin to form micelles."
-  - title: Molecular candidate assessment
+      "Generate surfactant candidates against multiple performance targets and
+      structural constraints to support ingredient selection for formulated products."
+  - title: Cost-aware molecular screening
     description:
-      Round-trip fidelity, candidate re-ranking and structural repairs help assess
-      generated molecules against their intended property target and chemical validity.
+      "Prioritise molecular candidates using predicted price as a proxy for
+      synthetic accessibility, helping focus further assessment on potentially
+      affordable and accessible compounds."
 related:
   - interpretable-ai
   - industrial-analytics
@@ -35,13 +37,9 @@ related:
 
 ## The challenge
 
-Inverse molecular design starts with a desired property and seeks structures that could
-provide it. Many different molecules may meet the target, so useful methods need to
-consider diversity as well as predicted performance.
+Molecular design starts with a desired set of properties and seeks structures that could provide them. Many different molecules may meet a target, but useful candidates must also be practical to make or purchase.
 
-Our molecular-design work investigates how chemical language models can generate
-candidates for specified properties, with particular attention to chemical validity and
-consistency between the design target and the decoded structure.
+We develop AI methods to generate molecular candidates and assess their potential for further investigation. Our work combines property-driven design, demonstrated in surfactants, with tools that bring molecular cost and synthetic accessibility into candidate selection.
 
 ## Our approach
 
