@@ -6,7 +6,7 @@ summary: ""
 profileImage: "./_images/chao-song.jpg"
 links:
   LinkedIn: https://www.linkedin.com/in/chao-song-79718826b/
-  ORCID: https://orcid.org/my-orcid?orcid=0009-0009-6340-7645
+  ORCID: https://orcid.org/0009-0009-6340-7645
 startDate: 2026-04
 ---
 
