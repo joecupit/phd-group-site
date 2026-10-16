@@ -45,16 +45,10 @@ consistency between the design target and the decoded structure.
 
 ## Our approach
 
-### Generating and refining molecular candidates
+### Surfactant design
 
-The published framework optimises molecular representations within a chemical language
-model. A round-trip fidelity measure assesses how those representations change when
-converted into structures and encoded again. Candidate re-ranking and minimal structural
-repairs address molecules that are invalid or miss the intended target.
+We use chemical language models to generate surfactant candidates with a target critical micelle concentration: the concentration at which surfactant molecules begin to form micelles. Our framework optimises molecular representations and checks whether they remain consistent when converted into structures and encoded again. Candidate re-ranking and minimal structural repairs help address invalid structures or deviations from the target, while interpretability analysis examines whether the designs follow established physical relationships.
 
-### Interpreting generated structures
+### Assessing molecular cost and accessibility
 
-Interpretability analysis examines whether generated structures follow established
-physical design relationships. The outputs are computational candidates for further
-assessment; their generation alone does not establish synthesis feasibility or
-experimentally measured performance.
+Promising molecular designs must also be practical to obtain. We developed MolPrice, a machine learning model that predicts molecular price as a proxy for synthetic accessibility. Trained on supplier data and extended through contrastive learning to distinguish purchasable molecules from synthetically complex structures, it supports rapid assessment of large candidate libraries. By bringing cost and accessibility into molecular screening, MolPrice helps prioritise candidates for further investigation.
