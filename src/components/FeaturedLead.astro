@@ -44,16 +44,17 @@ const memberHref = `${URL_BASE}/members/${id}`;
     /* height: 100%; */
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 0.5rem;
     padding-block: 0.5rem;
     max-width: 58ch;
   }
   .eyebrow {
     font-weight: 600;
-    font-size: var(--fs-subheading);
+    /* font-size: var(--fs-subheading); */
   }
   h2 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: var(--fs-heading);
     line-height: 1.1;
     letter-spacing: -0.025em;
 
@@ -64,17 +65,12 @@ const memberHref = `${URL_BASE}/members/${id}`;
   }
   .lead-bio {
     /* font-size: var(--fs-subheading); */
-    line-height: 1.5;
-    letter-spacing: -0.025em;
-  }
-  .lead-research {
-    color: var(--clr-text-light);
-    font-size: 0.9rem;
-    line-height: 1.7;
+    /* line-height: 1.6; */
+    /* letter-spacing: -0.025em; */
   }
   .text-link {
     display: inline-block;
-    margin-top: auto;
+    /* margin-top: auto; */
   }
   @media (max-width: 750px) {
     .featured-lead {

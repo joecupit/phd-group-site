@@ -8,6 +8,7 @@ profileImage: "./_images/fernando-vega-ramon.png"
 links:
   LinkedIn: https://www.linkedin.com/in/fernando-vega-ramon/
   Google Scholar: https://scholar.google.com/citations?user=YT5C1D4AAAAJ&hl=en
+startDate: 2022-09
 endDate: 2026-05
 ---
 

@@ -15,11 +15,7 @@ const initials = member.name
   .join("");
 ---
 
-<a
-  href={href}
-  class:list={["portrait", { featured }]}
-  style={`--photo-position: ${"center 35%"}`}
->
+<a href={href} class:list={["portrait", { featured }]}>
   {
     member.profileImage ? (
       // <img
@@ -70,7 +66,7 @@ const initials = member.name
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--photo-position);
+    object-position: center 35%;
     /* filter: grayscale(1); */
 
     transition: opacity 50ms ease-in-out;
