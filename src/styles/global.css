@@ -115,6 +115,7 @@
   --clr-primary: hsl(235, 48%, 41%);
   --clr-primary-dark: hsl(234, 61%, 21%); */
 
+  /*
   --clr-text: #163330;
   --clr-text-light: #52645f;
 
@@ -126,6 +127,33 @@
   --clr-bg-light: #fefffe;
   --clr-bg: #fbfcf9;
   --clr-bg-dark: #edf3ee;
+  */
+
+  --clr-page-background: #fffbf1;
+  --clr-card-background: #ffffff;
+  --clr-section-background: #f5efde;
+  --clr-emphasis-background: #eae4d2;
+  --clr-dark-background: #17244a;
+  --clr-text-strong: #17244a;
+  --clr-text-body: #3e4964;
+  --clr-text-muted: #5d6575;
+  --clr-text-inverse: #ffffff;
+  --clr-primary-base: #2445d8;
+  --clr-primary-hover: #1832a8;
+  --clr-primary-soft: #e8edff;
+  --clr-secondary-base: #ad420d;
+  --clr-secondary-hover: #873108;
+  --clr-secondary-soft: #ffe9db;
+  --clr-border-subtle: #ddd6c3;
+  --clr-border-strong: #97917f;
+  --clr-accent: #ff934f;
+  --clr-text-on-accent: #17244a;
+
+  --clr-logo-background: var(--clr-page-background);
+  --clr-logo-text: var(--clr-text-strong);
+  --clr-logo-primary: var(--clr-primary-base);
+  --clr-logo-primary-inverse: var(--clr-page-background);
+  --clr-logo-accent: var(--clr-accent);
 
   --fs-small: clamp(0.8rem, 1.5vw, 0.875rem);
   --fs-body: clamp(0.9rem, 2vw, 1.05rem);
@@ -168,8 +196,8 @@ body {
   font-size: var(--fs-body);
   font-family: var(--ff-body);
 
-  color: var(--clr-text);
-  background: var(--clr-bg);
+  color: var(--clr-text-body);
+  background: var(--clr-page-background);
 }
 @media (max-width: 44rem) {
   body:has(.mobile-nav[data-open="true"]) {
@@ -183,11 +211,10 @@ main {
 }
 section,
 header,
-footer,
-.page-grid {
+footer {
   --page-padding: 3rem;
   --section-inline-padding: 1.5rem;
-  --content-max-width: 1050px;
+  --content-max-width: 980px;
 
   @media (max-width: 41rem) {
     --section-inline-padding: 1rem;
@@ -206,13 +233,12 @@ footer,
 }
 section > *,
 header > *,
-footer > *,
-.page-grid > * {
+footer > * {
   grid-column: content;
 }
 header,
 footer {
-  --content-max-width: 1100px;
+  --content-max-width: 1000px;
 }
 
 section:first-child {
@@ -228,6 +254,7 @@ h3,
 h4,
 h5,
 h6 {
+  color: var(--clr-text-strong);
   font-family: var(--ff-heading);
   font-weight: 600;
   max-width: 70ch;
@@ -239,12 +266,12 @@ p {
 }
 
 a {
-  color: var(--clr-primary);
+  color: var(--clr-primary-base);
   display: inline-block;
   width: fit-content;
 }
 a:hover {
-  color: var(--clr-primary-dark);
+  color: var(--clr-primary-hover);
 }
 
 img,
@@ -289,11 +316,13 @@ svg {
   font-size: 0.95rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--clr-text-light);
+  color: var(--clr-text-muted);
 }
 
 ::selection {
-  color: var(--clr-primary);
-  background: hsl(from var(--clr-bg) h s 90%);
-  /* background: var(--clr-text); */
+  /* color: var(--clr-primary-base);
+  background: hsl(from var(--clr-page-background) h s 90%); */
+  /* background: var(--clr-text-body); */
+  color: var(--clr-text-strong);
+  background: var(--clr-primary-soft);
 }

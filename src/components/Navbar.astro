@@ -1,5 +1,8 @@
 ---
 import { SHORT_TITLE, URL_BASE } from "../consts";
+import LogoWide from "../assets/logo/LogoWide.astro";
+import LogoShort from "../assets/logo/LogoShort.astro";
+import LogoIcon from "../assets/logo/LogoIcon.astro";
 
 interface NavLink {
   label: string;
@@ -39,7 +42,12 @@ const activeFor = (href: string) => {
 <header class="site-header">
   <a class="skip-link" href={skipTo}>Skip to content</a>
   <group-navigation class="navigation" data-open="false">
-    <a class="brand" href={homeHref}>{groupName}</a>
+    <a class="brand" href={homeHref}>
+      <!-- {groupName} -->
+      <LogoWide />
+      <!-- <LogoShort /> -->
+      <!-- <LogoIcon /> -->
+    </a>
     <button
       class="menu-toggle"
       type="button"
@@ -118,13 +126,21 @@ const activeFor = (href: string) => {
 
 <style>
   .site-header {
+    /* --_clr-navbar-background: var(--clr-page-background);
+    --_clr-navbar-logo-text: var(--clr-text-strong);
+    --_clr-navbar-logo-primary: var(--clr-primary-base);
+    --_clr-navbar-logo-accent: var(--clr-accent); */
     /* position: relative; */
+    --_clr-navbar-background: var(--clr-page-background);
+    --clr-logo-background: var(--_clr-navbar-background);
+
     position: sticky;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--clr-border);
-    background: var(--clr-bg);
-    color: var(--clr-text);
+    border-bottom: 1px solid var(--clr-border-strong);
+    background: var(--_clr-navbar-background);
+    /* color: var(--clr-text-inverse);
+    background: var(--clr-dark-background); */
   }
   .navigation {
     display: flex;
@@ -133,18 +149,27 @@ const activeFor = (href: string) => {
     gap: 1.5rem;
     width: min(1180px, 100%);
     margin-inline: auto;
-    padding: 1.25rem clamp(1rem, 4vw, 2.5rem);
+    padding-block: 0.75rem;
+  }
+  .navigation a {
+    color: var(--clr-text-body);
+
+    &:hover {
+      color: var(--clr-text-strong);
+    }
   }
   .brand {
-    min-width: 0;
-    max-width: 26ch;
-    color: var(--clr-primary-dark);
+    height: 3.75rem;
+    /* color: var(--clr-text-inverse); */
     font-size: var(--fs-subheading);
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.35;
     text-decoration: none;
     overflow-wrap: anywhere;
+
+    & :global(svg) {
+    }
   }
   .nav-links {
     display: flex;
@@ -155,14 +180,14 @@ const activeFor = (href: string) => {
   }
   .nav-links a {
     padding: 0.4rem 0;
-    color: var(--clr-text-light);
+    /* color: var(--clr-text-inverse); */
     text-decoration: none;
     text-underline-offset: 6px;
     white-space: nowrap;
   }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] {
-    color: var(--clr-text);
+    /* color: var(--clr-text-body); */
     text-decoration: underline;
   }
   .nav-links a[aria-current="page"] {
@@ -174,9 +199,9 @@ const activeFor = (href: string) => {
     gap: 0.7rem;
     padding: 0.55rem 0.7rem;
     background: transparent;
-    border: 1px solid var(--clr-border);
+    border: 1px solid var(--clr-border-strong);
     border-radius: 5px;
-    color: var(--clr-text);
+    /* color: var(--clr-text-body); */
     font: inherit;
     cursor: pointer;
   }
@@ -192,7 +217,7 @@ const activeFor = (href: string) => {
   }
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid var(--clr-primary);
+    outline: 2px solid var(--clr-primary-base);
     outline-offset: 4px;
   }
   .skip-link {
@@ -202,8 +227,8 @@ const activeFor = (href: string) => {
     z-index: 10;
     transform: translateY(-200%);
     padding: 0.65rem 1rem;
-    background: var(--clr-primary);
-    color: var(--clr-bg);
+    background: var(--clr-primary-base);
+    /* color: var(--clr-page-background); */
     border-radius: 4px;
   }
   .skip-link:focus {

@@ -205,12 +205,10 @@ const hasBio = Boolean(member.body?.trim());
 </Layout>
 
 <style>
-  .member-page {
-    --content-max-width: 930px;
-  }
   section {
+    --content-max-width: 900px;
     padding-block: 2.5rem;
-    border-block-end: 1px solid var(--clr-border);
+    border-block-end: 1px solid var(--clr-border-strong);
     scroll-margin-top: var(--research-anchor-offset, 6rem);
 
     &:last-child {
@@ -219,7 +217,7 @@ const hasBio = Boolean(member.body?.trim());
   }
 
   a {
-    color: var(--clr-primary-dark);
+    color: var(--clr-primary-hover);
     text-underline-offset: 4px;
   }
   a:has(svg) {
@@ -234,10 +232,10 @@ const hasBio = Boolean(member.body?.trim());
   }
   a:hover {
     text-decoration: underline !important;
-    color: var(--clr-primary);
+    color: var(--clr-primary-base);
   }
   a:focus-visible {
-    outline: 3px solid var(--clr-primary);
+    outline: 3px solid var(--clr-primary-base);
     outline-offset: 4px;
   }
   .back-link {
@@ -291,8 +289,8 @@ const hasBio = Boolean(member.body?.trim());
     /* display: grid;
     place-items: center; */
     font-weight: 600;
-    color: var(--clr-primary-dark);
-    background: var(--clr-bg-dark);
+    color: var(--clr-primary-hover);
+    background: var(--clr-section-background);
     border-radius: 0.25rem;
     overflow: hidden;
   }
@@ -304,7 +302,7 @@ const hasBio = Boolean(member.body?.trim());
   }
   .initials {
     font-size: var(--fs-title);
-    color: var(--clr-primary-dark);
+    color: var(--clr-primary-hover);
   }
   h2 {
     margin-block-end: 1rem;
@@ -330,7 +328,7 @@ const hasBio = Boolean(member.body?.trim());
     margin-top: 0.5rem;
   }
   .bio-content :global(a) {
-    color: var(--clr-primary-dark);
+    color: var(--clr-primary-hover);
     text-underline-offset: 4px;
   }
   .bio-content :global(img) {
@@ -340,7 +338,7 @@ const hasBio = Boolean(member.body?.trim());
   .publications-section {
     margin-top: 3rem;
     padding-top: 2.5rem;
-    border-top: 1px solid var(--clr-border);
+    border-top: 1px solid var(--clr-border-strong);
   }
   .section-heading {
     display: flex;
@@ -357,13 +355,13 @@ const hasBio = Boolean(member.body?.trim());
   }
   .paper-list li {
     padding: 1.4rem 0;
-    border-bottom: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border-strong);
   }
   .paper-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-    color: var(--clr-text-light);
+    /* color: var(--clr-text-muted); */
   }
   h3 {
     margin: 0.65rem 0;
@@ -378,11 +376,11 @@ const hasBio = Boolean(member.body?.trim());
   }
   .authors {
     margin: 0;
-    color: var(--clr-text-light);
+    /* color: var(--clr-text-muted); */
     line-height: 1.6;
   }
   .empty-state {
-    color: var(--clr-text-light);
+    /* color: var(--clr-text-muted); */
   }
   @media (max-width: 650px) {
     .member-header {

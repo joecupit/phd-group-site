@@ -26,6 +26,7 @@ const { href, fill, size, color, icon } = Astro.props as Props;
         padding-inline: 2ch 1.5ch;
         padding-block: 0.5ch;
         height: fit-content;
+        cursor: pointer;
 
         font-family: var(--ff-body);
         font-size: var(--fs-body);
@@ -33,8 +34,10 @@ const { href, fill, size, color, icon } = Astro.props as Props;
         text-decoration: none;
 
         background: none;
-        color: var(--clr-primary);
-        border: 2px solid var(--clr-primary);
+        color: var(--clr-primary-base);
+        border: 2px solid var(--clr-primary-base);
+        /* color: var(--clr-secondary-base);
+        border: 2px solid var(--clr-secondary-base); */
 
         transition-property: color, background-color;
         transition-duration: 100ms;
@@ -45,19 +48,22 @@ const { href, fill, size, color, icon } = Astro.props as Props;
             height: 1.5ch;
         }
         &:hover {
-            color: var(--clr-bg);
-            background: var(--clr-primary);
+            color: var(--clr-page-background);
+            background: var(--clr-primary-base);
         }
     }
 
     /* fills */
     .button.solid {
-        color: var(--clr-bg);
-        background: var(--clr-primary);
+        color: var(--clr-page-background);
+        background: var(--clr-primary-base);
+        /* background: var(--clr-secondary-base); */
 
         &:hover {
-            background: var(--clr-primary-dark);
-            border-color: var(--clr-primary-dark);
+            background: var(--clr-primary-hover);
+            border-color: var(--clr-primary-hover);
+            /* background: var(--clr-secondary-hover);
+            border-color: var(--clr-secondary-hover); */
         }
     }
 
@@ -71,12 +77,12 @@ const { href, fill, size, color, icon } = Astro.props as Props;
 
     /* colours */
     .button.white {
-        color: var(--clr-bg);
-        border-color: var(--clr-bg);
+        color: var(--clr-page-background);
+        border-color: var(--clr-page-background);
 
         &:hover {
-            color: var(--clr-primary);
-            background-color: var(--clr-bg);
+            color: var(--clr-primary-base);
+            background-color: var(--clr-page-background);
         }
     }
 </style>
