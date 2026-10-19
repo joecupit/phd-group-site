@@ -15,6 +15,7 @@ const members = defineCollection({
         "Postdoctoral Research Associate",
         "PhD Researcher",
         "Masters Student",
+        "Royal Society Career Development Fellow",
       ]),
       type: z.enum(["current", "alumni"]).default("current"),
       email: z.string(),
