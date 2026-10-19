@@ -129,7 +129,7 @@
   --clr-bg-dark: #edf3ee;
   */
 
-  --clr-page-background: #fffbf1;
+  --clr-page-background: #fbf8f1;
   --clr-card-background: #ffffff;
   --clr-section-background: #f5efde;
   --clr-emphasis-background: #eae4d2;
@@ -203,6 +203,70 @@ body {
   body:has(.mobile-nav[data-open="true"]) {
     overflow: hidden;
   }
+}
+
+body.blue1 {
+  --clr-page-background: #fffbf1;
+  --clr-card-background: #ffffff;
+  --clr-section-background: #f5efde;
+  --clr-emphasis-background: #eae4d2;
+  --clr-dark-background: #17244a;
+  --clr-text-strong: #17244a;
+  --clr-text-body: #3e4964;
+  --clr-text-muted: #5d6575;
+  --clr-text-inverse: #ffffff;
+  --clr-primary-base: #2445d8;
+  --clr-primary-hover: #1832a8;
+  --clr-primary-soft: #e8edff;
+  --clr-secondary-base: #ad420d;
+  --clr-secondary-hover: #873108;
+  --clr-secondary-soft: #ffe9db;
+  --clr-border-subtle: #ddd6c3;
+  --clr-border-strong: #97917f;
+  --clr-accent: #ff934f;
+  --clr-text-on-accent: #17244a;
+}
+body.blue2 {
+  --clr-page-background: #f6f8fa;
+  --clr-card-background: #ffffff;
+  --clr-section-background: #edf2f5;
+  --clr-emphasis-background: #e3eef0;
+  --clr-dark-background: #092d43;
+  --clr-text-strong: #102f42;
+  --clr-text-body: #334e60;
+  --clr-text-muted: #526777;
+  --clr-text-inverse: #ffffff;
+  --clr-primary-base: #087f8c;
+  --clr-primary-hover: #066570;
+  --clr-primary-soft: #e2f3f4;
+  --clr-secondary-base: #173f5f;
+  --clr-secondary-hover: #103149;
+  --clr-secondary-soft: #e8eff5;
+  --clr-border-subtle: #d7e1e7;
+  --clr-border-strong: #8296a5;
+  --clr-accent: #173f5f;
+  --clr-text-on-accent: #103149;
+}
+body.green1 {
+  --clr-page-background: #fcfaf1;
+  --clr-card-background: #ffffff;
+  --clr-section-background: #f3f0e1;
+  --clr-emphasis-background: #eae6d3;
+  --clr-dark-background: #082f29;
+  --clr-text-strong: #123a31;
+  --clr-text-body: #3b5248;
+  --clr-text-muted: #526257;
+  --clr-text-inverse: #ffffff;
+  --clr-primary-base: #145c47;
+  --clr-primary-hover: #0d4535;
+  --clr-primary-soft: #e3f0e8;
+  --clr-secondary-base: #756018;
+  --clr-secondary-hover: #584710;
+  --clr-secondary-soft: #f9f1cf;
+  --clr-border-subtle: #dedac7;
+  --clr-border-strong: #99967c;
+  --clr-accent: #f3dc86;
+  --clr-text-on-accent: #123a31;
 }
 
 main {
