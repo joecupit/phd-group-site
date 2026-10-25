@@ -19,11 +19,11 @@ const {
   homeHref = `${URL_BASE}/`,
   skipTo = "#main-content",
   links = [
-    { label: "Home", href: `${URL_BASE}/` },
-    { label: "Members", href: `${URL_BASE}/members` },
+    // { label: "Home", href: `${URL_BASE}/` },
     { label: "Research", href: `${URL_BASE}/research` },
     { label: "Publications", href: `${URL_BASE}/publications` },
-    // { label: "Contact", href: `${URL_BASE}/contact` },
+    { label: "Members", href: `${URL_BASE}/members` },
+    { label: "Get in touch", href: `${URL_BASE}/contact`, style: "button" },
   ],
 } = Astro.props;
 const normalise = (path: string) => path.replace(/\/+$/, "") || "/";
@@ -55,14 +55,20 @@ const activeFor = (href: string) => {
       aria-controls="site-navigation"
       hidden
     >
-      <span>Menu</span><span class="menu-icon" aria-hidden="true"
-        ><span></span><span></span></span
-      >
+      <span>Menu</span>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
     </button>
     <nav id="site-navigation" class="nav-links" aria-label="Main navigation">
       {
-        links.map(({ label, href }) => (
-          <a href={href} aria-current={activeFor(href) ? "page" : undefined}>
+        links.map(({ label, href, style }) => (
+          <a
+            href={href}
+            class={style === "button" ? "nav-button" : ""}
+            aria-current={activeFor(href) ? "page" : undefined}
+          >
             {label}
           </a>
         ))
@@ -132,12 +138,16 @@ const activeFor = (href: string) => {
     --_clr-navbar-logo-accent: var(--clr-accent); */
     /* position: relative; */
     --_clr-navbar-background: var(--clr-page-background);
+    /* --_clr-navbar-background: var(--clr-dark-background); */
+    /* --_clr-navbar-background: transparent; */
     --clr-logo-background: var(--_clr-navbar-background);
+    /* --clr-logo-text: var(--clr-text-inverse); */
 
     position: sticky;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid var(--clr-border-strong);
+    border-bottom: 1px solid var(--clr-border-subtle);
+    /* border-bottom: 1px solid hsl(from var(--clr-dark-background) h s 30%); */
     background: var(--_clr-navbar-background);
     /* color: var(--clr-text-inverse);
     background: var(--clr-dark-background); */
@@ -147,19 +157,19 @@ const activeFor = (href: string) => {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    width: min(1180px, 100%);
+    width: 100%;
     margin-inline: auto;
     padding-block: 0.75rem;
   }
   .navigation a {
-    color: var(--clr-text-body);
+    color: var(--clr-text-strong);
 
-    &:hover {
+    /* &:hover {
       color: var(--clr-text-strong);
-    }
+    } */
   }
   .brand {
-    height: 3.75rem;
+    height: 2.75rem;
     /* color: var(--clr-text-inverse); */
     font-size: var(--fs-subheading);
     font-weight: 600;
@@ -177,6 +187,7 @@ const activeFor = (href: string) => {
     justify-content: flex-end;
     align-items: center;
     gap: 0.35rem 1.3rem;
+    /* font-size: var(--fs-small); */
   }
   .nav-links a {
     padding: 0.4rem 0;
@@ -192,6 +203,22 @@ const activeFor = (href: string) => {
   }
   .nav-links a[aria-current="page"] {
     font-weight: 600;
+  }
+  .nav-links a.nav-button {
+    color: var(--clr-primary-soft);
+    background: var(--clr-primary-base);
+    font-weight: 600;
+    padding-inline: 1.25ch;
+    border-radius: 0.25rem;
+
+    transition-property: color, background-color;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+      background: var(--clr-primary-hover);
+    }
   }
   .menu-toggle {
     display: none;
@@ -238,9 +265,6 @@ const activeFor = (href: string) => {
     .navigation {
       flex-wrap: wrap;
       gap: 1rem;
-    }
-    .brand {
-      flex: 1;
     }
     .nav-links {
       flex: 0 0 100%;

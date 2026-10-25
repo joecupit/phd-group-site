@@ -77,12 +77,13 @@ const { href, fill, size, color, icon } = Astro.props as Props;
 
     /* colours */
     .button.white {
-        color: var(--clr-page-background);
-        border-color: var(--clr-page-background);
+    background: var(--clr-dark-background);
+    border-color: var(--clr-text-inverse);
+    color: var(--clr-text-inverse);
 
-        &:hover {
-            color: var(--clr-primary-base);
-            background-color: var(--clr-page-background);
-        }
+    &:hover {
+      color: var(--clr-dark-background);
+      background: var(--clr-text-inverse);
+    }
     }
 </style>

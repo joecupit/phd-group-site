@@ -129,7 +129,7 @@
   --clr-bg-dark: #edf3ee;
   */
 
-  --clr-page-background: #fbf8f1;
+  --clr-page-background: #f9f7f2;
   --clr-card-background: #ffffff;
   --clr-section-background: #f5efde;
   --clr-emphasis-background: #eae4d2;
@@ -156,10 +156,10 @@
   --clr-logo-accent: var(--clr-accent);
 
   --fs-small: clamp(0.8rem, 1.5vw, 0.875rem);
-  --fs-body: clamp(0.9rem, 2vw, 1.05rem);
-  --fs-subheading: clamp(1.1rem, 2.25vw, 1.3rem);
-  --fs-heading: clamp(1.5rem, 2.5vw, 2rem);
-  --fs-title: clamp(2.5rem, 4.5vw, 4rem);
+  --fs-body: clamp(0.9rem, 2vw, 1rem);
+  --fs-subheading: clamp(1.1rem, 2.25vw, 1.25rem);
+  --fs-heading: clamp(1.4rem, 2.5vw, 1.8rem);
+  --fs-title: clamp(2.1rem, 4.5vw, 4rem);
 
   --ff-body: "Manrope", sans-serif;
   --ff-heading: "Sora", sans-serif;
@@ -278,7 +278,7 @@ header,
 footer {
   --page-padding: 3rem;
   --section-inline-padding: 1.5rem;
-  --content-max-width: 980px;
+  --content-max-width: 1100px;
 
   @media (max-width: 41rem) {
     --section-inline-padding: 1rem;
@@ -302,7 +302,7 @@ footer > * {
 }
 header,
 footer {
-  --content-max-width: 1000px;
+  --content-max-width: 1100px;
 }
 
 section:first-child {
