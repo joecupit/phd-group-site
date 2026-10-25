@@ -1,5 +1,6 @@
 ---
 import {
+  CONTACT_EMAIL,
   LONG_TITLE,
   SHORT_TITLE,
   UNIVERSITY_DEPARTMENT,
@@ -25,12 +26,12 @@ const {
   department = UNIVERSITY_DEPARTMENT,
   institution = UNIVERSITY_NAME,
   institutionHref = UNIVERSITY_URL,
-  email = "dongda.zhang@manchester.ac.uk",
+  email = CONTACT_EMAIL,
   links = [
+    { label: "Members", href: `${URL_BASE}/members` },
     { label: "Research", href: `${URL_BASE}/research` },
     { label: "Publications", href: `${URL_BASE}/publications` },
-    { label: "Members", href: `${URL_BASE}/members` },
-    // { label: "Contact", href: `${URL_BASE}/contact` },
+    { label: "Contact", href: `${URL_BASE}/contact` },
   ],
   profileLinks = [],
   // profileLinks = [
@@ -54,20 +55,15 @@ const year = new Date().getFullYear();
           <p class="description">{LONG_TITLE}</p>
         </div>
         {
-          email && (
-            <div class="contact-links">
-              <p class="contact-heading">
-                Contact:{" "}
+          (department || institution) && (
+            <div class="institution">
+              <p class="link-heading">Contact</p>
+              <p>Dr Dongda Zhang</p>
+              <p>
                 <a class="email" href={`mailto:${email}`}>
                   {email}
                 </a>
               </p>
-            </div>
-          )
-        }
-        {
-          (department || institution) && (
-            <div class="institution">
               {department && <p>{department}</p>}
               {institution && (
                 <p>
@@ -116,7 +112,7 @@ const year = new Date().getFullYear();
     <div class="footer-bottom">
       <p>© {year} {SHORT_TITLE}</p>
       <p>
-        A site by <a href=`${URL_BASE}/members/joe-cupit`>Joe Cupit</a>.
+        Website by <a href=`${URL_BASE}/members/joe-cupit`>Joe Cupit</a>.
       </p>
     </div>
   </div>
@@ -131,9 +127,8 @@ const year = new Date().getFullYear();
     padding-block: 2.75rem 1.5rem;
   }
   .footer-main {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem 3rem;
     padding-bottom: 2.5rem;
   }
@@ -147,13 +142,16 @@ const year = new Date().getFullYear();
   .group-name {
     /* margin: 0 0 0.75rem; */
     color: var(--clr-text-strong);
-    font-size: var(--fs-subheading);
-    font-weight: 700;
+    font-size: var(--fs-heading);
+    font-family: var(--ff-heading);
+    font-weight: 800;
+    line-height: 1;
   }
   .description {
     max-width: 48ch;
     margin: 0;
-    line-height: 1.7;
+    /* line-height: 1.7; */
+    font-size: var(--fs-subheading);
     /* color: var(--clr-text-muted); */
   }
   .institution {
@@ -163,12 +161,13 @@ const year = new Date().getFullYear();
   .footer-links {
     display: flex;
     /* flex-wrap: wrap; */
+    justify-content: flex-end;
     gap: 4rem 5rem;
     /* flex: 1; */
+    text-align: right;
   }
   .footer-navigation,
   .research-navigation {
-    text-align: right;
   }
   .research-navigation a {
     line-height: 1.5;
@@ -186,16 +185,15 @@ const year = new Date().getFullYear();
     display: grid;
     gap: 0.65rem;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    margin-block-start: 0.5rem;
   }
   .contact-links ul {
     display: flex;
     gap: 0.75rem;
   }
   .link-heading {
-    margin: 0 0 0.75rem;
-    font-weight: 600;
+    /* margin: 0 0 0.75rem; */
+    font-weight: 800;
     color: var(--clr-text-strong);
   }
   .email {
@@ -209,7 +207,8 @@ const year = new Date().getFullYear();
   }
   a:hover {
     text-decoration: underline;
-    color: var(--clr-primary-base);
+    /* color: var(--clr-primary-base); */
+    /* font-weight: 500; */
   }
   a:focus-visible {
     outline: 2px solid var(--clr-primary-base);
@@ -232,12 +231,23 @@ const year = new Date().getFullYear();
   .footer-bottom a {
     font-size: var(--fs-small);
   }
-  @media (max-width: 520px) {
+  @media (max-width: 750px) {
     .footer-main {
-      gap: 1.75rem;
+      grid-template-columns: 1fr;
     }
     .group-info {
-      flex-basis: 100%;
+      align-items: center;
+      text-align: center;
+    }
+    .footer-links {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+  @media (max-width: 500px) {
+    .footer-links {
+      flex-direction: column;
+      gap: 3rem;
     }
   }
 </style>

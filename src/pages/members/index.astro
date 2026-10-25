@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
-import { ABBR_TITLE, SHORT_TITLE, URL_BASE } from "../../consts";
+import { ABBR_TITLE, CONTACT_EMAIL, SHORT_TITLE, URL_BASE } from "../../consts";
 import MemberCard from "../../components/MemberCard.astro";
 import FeaturedLead from "../../components/FeaturedLead.astro";
 
@@ -79,9 +79,10 @@ const sections = [
     <section>
       <h2>Interested in joining?</h2>
       <p>
-        Email <a href="mailto:dongda.zhang@manchester.ac.uk"
-          >dongda.zhang@manchester.ac.uk</a
-        >.
+        Email
+        <a href=`mailto:${CONTACT_EMAIL}`>
+          {CONTACT_EMAIL}
+        </a>.
       </p>
     </section>
   </div>

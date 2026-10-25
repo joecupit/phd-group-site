@@ -1,7 +1,7 @@
 ---
 name: Dongda Zhang
 role: Group Supervisor
-email: dongda.zhang@manchester.ac.uk
+email: d.zhang.13@bham.ac.uk
 summary: "Dr. Dongda Zhang is an Associate Professor at the University of Birmingham and a Royal Academy of Engineering Industrial Fellow at Unilever. His research combines AI and process systems engineering to advance scientific discovery and sustainable chemical and biochemical manufacturing."
 profileImage: "./_images/dongda-zhang.jpg"
 links:
