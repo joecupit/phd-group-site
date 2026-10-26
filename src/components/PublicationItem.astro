@@ -10,6 +10,7 @@ import {
   type ResearchArea,
 } from "../lib/publications";
 import { URL_BASE } from "../consts";
+import ArrowUpRightIcon from "../assets/icons/ArrowUpRightIcon.astro";
 
 interface Props {
   publication: Publication;
@@ -83,55 +84,67 @@ const Content = abstract?.Content;
 >
   <article aria-labelledby={headingID}>
     <div class="paper-meta">
-      {
-        (data.journal || data.venue) && (
-          <span class="paper-type">{data.journal ?? data.venue}</span>
-        )
-      }
-      {
-        data.publicationDate && (
-          <time datetime={data.publicationDate}>
-            {formatPublicationDate(data.publicationDate, dateFormat)}
-          </time>
-        )
-      }
+      <div>
+        {
+          (data.journal || data.venue) && (
+            <span class="paper-type">{data.journal ?? data.venue}</span>
+          )
+        }
+        {
+          data.publicationDate && (
+            <time datetime={data.publicationDate}>
+              {formatPublicationDate(data.publicationDate, dateFormat)}
+            </time>
+          )
+        }
+      </div>
+      <div>
+        <a class="paper-link" href={href} target="_blank" rel="noopener">
+          {data.doi && !Astro.props.publicationHref ? "DOI" : "Link"}
+          <ArrowUpRightIcon />
+        </a>
+      </div>
     </div>
     <Heading class="paper-title" id={headingID}>
-      <a href={href} target="_blank" rel="noopener">
-        {data.title}
-      </a>
+      <!-- <a href={href} target="_blank" rel="noopener"> -->
+      {data.title}
+      <!-- </a> -->
     </Heading>
     {
       showAuthors && (
         <p class="authors">
           {data.authorRole === "editors" && <span>Edited by </span>}
-          {data.authors.map((id, index) => (
-            <Fragment>
-              {index > 0 && ", "}
-              {memberIDs.has(memberIDFor(id, aliases)) ? (
-                <a
-                  href={memberHref(memberIDFor(id, aliases))}
-                  class:list={{
-                    "highlighted-author":
-                      memberIDFor(id, aliases) === highlightAuthor,
-                  }}
-                  data-author-id={memberIDFor(id, aliases)}
-                >
-                  {data.authorNames[id] ?? id}
-                </a>
-              ) : (
-                <span
-                  class:list={{
-                    "highlighted-author":
-                      memberIDFor(id, aliases) === highlightAuthor,
-                  }}
-                  data-author-id={memberIDFor(id, aliases)}
-                >
-                  {data.authorNames[id] ?? id}
-                </span>
-              )}
-            </Fragment>
-          ))}
+          {data.authors.map((id, index) => {
+            const memberID = memberIDFor(id, aliases);
+            const isMember = memberIDs.has(memberID);
+            const name = data.authorNames[id] ?? id;
+
+            return (
+              <>
+                {index > 0 && ", "}
+                {isMember ? (
+                  <a
+                    href={memberHref(memberID)}
+                    class:list={{
+                      "highlighted-author": memberID === highlightAuthor,
+                    }}
+                    data-author-id={memberID}
+                  >
+                    {name}
+                  </a>
+                ) : (
+                  <span
+                    class:list={{
+                      "highlighted-author": memberID === highlightAuthor,
+                    }}
+                    data-author-id={memberID}
+                  >
+                    {name}
+                  </span>
+                )}
+              </>
+            );
+          })}
         </p>
       )
     }
@@ -184,15 +197,24 @@ const Content = abstract?.Content;
 </li>
 <style>
   .publication {
-    padding-block: 1.45rem;
-    border-bottom: 1px solid var(--clr-border-subtle);
+    /* padding-block: 1.45rem; */
+    /* border-bottom: 1px solid var(--clr-border-subtle); */
     color: var(--clr-text-body);
     min-width: 0;
 
-    &:last-child {
+    background: var(--clr-card-background);
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--clr-primary-base);
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    /* margin-block: 0.5rem; */
+
+    max-width: 60rem;
+
+    /* &:last-child {
       border: none;
       padding-block-end: 0;
-    }
+    } */
   }
   .publication[hidden] {
     display: none !important;
@@ -208,25 +230,59 @@ const Content = abstract?.Content;
   }
   .paper-meta {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .paper-meta div {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    column-gap: 0.7rem;
     align-items: center;
     /* color: var(--clr-text-muted); */
     font-size: var(--fs-small);
   }
+  .paper-link {
+    position: relative;
+    display: flex;
+    gap: 0.25ch;
+    align-items: center;
+    text-decoration: none;
+
+    & :global(svg) {
+      width: 2ch;
+      height: 2ch;
+
+      transition: translate 100ms;
+    }
+    &:hover :global(svg) {
+      translate: 4px -4px;
+    }
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 90%;
+      left: -2%;
+      height: 1px;
+      width: 95%;
+      background: currentColor;
+    }
+  }
   .paper-type {
-    font-weight: 600;
+    font-weight: 800;
     color: var(--clr-primary-base);
   }
   .paper-title {
-    margin: 0.45rem 0;
+    margin-block: 0.2rem 0.45rem;
     font-size: var(--fs-subheading);
-    font-family: var(--ff-heading);
+    font-family: var(--ff-body);
     font-weight: 600;
     line-height: 1.45;
     /* letter-spacing: -0.015em; */
+    max-width: 75ch;
     overflow-wrap: anywhere;
-    max-width: none;
+    /* max-width: none; */
   }
   .paper-title a {
     text-decoration: none;
@@ -237,17 +293,30 @@ const Content = abstract?.Content;
   }
   .authors {
     margin: 0.45rem 0;
-    /* color: var(--clr-text-muted); */
+    color: var(--clr-text-muted);
     line-height: 1.6;
     max-width: none;
     overflow-wrap: anywhere;
   }
   .authors a {
-    color: var(--clr-primary-base);
+    color: var(--clr-text-strong);
+    /* font-weight: 600; */
+
+    &:hover {
+      color: var(--clr-primary-base);
+    }
   }
   .highlighted-author {
     font-weight: 800;
   }
+  .authors > * {
+    display: inline-block;
+  }
+  /* .authors > *:not(:last-child)::after {
+    content: ",\00a0";
+    text-decoration: none;
+    display: inline-block;
+  } */
   .paper-footer {
     display: flex;
     align-items: baseline;
@@ -319,15 +388,10 @@ const Content = abstract?.Content;
     white-space: nowrap;
     border: 0;
   }
-  @media (max-width: 480px) {
-    .publication {
-      padding: 1.2rem 0;
-    }
-    .paper-footer {
-      align-items: flex-start;
-    }
-    .topic-tags {
-      flex: 1 1 100%;
+  @media (max-width: 500px) {
+    .paper-meta > div {
+      flex-direction: column-reverse;
+      align-items: start;
     }
   }
   @media print {
