@@ -364,8 +364,8 @@ const description =
       </div>
     </section>
 
-    <section aria-labelledby="contact-heading">
-      <div class="contact-section">
+    <section class="contact-section" aria-labelledby="contact-heading">
+      <div class="contact-container">
         <div>
           <!-- <p class="eyebrow">Connect with the group</p> -->
           <h2 id="contact-heading">Have a research question in mind?</h2>
@@ -387,12 +387,12 @@ const description =
   }
   section {
     padding-block: 3.5rem;
-    border-block-end: 1px solid var(--clr-border-strong);
+    /* border-block-end: 1px solid var(--clr-border-strong); */
     scroll-margin-top: var(--research-anchor-offset, 6rem);
 
-    &:last-child {
+    /* &:last-child {
       border: none;
-    }
+    } */
   }
 
   a {
@@ -837,26 +837,31 @@ const description =
     /* color: var(--clr-text-muted); */
     margin-bottom: 0;
   }
-  .contact-section {
+  .contact-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
   }
-  .contact-section > div {
+  .contact-container > div {
     max-width: 650px;
   }
-  .contact-section h2 {
+  .contact-container h2 {
     font-size: var(--fs-subheading);
   }
-  .contact-section p:last-child {
+  .contact-container p:last-child {
     /* color: var(--clr-text-muted); */
     font-size: var(--fs-body);
     margin-bottom: 0;
   }
-  .contact-section .button {
+  .contact-container .button {
     flex-shrink: 0;
   }
+  .contact-section {
+    background: var(--clr-primary-soft);
+    border-top: 1px solid var(--clr-border-subtle);
+  }
+
   .sr-only {
     position: absolute;
     width: 1px;

@@ -34,6 +34,7 @@ interface Props extends PublicationFilters {
   showTopics?: boolean;
   showAbstract?: boolean;
   showPublicationLink?: boolean;
+  columnLayout?: boolean;
 }
 const {
   publications: suppliedPublications,
@@ -59,6 +60,7 @@ const {
   showTopics = false,
   showAbstract = false,
   showPublicationLink = false,
+  columnLayout = false,
 } = Astro.props;
 if (limit !== null && (!Number.isInteger(limit) || limit < 0))
   throw new Error(
@@ -98,7 +100,7 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
 {
   (!hideWhenEmpty || visible.length > 0) && (
     <div
-      class="publication-section"
+      class={`publication-section ${columnLayout ? "columned" : ""}`}
       id={id}
       aria-labelledby={title ? `${id}-heading` : undefined}
       aria-label={!title ? "Publications" : undefined}
@@ -178,6 +180,8 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
   .publication-section {
     min-width: 0;
     color: var(--clr-text-body);
+    width: fit-content;
+    margin-inline: auto;
   }
   .section-heading {
     display: flex;
@@ -186,6 +190,18 @@ const itemHeadingLevel = (headingLevel + (groupByYear ? 2 : 1)) as
     flex-wrap: wrap;
     gap: 0.75rem 1.5rem;
     margin-bottom: 0.5rem;
+  }
+  @media (min-width: 1000px) {
+    .publication-section.columned {
+      display: flex;
+      column-gap: 5rem;
+
+      & .section-heading {
+        flex-direction: column;
+        width: 16rem;
+        justify-content: initial;
+      }
+    }
   }
   .section-heading :is(h2, h3, h4) {
     margin: 0;

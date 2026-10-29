@@ -6,6 +6,10 @@ import PublicationList from "../components/PublicationList.astro";
 import Button from "../components/Button.astro";
 import ArrowRightIcon from "../assets/icons/ArrowRightIcon.astro";
 import ArrowUpRightIcon from "../assets/icons/ArrowUpRightIcon.astro";
+import {
+  ResearchIcon,
+  ResearchIconsFilled,
+} from "../assets/icons/research/ResearchIcon";
 
 const site = {
   groupName: LONG_TITLE, // Replace with your agreed group name.
@@ -40,20 +44,20 @@ const partners: Partner[] = [
     logo: `${URL_BASE}/images/logos/croda.png`,
   },
   {
-    name: "Modersys",
-    logo: `${URL_BASE}/images/logos/modersys.png`,
-  },
-  {
-    name: "Keit Industrial Analytics",
-    logo: `${URL_BASE}/images/logos/keit-industrial-analytics.png`,
-  },
-  {
     name: "Johnson Matthey",
     logo: `${URL_BASE}/images/logos/johnson-matthey.svg`,
   },
   {
     name: "CPACT",
     logo: `${URL_BASE}/images/logos/cpact.png`,
+  },
+  {
+    name: "Modersys",
+    logo: `${URL_BASE}/images/logos/modersys.png`,
+  },
+  {
+    name: "Keit Industrial Analytics",
+    logo: `${URL_BASE}/images/logos/keit-industrial-analytics.png`,
   },
   {
     name: "Canco",
@@ -235,15 +239,63 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
               <h2 id="research-heading">Research areas</h2>
               <p class="section-intro">
                 Working at the interface of chemical engineering, sustainable
-                manufacturing, and machine learning
+                manufacturing, and machine learning.
               </p>
             </div>
-            <Button href={`${URL_BASE}/research`} size="small" color="white">
+            {/* <Button href={`${URL_BASE}/research`} size="small" color="white">
               Explore our research <ArrowRightIcon />
-            </Button>
+            </Button> */}
           </div>
           <div class="research-grid">
-            {researchAreas.map((area, index) => (
+            {researchAreas.map((area, index) => {
+              // const Icon = ResearchIcon[area.id];
+              const Icon = ResearchIconsFilled[area.id];
+              return (
+                <div
+                  class="research-card-flat"
+                  aria-labelledby={`area-heading-${index}`}
+                >
+                  {/* {area.data.coverImage && (
+                  <img
+                    class="research-image"
+                    src={area.data.coverImage.src}
+                    width={area.data.coverImage.width}
+                    height={area.data.coverImage.height}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <div class="research-card-flat-inner"> */}
+                  {/* <div class="card-topline">
+                    <span class="card-index" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span class="card-arrow" aria-hidden="true">
+                      <ArrowUpRightIcon />
+                    </span>
+                  </div> */}
+                  <div>
+                    <div class="research-card-header">
+                      <h3 id={`area-heading-${index}`}>{area.data.title}</h3>
+                      <div class="research-card-header-icon">
+                        <Icon />
+                      </div>
+                    </div>
+                    <p>{area.data.summary}</p>
+                  </div>
+                  <a
+                    class="card-link"
+                    href={researchHref(area.id)}
+                    aria-hidden="true"
+                  >
+                    Find out more
+                  </a>
+                  {/* </div> */}
+                </div>
+              );
+            })}
+            {/* {researchAreas.map((area, index) => (
               <a
                 class="research-card"
                 href={researchHref(area.id)}
@@ -278,7 +330,7 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
                   </span>
                 </div>
               </a>
-            ))}
+            ))} */}
           </div>
         </section>
       )
@@ -327,7 +379,12 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     } -->
 
     <section>
-      <PublicationList limit={4} viewAllHref=`${URL_BASE}/publications`>
+      <PublicationList
+        limit={3}
+        columnLayout={true}
+        title="Some recent publications"
+        viewAllHref=`${URL_BASE}/publications`
+      >
         <p slot="intro" class="section-intro">
           Explore our current body of work.
         </p>
@@ -341,12 +398,12 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
             <h2 id="partners-heading">Industrial collaborators</h2>
             <p class="section-intro">
               We work in close partnership with industry across formulation,
-              specialty chemicals, and biopharmaceuticals
+              specialty chemicals, and biopharmaceuticals.
             </p>
           </div>
           <ul class="partner-grid">
             {partners.map((partner) => (
-              <li class="partner">
+              <li class="partner" title={partner.name}>
                 {partner.href ? (
                   <a
                     href={partner.href}
@@ -379,8 +436,8 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
       )
     }
 
-    <section aria-labelledby="connection-heading">
-      <div class="connection-section">
+    <section class="connection-section" aria-labelledby="connection-heading">
+      <div class="connection-container">
         <div class="connection-heading">
           <!-- <p class="eyebrow">People and partnerships</p> -->
           <h2 id="connection-heading">Interested in what we do?</h2>
@@ -415,12 +472,12 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
 <style>
   section {
     padding-block: 3.5rem;
-    border-block-end: 1px solid var(--clr-border-strong);
+    /* border-block-end: 1px solid var(--clr-border-strong); */
     scroll-margin-top: var(--research-anchor-offset, 6rem);
 
-    &:last-child {
+    /* &:last-child {
       border: none;
-    }
+    } */
   }
 
   h1,
@@ -500,7 +557,7 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     align-items: center;
     gap: 4rem;
     /* min-height: 26rem; */
-    height: min(38rem, 67svh);
+    height: min(38rem, 67svh, max(90vw, 26rem));
   }
   .hero-section::before {
     --_background-size: 288px;
@@ -568,7 +625,7 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     border-radius: 50%;
   }
   h1 {
-    max-width: 20ch;
+    max-width: 18ch;
     color: var(--clr-primary-soft);
     /* font-family: Georgia, "Times New Roman", serif; */
     font-size: var(--fs-title);
@@ -724,8 +781,9 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     align-items: center;
     justify-content: center;
     color: var(--clr-text-muted);
-    background: var(--clr-section-background);
+    background: var(--clr-primary-soft);
     min-height: 20rem;
+    font-weight: 600;
   }
   .introduction-copy {
     /* color: var(--clr-text-muted); */
@@ -751,23 +809,47 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
   }
   .section-intro {
     max-width: 55ch;
+    margin-block-start: 0.25rem;
     /* color: var(--clr-text-muted); */
   }
   .research-section {
     /* background: var(--clr-primary-base);
     color: var(--clr-text-inverse); */
+    /* background: var(--clr-section-background); */
   }
   .research-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 3rem;
+    column-gap: 3rem;
     margin-block-start: 2rem;
   }
+  .research-card-flat {
+    border-top: 2px solid var(--clr-border-subtle);
+    /* padding-inline: 0.5rem; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-block-start: 1.5rem;
+    gap: 2rem;
+  }
+  .research-card-header {
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    gap: 2rem;
+  }
+  .research-card-header-icon {
+    color: var(--clr-primary-base);
+    width: 3.5rem;
+    height: 2.25rem;
+    /* display: none; */
+  }
   .research-card {
+    width: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    width: 100%;
     border: 2px solid var(--clr-border-strong);
     border-radius: 0.35rem;
     background: var(--clr-card-background);
@@ -810,16 +892,17 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
       translate: 3px -3px;
     }
   }
-  .research-card h3 {
-    max-width: 24ch;
-    line-height: 1.25;
+  .research-card-flat h3 {
+    /* max-width: 20ch; */
+    text-wrap: initial;
+    line-height: 1.4;
   }
-  .research-card p {
-    margin-top: 0.25rem;
+  .research-card-flat p {
+    margin-top: 1rem;
     /* color: var(--clr-text-muted); */
   }
   .card-link {
-    margin-top: auto;
+    /* margin-top: auto; */
     color: var(--clr-primary-base);
     font-size: var(--fs-small);
     font-weight: 600;
@@ -953,24 +1036,44 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     font-size: var(--fs-small);
   }
 
-  /* .partners-section-top {
+  .partners-section-top {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-  } */
+
+    & .section-intro {
+      max-width: 50ch;
+    }
+  }
   .partner-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    /* gap: 1rem; */
     /* margin-inline: auto; */
     list-style: none;
     margin-top: 2rem;
-    max-width: min(52rem, 100%);
+    /* max-width: min(52rem, 100%); */
+    background: var(--clr-border-subtle);
+    gap: 1px;
+    border: 1px solid var(--clr-border-subtle);
+
+    border-radius: 2px;
+    overflow: hidden;
 
     /* display: flex;
     flex-wrap: wrap;
     justify-content: center; */
+
+    @media (max-width: 650px) {
+      grid-template-columns: repeat(2, 1fr);
+      /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); */
+    }
+
+    @media (max-width: 350px) {
+      grid-template-columns: 1fr;
+      /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); */
+    }
   }
   .partner {
     display: flex;
@@ -979,14 +1082,15 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     height: 9rem;
     padding-inline: 1.5rem;
     padding-block: 2rem;
-    border: 1px solid var(--clr-border-strong);
-    border-radius: 0.3rem;
+    /* border: 1px solid var(--clr-border-subtle); */
+    /* border-radius: 0.3rem; */
     background: var(--clr-card-background);
   }
   .partner img {
     /* width: 100%; */
     /* max-width: 12.5rem; */
     /* height: 4.5rem; */
+    max-width: 10rem;
     object-fit: contain;
   }
   .partner a {
@@ -997,6 +1101,10 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
   }
 
   .connection-section {
+    background: var(--clr-primary-soft);
+    border-top: 1px solid var(--clr-border-subtle);
+  }
+  .connection-container {
     display: grid;
     grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
     gap: 4rem;

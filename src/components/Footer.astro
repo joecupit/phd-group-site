@@ -119,9 +119,10 @@ const year = new Date().getFullYear();
 </footer>
 <style>
   .site-footer {
-    border-top: 1px solid var(--clr-border-strong);
-    /* color: var(--clr-text-inverse); */
-    background: var(--clr-emphasis-background);
+    border-top: 1px solid var(--clr-border-subtle);
+    /* background: var(--clr-emphasis-background); */
+    color: var(--clr-primary-soft);
+    background: var(--clr-dark-background);
   }
   .footer-inner {
     padding-block: 2.75rem 1.5rem;
@@ -141,7 +142,8 @@ const year = new Date().getFullYear();
   }
   .group-name {
     /* margin: 0 0 0.75rem; */
-    color: var(--clr-text-strong);
+    /* color: var(--clr-text-strong); */
+    color: var(--clr-text-inverse);
     font-size: var(--fs-heading);
     font-family: var(--ff-heading);
     font-weight: 800;
@@ -194,7 +196,8 @@ const year = new Date().getFullYear();
   .link-heading {
     /* margin: 0 0 0.75rem; */
     font-weight: 800;
-    color: var(--clr-text-strong);
+    /* color: var(--clr-text-strong); */
+    color: var(--clr-text-inverse);
   }
   .email {
     display: inline-block;
@@ -220,13 +223,15 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 0.75rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--clr-border-strong);
+    border-top: 1px solid var(--clr-border-subtle);
   }
   .footer-bottom p {
     margin: 0;
-    color: var(--clr-text-muted);
+    /* color: var(--clr-text-muted); */
+    color: var(--clr-primary-soft);
     font-size: var(--fs-small);
     line-height: 1.6;
+    opacity: 0.7;
   }
   .footer-bottom a {
     font-size: var(--fs-small);

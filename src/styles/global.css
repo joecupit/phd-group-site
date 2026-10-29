@@ -129,15 +129,15 @@
   --clr-bg-dark: #edf3ee;
   */
 
-  --clr-page-background: #f9f7f2;
-  --clr-card-background: #ffffff;
+  --clr-page-background: #faf8f3;
+  --clr-card-background: #fdfdfb;
   --clr-section-background: #f5efde;
   --clr-emphasis-background: #eae4d2;
   --clr-dark-background: #17244a;
   --clr-text-strong: #17244a;
   --clr-text-body: #3e4964;
   --clr-text-muted: #5d6575;
-  --clr-text-inverse: #ffffff;
+  --clr-text-inverse: #fdfdfb;
   --clr-primary-base: #2445d8;
   --clr-primary-hover: #1832a8;
   --clr-primary-soft: #e8edff;
@@ -159,7 +159,7 @@
   --fs-body: clamp(0.9rem, 2vw, 1rem);
   --fs-subheading: clamp(1.1rem, 2.25vw, 1.25rem);
   --fs-heading: clamp(1.4rem, 2.5vw, 1.8rem);
-  --fs-title: clamp(2.1rem, 4.5vw, 4rem);
+  --fs-title: clamp(2.1rem, 7vw, 4rem);
 
   --ff-body: "Manrope", sans-serif;
   --ff-heading: "Sora", sans-serif;
@@ -387,6 +387,6 @@ svg {
   /* color: var(--clr-primary-base);
   background: hsl(from var(--clr-page-background) h s 90%); */
   /* background: var(--clr-text-body); */
-  color: var(--clr-text-strong);
-  background: var(--clr-primary-soft);
+  color: #17244a;
+  background: #d7ddfa;
 }
