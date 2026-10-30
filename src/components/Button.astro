@@ -21,6 +21,7 @@ const { href, fill, size, color, icon } = Astro.props as Props;
         display: flex;
         gap: 1ch;
         align-items: center;
+        justify-content: center;
         text-align: center;
 
         padding-inline: 2ch 1.5ch;
@@ -61,7 +62,7 @@ const { href, fill, size, color, icon } = Astro.props as Props;
 
         &:hover {
             background: var(--clr-primary-hover);
-            border-color: var(--clr-primary-hover);
+            /* border-color: var(--clr-primary-hover); */
             /* background: var(--clr-secondary-hover);
             border-color: var(--clr-secondary-hover); */
         }

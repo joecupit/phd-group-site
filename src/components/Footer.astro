@@ -28,9 +28,9 @@ const {
   institutionHref = UNIVERSITY_URL,
   email = CONTACT_EMAIL,
   links = [
-    { label: "Members", href: `${URL_BASE}/members` },
     { label: "Research", href: `${URL_BASE}/research` },
     { label: "Publications", href: `${URL_BASE}/publications` },
+    { label: "Members", href: `${URL_BASE}/members` },
     { label: "Contact", href: `${URL_BASE}/contact` },
   ],
   profileLinks = [],
@@ -59,28 +59,20 @@ const year = new Date().getFullYear();
             <div class="institution">
               <p class="link-heading">Contact</p>
               <p>Dr Dongda Zhang</p>
+              {department && <p>{department}</p>}
+              {institution && <p>{institution}</p>}
               <p>
                 <a class="email" href={`mailto:${email}`}>
                   {email}
                 </a>
               </p>
-              {department && <p>{department}</p>}
-              {institution && (
-                <p>
-                  {institutionHref ? (
-                    <a href={institutionHref}>{institution}</a>
-                  ) : (
-                    institution
-                  )}
-                </p>
-              )}
             </div>
           )
         }
       </div>
       <div class="footer-links">
         <nav class="footer-navigation" aria-label="Footer navigation">
-          <p class="link-heading">Explore</p>
+          <p class="link-heading">Quick links</p>
           <ul>
             {
               links.map(({ label, href }) => (
@@ -110,7 +102,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© {year} {SHORT_TITLE}</p>
+      <p>© {SHORT_TITLE} {year}</p>
       <p>
         Website by <a href=`${URL_BASE}/members/joe-cupit`>Joe Cupit</a>.
       </p>
@@ -158,7 +150,7 @@ const year = new Date().getFullYear();
   }
   .institution {
     /* color: var(--clr-text-muted); */
-    line-height: 1.6;
+    line-height: 1.8;
   }
   .footer-links {
     display: flex;

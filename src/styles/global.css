@@ -136,10 +136,10 @@
   --clr-bg-dark: #edf3ee;
   */
 
-  --clr-page-background: #faf8f3;
-  --clr-card-background: #fdfdfb;
-  --clr-section-background: #f8f3e7;
-  --clr-emphasis-background: #eae4d2;
+  --clr-page-background: #f8f9fd;
+  --clr-card-background: #fdfdff;
+  --clr-section-background: #f1f4ff;
+  --clr-emphasis-background: #e0e6f5;
   --clr-dark-background: #17244a;
   --clr-text-strong: #17244a;
   --clr-text-body: #3e4964;
@@ -151,8 +151,8 @@
   --clr-secondary-base: #ad420d;
   --clr-secondary-hover: #873108;
   --clr-secondary-soft: #ffe9db;
-  --clr-border-subtle: #ddd6c3;
-  --clr-border-strong: #97917f;
+  --clr-border-subtle: #d8deec;
+  --clr-border-strong: #929bb0;
   --clr-accent: #ff934f;
   --clr-text-on-accent: #17244a;
 

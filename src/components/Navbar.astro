@@ -1,8 +1,10 @@
 ---
 import { SHORT_TITLE, URL_BASE } from "../consts";
 import LogoWide from "../assets/logo/LogoWide.astro";
+import LogoWideNoIcon from "../assets/logo/LogoWideNoIcon.astro";
 import LogoShort from "../assets/logo/LogoShort.astro";
 import LogoIcon from "../assets/logo/LogoIcon.astro";
+import Button from "./Button.astro";
 
 interface NavLink {
   label: string;
@@ -32,19 +34,16 @@ const activeFor = (href: string) => {
   const target = new URL(href, Astro.url);
   if (target.origin !== Astro.url.origin) return false;
   const path = normalise(target.pathname);
-  return (
-    currentPath === path ||
-    (path !== `${URL_BASE}/` && currentPath.startsWith(`${path}/`))
-  );
+  return currentPath === path;
 };
 ---
 
 <header class="site-header">
-  <a class="skip-link" href={skipTo}>Skip to content</a>
+  <!-- <a class="skip-link" href={skipTo}>Skip to content</a> -->
   <group-navigation class="navigation" data-open="false">
     <a class="brand" href={homeHref}>
       <!-- {groupName} -->
-      <LogoWide />
+      <LogoWideNoIcon />
       <!-- <LogoShort /> -->
       <!-- <LogoIcon /> -->
     </a>
@@ -63,15 +62,17 @@ const activeFor = (href: string) => {
     </button>
     <nav id="site-navigation" class="nav-links" aria-label="Main navigation">
       {
-        links.map(({ label, href, style }) => (
-          <a
-            href={href}
-            class={style === "button" ? "nav-button" : ""}
-            aria-current={activeFor(href) ? "page" : undefined}
-          >
-            {label}
-          </a>
-        ))
+        links.map(({ label, href, style }) =>
+          style === "button" ? (
+            <Button href={href} fill="solid">
+              {label}
+            </Button>
+          ) : (
+            <a href={href} aria-current={activeFor(href) ? "page" : undefined}>
+              {label}
+            </a>
+          ),
+        )
       }
     </nav>
   </group-navigation>
@@ -196,13 +197,15 @@ const activeFor = (href: string) => {
     text-underline-offset: 6px;
     white-space: nowrap;
   }
-  .nav-links a:hover,
-  .nav-links a[aria-current="page"] {
+  .nav-links a:hover {
     /* color: var(--clr-text-body); */
     text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
-  .nav-links a[aria-current="page"] {
+  .nav-links a:not(.nav-button)[aria-current="page"] {
     font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
   .nav-links a.nav-button {
     color: var(--clr-primary-soft);

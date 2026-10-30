@@ -11,7 +11,7 @@ import InterpretableAIFilled from "./interpretable-ai-filled.astro";
 import MolecularDesignFilled from "./molecular-design-filled.astro";
 import OptimisationControlFilled from "./optimisation-control-filled.astro";
 
-export const ResearchIcon = {
+export const ResearchIcon: { [id: string]: any } = {
   "bioprocess-engineering": BioprocessEngineering,
   "digital-twins": DigitalTwins,
   "industrial-analytics": IndustrialAnalytics,
@@ -20,7 +20,7 @@ export const ResearchIcon = {
   "optimisation-control": OptimisationControl,
 };
 
-export const ResearchIconsFilled = {
+export const ResearchIconsFilled: { [id: string]: any } = {
   "bioprocess-engineering": BioprocessEngineeringFilled,
   "digital-twins": DigitalTwinsFilled,
   "industrial-analytics": IndustrialAnalyticsFilled,

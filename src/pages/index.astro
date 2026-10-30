@@ -195,7 +195,6 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
             Connecting scientific understanding with engineering decisions.
             Chemical engineering, machine learning, sustainable manufacturing.
           </h2> -->
-          (group photo)
         </div>
         <div class="introduction-copy">
           <p>
@@ -236,10 +235,11 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
         >
           <div class="section-top">
             <div>
-              <h2 id="research-heading">Research areas</h2>
+              <h2 id="research-heading">Areas of research</h2>
               <p class="section-intro">
-                Working at the interface of chemical engineering, sustainable
-                manufacturing, and machine learning.
+                We work across chemical engineering, sustainable manufacturing,
+                and machine learning, connecting fundamental understanding with
+                practical solutions.
               </p>
             </div>
             {/* <Button href={`${URL_BASE}/research`} size="small" color="white">
@@ -277,7 +277,9 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
                   </div> */}
                   <div>
                     <div class="research-card-header">
-                      <h3 id={`area-heading-${index}`}>{area.data.title}</h3>
+                      <h3 id={`area-heading-${index}`}>
+                        <a href={researchHref(area.id)}>{area.data.title}</a>
+                      </h3>
                       <div class="research-card-header-icon">
                         <Icon />
                       </div>
@@ -386,7 +388,7 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
         viewAllHref=`${URL_BASE}/publications`
       >
         <p slot="intro" class="section-intro">
-          Explore our current body of work.
+          Explore the latest research from our group.
         </p>
       </PublicationList>
     </section>
@@ -768,7 +770,7 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
 
   .introduction {
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
     align-items: center;
     gap: 4rem;
   }
@@ -781,12 +783,13 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     align-items: center;
     justify-content: center;
     color: var(--clr-text-muted);
-    background: var(--clr-primary-soft);
+    /* background: var(--clr-primary-soft); */
     min-height: 20rem;
     font-weight: 600;
   }
   .introduction-copy {
     /* color: var(--clr-text-muted); */
+    font-size: var(--fs-subheading);
   }
   .introduction-copy p + p {
     margin-top: 1rem;
@@ -808,14 +811,14 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     gap: 1.5rem 3rem;
   }
   .section-intro {
-    max-width: 55ch;
+    max-width: 62ch;
     margin-block-start: 0.25rem;
     /* color: var(--clr-text-muted); */
   }
   .research-section {
     /* background: var(--clr-primary-base);
     color: var(--clr-text-inverse); */
-    /* background: var(--clr-section-background); */
+    background: var(--clr-section-background);
   }
   .research-grid {
     display: grid;
@@ -825,12 +828,12 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     margin-block-start: 2rem;
   }
   .research-card-flat {
-    border-top: 2px solid var(--clr-border-subtle);
+    border-top: 3px solid var(--clr-primary-base);
     /* padding-inline: 0.5rem; */
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding-block-start: 1.5rem;
+    padding-block-start: 1rem;
     gap: 2rem;
   }
   .research-card-header {
@@ -896,6 +899,13 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     /* max-width: 20ch; */
     text-wrap: initial;
     line-height: 1.4;
+
+    & a {
+      text-decoration: none;
+    }
+    & a:hover {
+      text-decoration: underline 2px;
+    }
   }
   .research-card-flat p {
     margin-top: 1rem;
@@ -1101,8 +1111,9 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
   }
 
   .connection-section {
-    background: var(--clr-primary-soft);
+    background: var(--clr-emphasis-background);
     border-top: 1px solid var(--clr-border-subtle);
+    margin-block-start: 3rem;
   }
   .connection-container {
     display: grid;
@@ -1149,10 +1160,6 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
     .research-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .connection-section {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2rem;
-    }
     .feature-copy {
       /* padding: 1.8rem; */
     }
@@ -1186,6 +1193,9 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
       gap: 1.5rem;
       /* padding-block: 2.5rem; */
     }
+    .introduction-photo {
+      display: none;
+    }
     .research-section,
     .featured-section,
     .publications-section,
@@ -1210,8 +1220,10 @@ const researchHref = (id: string) => `${URL_BASE}/research/${id}`;
       grid-template-columns: 3rem minmax(0, 1fr);
       gap: 0.75rem;
     }
-    .connection-section {
+    .connection-container {
       /* padding-block: 2.5rem; */
+      grid-template-columns: 1fr 1.5fr;
+      width: 100%;
     }
   }
   @media (prefers-reduced-motion: reduce) {

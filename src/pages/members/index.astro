@@ -5,6 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 import { ABBR_TITLE, CONTACT_EMAIL, SHORT_TITLE, URL_BASE } from "../../consts";
 import MemberCard from "../../components/MemberCard.astro";
 import FeaturedLead from "../../components/FeaturedLead.astro";
+import Button from "../../components/Button.astro";
 
 // : CollectionEntry<"members">
 const members = (await getCollection("members")).sort((a, b) =>
@@ -76,14 +77,11 @@ const sections = [
       )
     }
 
-    <section>
-      <h2>Interested in joining?</h2>
-      <p>
-        Email
-        <a href=`mailto:${CONTACT_EMAIL}`>
-          {CONTACT_EMAIL}
-        </a>.
-      </p>
+    <section class="joining-section">
+      <div class="joining-container">
+        <h2>Interested in joining?</h2>
+        <Button href=`${URL_BASE}/contact` fill="solid">Get in touch</Button>
+      </div>
     </section>
   </div>
 </Layout>
@@ -241,6 +239,23 @@ const sections = [
     white-space: nowrap;
     border: 0;
   }
+
+  .joining-section {
+    background: var(--clr-emphasis-background);
+    border-top: 1px solid var(--clr-border-strong);
+    padding-block: 2.5rem;
+    margin-block-start: 3.5rem;
+
+    & a {
+      text-decoration-thickness: 3px;
+    }
+  }
+  .joining-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   @media (max-width: 600px) {
     .person {
       grid-template-columns: minmax(0, 1fr) auto;

@@ -462,18 +462,38 @@ const description =
     color: var(--clr-text-muted);
   }
   button {
-    min-height: 44px;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--clr-border-strong);
-    border-radius: 6px;
-    background: var(--clr-card-background);
-    color: var(--clr-primary-base);
+    display: flex;
+    gap: 1ch;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    padding-inline: 2ch 1.5ch;
+    padding-block: 0.5ch;
+    height: fit-content;
     cursor: pointer;
-    /* font-size: var(--fs-small); */
+
+    font-family: var(--ff-body);
+    font-size: var(--fs-body);
     font-weight: 600;
-  }
-  button:hover {
-    background: var(--clr-page-background);
+    text-decoration: none;
+
+    color: var(--clr-page-background);
+    background: var(--clr-primary-base);
+    border: 2px solid var(--clr-primary-base);
+
+    transition-property: color, background-color;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in-out;
+
+    & svg {
+      width: 1.5ch;
+      height: 1.5ch;
+    }
+
+    &:hover {
+      background: var(--clr-primary-hover);
+    }
   }
   a {
     color: inherit;
@@ -654,6 +674,9 @@ const description =
     text-align: center;
     border: 1px dashed var(--clr-border-strong);
     border-radius: 8px;
+  }
+  .empty-state[hidden] {
+    display: none;
   }
   .empty-state h2 {
     font-size: var(--fs-subheading);
