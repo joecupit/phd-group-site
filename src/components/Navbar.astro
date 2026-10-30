@@ -41,25 +41,27 @@ const activeFor = (href: string) => {
 <header class="site-header">
   <!-- <a class="skip-link" href={skipTo}>Skip to content</a> -->
   <group-navigation class="navigation" data-open="false">
-    <a class="brand" href={homeHref}>
-      <!-- {groupName} -->
-      <LogoWideNoIcon />
-      <!-- <LogoShort /> -->
-      <!-- <LogoIcon /> -->
-    </a>
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-expanded="false"
-      aria-controls="site-navigation"
-      hidden
-    >
-      <span>Menu</span>
-      <span class="menu-icon" aria-hidden="true">
-        <span></span>
-        <span></span>
-      </span>
-    </button>
+    <div class="navigation-main">
+      <a class="brand" href={homeHref}>
+        <!-- {groupName} -->
+        <LogoWideNoIcon />
+        <!-- <LogoShort /> -->
+        <!-- <LogoIcon /> -->
+      </a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-navigation"
+        hidden
+      >
+        <span class="menu-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
     <nav id="site-navigation" class="nav-links" aria-label="Main navigation">
       {
         links.map(({ label, href, style }) =>
@@ -170,17 +172,22 @@ const activeFor = (href: string) => {
     } */
   }
   .brand {
-    height: 3rem;
+    /* height: 3rem; */
+    width: calc(12.5 * var(--fs-body));
     /* color: var(--clr-text-inverse); */
     font-size: var(--fs-subheading);
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.35;
     text-decoration: none;
-    overflow-wrap: anywhere;
 
     & :global(svg) {
     }
+  }
+  .navigation-main {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
   }
   .nav-links {
     display: flex;
@@ -226,11 +233,11 @@ const activeFor = (href: string) => {
   .menu-toggle {
     display: none;
     align-items: center;
-    gap: 0.7rem;
-    padding: 0.55rem 0.7rem;
+    column-gap: 0.7rem;
+    padding: 0rem 0.9rem;
     background: transparent;
-    border: 1px solid var(--clr-border-strong);
-    border-radius: 5px;
+    border: 1px solid var(--clr-border-subtle);
+    border-radius: 2px;
     /* color: var(--clr-text-body); */
     font: inherit;
     cursor: pointer;
@@ -238,12 +245,12 @@ const activeFor = (href: string) => {
   .menu-icon {
     display: grid;
     gap: 5px;
-    width: 16px;
+    width: 1.25rem;
   }
   .menu-icon span {
     display: block;
-    height: 1px;
-    background: currentColor;
+    height: 2px;
+    background: var(--clr-text-body);
   }
   a:focus-visible,
   button:focus-visible {
@@ -264,7 +271,10 @@ const activeFor = (href: string) => {
   .skip-link:focus {
     transform: translateY(0);
   }
-  @media (max-width: 760px) {
+  @media (max-width: 630px) {
+    .site-header {
+      position: initial;
+    }
     .navigation {
       flex-wrap: wrap;
       gap: 1rem;
