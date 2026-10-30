@@ -1,4 +1,4 @@
-export const URL_BASE = "/phd-group-site";
+export const URL_BASE = "";
 
 export const ABBR_TITLE = "ICSE";
 export const SHORT_TITLE = ABBR_TITLE + " Research Group";

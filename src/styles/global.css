@@ -5,9 +5,8 @@
   font-style: normal;
   font-weight: 400;
   src:
-    url("/phd-group-site/fonts/manrope-v20-latin-regular.woff2") format("woff2"),
-    url("/phd-group-site/fonts/manrope-v20-latin-regular.ttf")
-      format("truetype");
+    url("/fonts/manrope-v20-latin-regular.woff2") format("woff2"),
+    url("/fonts/manrope-v20-latin-regular.ttf") format("truetype");
 }
 
 /* manrope-500 - latin */
@@ -17,8 +16,8 @@
   font-style: normal;
   font-weight: 500;
   src:
-    url("/phd-group-site/fonts/manrope-v20-latin-500.woff2") format("woff2"),
-    url("/phd-group-site/fonts/manrope-v20-latin-500.ttf") format("truetype");
+    url("/fonts/manrope-v20-latin-500.woff2") format("woff2"),
+    url("/fonts/manrope-v20-latin-500.ttf") format("truetype");
 }
 
 /* manrope-600 - latin */
@@ -28,8 +27,8 @@
   font-style: normal;
   font-weight: 600;
   src:
-    url("/phd-group-site/fonts/manrope-v20-latin-600.woff2") format("woff2"),
-    url("/phd-group-site/fonts/manrope-v20-latin-600.ttf") format("truetype");
+    url("/fonts/manrope-v20-latin-600.woff2") format("woff2"),
+    url("/fonts/manrope-v20-latin-600.ttf") format("truetype");
 }
 
 /* manrope-700 - latin */
@@ -39,8 +38,8 @@
   font-style: normal;
   font-weight: 700;
   src:
-    url("/phd-group-site/fonts/manrope-v20-latin-700.woff2") format("woff2"),
-    url("/phd-group-site/fonts/manrope-v20-latin-700.ttf") format("truetype");
+    url("/fonts/manrope-v20-latin-700.woff2") format("woff2"),
+    url("/fonts/manrope-v20-latin-700.ttf") format("truetype");
 }
 
 /* manrope-800 - latin */
@@ -50,8 +49,8 @@
   font-style: normal;
   font-weight: 800;
   src:
-    url("/phd-group-site/fonts/manrope-v20-latin-800.woff2") format("woff2"),
-    url("/phd-group-site/fonts/manrope-v20-latin-800.ttf") format("truetype");
+    url("/fonts/manrope-v20-latin-800.woff2") format("woff2"),
+    url("/fonts/manrope-v20-latin-800.ttf") format("truetype");
 }
 
 /* sora-regular - latin */
@@ -61,8 +60,8 @@
   font-style: normal;
   font-weight: 400;
   src:
-    url("/phd-group-site/fonts/sora-v17-latin-regular.woff2") format("woff2"),
-    url("/phd-group-site/fonts/sora-v17-latin-regular.ttf") format("truetype");
+    url("/fonts/sora-v17-latin-regular.woff2") format("woff2"),
+    url("/fonts/sora-v17-latin-regular.ttf") format("truetype");
 }
 
 /* sora-500 - latin */
@@ -72,8 +71,8 @@
   font-style: normal;
   font-weight: 500;
   src:
-    url("/phd-group-site/fonts/sora-v17-latin-500.woff2") format("woff2"),
-    url("/phd-group-site/fonts/sora-v17-latin-500.ttf") format("truetype");
+    url("/fonts/sora-v17-latin-500.woff2") format("woff2"),
+    url("/fonts/sora-v17-latin-500.ttf") format("truetype");
 }
 
 /* sora-600 - latin */
@@ -83,8 +82,8 @@
   font-style: normal;
   font-weight: 600;
   src:
-    url("/phd-group-site/fonts/sora-v17-latin-600.woff2") format("woff2"),
-    url("/phd-group-site/fonts/sora-v17-latin-600.ttf") format("truetype");
+    url("/fonts/sora-v17-latin-600.woff2") format("woff2"),
+    url("/fonts/sora-v17-latin-600.ttf") format("truetype");
 }
 
 /* sora-700 - latin */
@@ -94,8 +93,8 @@
   font-style: normal;
   font-weight: 700;
   src:
-    url("/phd-group-site/fonts/sora-v17-latin-700.woff2") format("woff2"),
-    url("/phd-group-site/fonts/sora-v17-latin-700.ttf") format("truetype");
+    url("/fonts/sora-v17-latin-700.woff2") format("woff2"),
+    url("/fonts/sora-v17-latin-700.ttf") format("truetype");
 }
 
 /* sora-800 - latin */
@@ -105,8 +104,8 @@
   font-style: normal;
   font-weight: 800;
   src:
-    url("/phd-group-site/fonts/sora-v17-latin-800.woff2") format("woff2"),
-    url("/phd-group-site/fonts/sora-v17-latin-800.ttf") format("truetype");
+    url("/fonts/sora-v17-latin-800.woff2") format("woff2"),
+    url("/fonts/sora-v17-latin-800.ttf") format("truetype");
 }
 
 :root {
