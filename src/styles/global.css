@@ -54,52 +54,59 @@
     url("/phd-group-site/fonts/manrope-v20-latin-800.ttf") format("truetype");
 }
 
-/* work-sans-regular - latin */
+/* sora-regular - latin */
 @font-face {
   font-display: swap;
-  font-family: "Work Sans";
+  font-family: "Sora";
   font-style: normal;
   font-weight: 400;
   src:
-    url("/phd-group-site/fonts/work-sans-v24-latin-regular.woff2")
-      format("woff2"),
-    url("/phd-group-site/fonts/work-sans-v24-latin-regular.ttf")
-      format("truetype");
+    url("/phd-group-site/fonts/sora-v17-latin-regular.woff2") format("woff2"),
+    url("/phd-group-site/fonts/sora-v17-latin-regular.ttf") format("truetype");
 }
 
-/* work-sans-italic - latin */
+/* sora-500 - latin */
 @font-face {
   font-display: swap;
-  font-family: "Work Sans";
-  font-style: italic;
-  font-weight: 400;
-  src:
-    url("/phd-group-site/fonts/work-sans-v24-latin-italic.woff2")
-      format("woff2"),
-    url("/phd-group-site/fonts/work-sans-v24-latin-italic.ttf")
-      format("truetype");
-}
-
-/* work-sans-500 - latin */
-@font-face {
-  font-display: swap;
-  font-family: "Work Sans";
+  font-family: "Sora";
   font-style: normal;
   font-weight: 500;
   src:
-    url("/phd-group-site/fonts/work-sans-v24-latin-500.woff2") format("woff2"),
-    url("/phd-group-site/fonts/work-sans-v24-latin-500.ttf") format("truetype");
+    url("/phd-group-site/fonts/sora-v17-latin-500.woff2") format("woff2"),
+    url("/phd-group-site/fonts/sora-v17-latin-500.ttf") format("truetype");
 }
 
-/* work-sans-600 - latin */
+/* sora-600 - latin */
 @font-face {
   font-display: swap;
-  font-family: "Work Sans";
+  font-family: "Sora";
   font-style: normal;
   font-weight: 600;
   src:
-    url("/phd-group-site/fonts/work-sans-v24-latin-600.woff2") format("woff2"),
-    url("/phd-group-site/fonts/work-sans-v24-latin-600.ttf") format("truetype");
+    url("/phd-group-site/fonts/sora-v17-latin-600.woff2") format("woff2"),
+    url("/phd-group-site/fonts/sora-v17-latin-600.ttf") format("truetype");
+}
+
+/* sora-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("/phd-group-site/fonts/sora-v17-latin-700.woff2") format("woff2"),
+    url("/phd-group-site/fonts/sora-v17-latin-700.ttf") format("truetype");
+}
+
+/* sora-800 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 800;
+  src:
+    url("/phd-group-site/fonts/sora-v17-latin-800.woff2") format("woff2"),
+    url("/phd-group-site/fonts/sora-v17-latin-800.ttf") format("truetype");
 }
 
 :root {
@@ -131,7 +138,7 @@
 
   --clr-page-background: #faf8f3;
   --clr-card-background: #fdfdfb;
-  --clr-section-background: #f5efde;
+  --clr-section-background: #f8f3e7;
   --clr-emphasis-background: #eae4d2;
   --clr-dark-background: #17244a;
   --clr-text-strong: #17244a;
@@ -158,12 +165,12 @@
   --fs-small: clamp(0.8rem, 1.5vw, 0.875rem);
   --fs-body: clamp(0.9rem, 2vw, 1rem);
   --fs-subheading: clamp(1.1rem, 2.25vw, 1.25rem);
-  --fs-heading: clamp(1.4rem, 2.5vw, 1.8rem);
+  --fs-heading: clamp(1.5rem, 2.5vw, 2rem);
   --fs-title: clamp(2.1rem, 7vw, 4rem);
 
   --ff-body: "Manrope", sans-serif;
   --ff-heading: "Sora", sans-serif;
-  --ff-title: Georgia, "Times New Roman", serif;
+  /* --ff-title: Georgia, "Times New Roman", serif; */
   /* --ff-body: "Source Sans 3", sans-serif;
   --ff-heading: "Outfit", sans-serif; */
 
