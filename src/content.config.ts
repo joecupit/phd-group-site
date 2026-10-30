@@ -1,4 +1,5 @@
-import { defineCollection, reference, z } from "astro:content";
+import { defineCollection, reference } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 const members = defineCollection({
@@ -21,7 +22,7 @@ const members = defineCollection({
       email: z.string(),
       summary: z.string().optional(),
       profileImage: image().optional(),
-      links: z.record(z.string().url()).optional(),
+      links: z.record(z.string(), z.url()).optional(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
     }),
